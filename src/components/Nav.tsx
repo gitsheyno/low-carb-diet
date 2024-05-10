@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from "./Nav.module.css";
 
 export default function Nav() {
@@ -7,14 +7,14 @@ export default function Nav() {
       <div className={styles.navContainer}>
         <nav className={styles.nav}>
           <div className={styles.logo}>
-            <Link to="/home" className={styles.navLink}>
+            <Link to="/" className={styles.navLink}>
               My App
             </Link>
           </div>
           <div className={styles.navLinks}>
-            <Link to="/home" className={styles.navLink}>
+            {/* <Link to="/home" className={styles.navLink}>
               Home
-            </Link>
+            </Link> */}
             <Link to="/login" className={styles.navLink}>
               Login
             </Link>
@@ -24,9 +24,6 @@ export default function Nav() {
           </div>
         </nav>
       </div>
-      <section className={styles.outlet}>
-        <Outlet />
-      </section>
     </>
   );
 }

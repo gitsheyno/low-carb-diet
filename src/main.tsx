@@ -1,38 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 // import App from "./App.tsx";
-import Nav from "./components/Nav.tsx";
-import Home from "./components/Home.tsx";
+
+import Home from "./routes/Home.tsx";
 import Login from "./components/Login.tsx";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Protected from "./components/Protected.tsx";
 import "./index.css";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Nav />,
-    children: [
-      {
-        path: "home",
-        element: <Home />,
-      },
-      {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "protected",
-        element: <Protected />,
-      },
-    ],
-  },
-]);
+import Landing from "./components/Landing.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
-
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />}>
+          <Route index path="/" element={<Landing />} />
+          <Route path="login" element={<Login />} />
+          <Route path="protected" element={<Protected />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
     {/* <App /> */}
   </React.StrictMode>
 );
