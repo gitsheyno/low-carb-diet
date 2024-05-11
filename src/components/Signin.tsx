@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styles from "./Login.module.css"; // Import CSS module
-export default function Login() {
+export default function Signin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,7 +16,7 @@ export default function Login() {
 
   return (
     <div className={styles.loginContainer}>
-      <h2 className={styles.loginTitle}>Login</h2>
+      <h2 className={styles.loginTitle}>Register</h2>
       <form
         className={styles.loginForm}
         onSubmit={(e) => {
@@ -47,7 +47,7 @@ export default function Login() {
           />
         </div>
         <button type="submit" className={styles.loginButton}>
-          Login
+          Register
         </button>
       </form>
     </div>

@@ -12,9 +12,9 @@ export default function Nav() {
             </Link>
           </div>
           <div className={styles.navLinks}>
-            {/* <Link to="/home" className={styles.navLink}>
-              Home
-            </Link> */}
+            <Link to="/signin" className={styles.navLink}>
+              Signin
+            </Link>
             <Link to="/login" className={styles.navLink}>
               Login
             </Link>
