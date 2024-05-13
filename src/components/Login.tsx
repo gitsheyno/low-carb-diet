@@ -23,7 +23,7 @@ const Login: React.FC = () => {
         if (res.ok) {
           console.log(res.status);
           const data = await res.json();
-          // console.log("Login successful:", data);
+          localStorage.setItem("token", data.data.token);
           console.log("Hello :", data);
           // Handle success (e.g., redirect, set user state)
         } else {
