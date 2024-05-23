@@ -1,0 +1,19 @@
+.banner {
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+.image {
+  width: 60%;
+  border-radius: 20px;
+  /* margin: 0 auto; */
+}
+
+.image img {
+  width: 100%;
+  min-width: 30%;
+  border-radius: 20px;
+  background-position: center;
+  background-size: contain;
+}

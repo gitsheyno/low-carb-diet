@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Login.module.css"; // Import CSS module
 
-const Login: React.FC = () => {
+const Login = () => {
   const [query, setQuery] = useState({
     username: "",
     password: "",
