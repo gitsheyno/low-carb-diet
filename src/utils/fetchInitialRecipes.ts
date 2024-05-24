@@ -19,7 +19,8 @@ const fetchInitialRecipes: QueryFunction<
   }
 
   const jsonResponse = await res.json();
-  return jsonResponse?.data?.recipe ?? []; // Access the recipe array inside data
+  console.log(jsonResponse);
+  return jsonResponse?.data?.filteredRecipe ?? []; // Access the recipe array inside data
 };
 
 export default fetchInitialRecipes;

@@ -1,6 +1,6 @@
 .card {
-  /* height: 140px; */
-
+  height: 10rem;
+  max-width: 15rem;
   position: absolute;
   left: 2rem;
   bottom: 2rem;
