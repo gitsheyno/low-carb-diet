@@ -16,7 +16,7 @@ export default function Protected() {
   });
 
   const response = queryData?.data ?? [];
-  console.log(queryData);
+  console.log(response);
   return (
     <div className={styles.container}>
       <div className={styles.box}>

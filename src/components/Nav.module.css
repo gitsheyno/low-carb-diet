@@ -1,8 +1,7 @@
 /* Nav Container Styles */
 .navContainer {
   width: 100%;
-
-  color: #ff885c;
+  /* background-color: #333333; */
 }
 
 /* Navigation Styles */
@@ -27,7 +26,8 @@
 
 .navLink {
   text-decoration: none;
-  color: #000;
+  color: #ff6f61;
+
   padding: 10px;
   margin: 0 10px;
   border-radius: 4px;

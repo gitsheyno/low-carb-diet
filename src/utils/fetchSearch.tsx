@@ -1,14 +1,14 @@
 import { QueryFunction } from "@tanstack/react-query";
 import { Recipe } from "./types";
 
-const fetchInitialRecipes: QueryFunction<
+const fetchSearch: QueryFunction<
   Recipe[],
-  ["initialRecipes", string, token: string]
+  ["search", string, token: string]
 > = async ({ queryKey }) => {
-  const api = queryKey[1];
+  const query = queryKey[1];
   const token = queryKey[2];
 
-  const res = await fetch(`http://localhost:3002/api/recipes`, {
+  const res = await fetch(`http://localhost:3002/api/recipes/${query}`, {
     method: "GET",
     headers: {
       Authorization: "Bearer " + token,
@@ -20,7 +20,8 @@ const fetchInitialRecipes: QueryFunction<
 
   const jsonResponse = await res.json();
 
-  return jsonResponse?.data?.filteredRecipe ?? []; // Access the recipe array inside data
+  console.log("wha is the data", jsonResponse.data.response);
+  return jsonResponse?.data.response ?? []; // Access the recipe array inside data
 };
 
-export default fetchInitialRecipes;
+export default fetchSearch;
