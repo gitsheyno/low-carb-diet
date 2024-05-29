@@ -1,9 +1,15 @@
 import card from "./Cards.module.css";
+import { Link } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import Card from "./Card";
 import { Recipe } from "../utils/types";
 import container from "../components/HomeContainer.module.css";
 
 export default function NewRecipes({ response }: { response: Recipe[] }) {
+  const x = useSearchParams();
+  console.log(x);
+  const params = new URLSearchParams(document.location.search);
+  console.log("param", params);
   return (
     <div className={container.container}>
       <h3>Cook What's New!</h3>
@@ -13,7 +19,7 @@ export default function NewRecipes({ response }: { response: Recipe[] }) {
             <div className={card.img}>
               <img src={item.image} alt="" />
             </div>
-            <a href="#">{item.name}</a>
+            <Link to={`/recipe/${item.id}`}>{item.name}</Link>
             <div className={card.cardInfos}>
               <div>
                 <p>Cal</p>

@@ -7,10 +7,12 @@
   z-index: 200;
   transform: translateY(-50%);
   width: 35rem;
+  /* display: flex; */
 }
 .search {
   width: 100%;
   display: flex;
+  flex-grow: 1;
 }
 input {
   width: 100%;
@@ -20,6 +22,9 @@ input {
   outline: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
   border-radius: 5px; /* Optional: Adds rounded corners */
+}
+button {
+  border: none;
 }
 .search i {
   position: absolute;
@@ -46,6 +51,7 @@ input {
     display: flex;
     right: inherit;
     margin: 0 auto;
+    width: 30rem;
   }
   h3 {
     grid-column: 1/3;

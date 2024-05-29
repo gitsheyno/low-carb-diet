@@ -4,13 +4,7 @@ import searchStyle from "../components/Search.module.css";
 
 export default function Search() {
   const [query, setQuery] = useState<string>("");
-  //   const queryData = useQuery({
-  //     queryKey: ["search", query, localStorage.getItem("token") as string],
-  //     queryFn: fetchSearch,
-  //   });
 
-  //   const response = queryData?.data ?? [];
-  //   console.log(response);
   return (
     <>
       <form

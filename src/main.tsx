@@ -7,6 +7,7 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Protected from "./components/Protected.tsx";
 import "./index.css";
 import Recipes from "./routes/Recipes.tsx";
+import Recipe from "./routes/Recipe.tsx";
 import Signin from "./components/Signin.tsx";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Route path="protected" element={<Protected />} />
         <Route path="signin" element={<Signin />} />
         <Route path="/Recipes/:id" element={<Recipes />} />
+        <Route path="/recipe/:id" element={<Recipe />} />
       </Routes>
     </QueryClientProvider>
   </BrowserRouter>

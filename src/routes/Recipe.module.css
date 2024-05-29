@@ -1,0 +1,79 @@
+.container {
+  max-width: 80%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem;
+}
+.left {
+  /* max-width: 75%; */
+  grid-column: 1/9;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.image {
+  background-size: cover;
+}
+
+img {
+  max-width: 100%;
+  /* height: 70%; */
+  border-radius: 10px;
+  /* height: 200px; */
+  /* background-size: cover; */
+  /* background-position: center; */
+}
+
+.right {
+  max-width: 90%;
+  grid-column: 9/-1;
+  background-color: #cccccc21;
+  font-size: 0.8rem;
+  border-radius: 10px;
+  padding: 2rem;
+  height: fit-content;
+}
+h1 {
+  font-weight: 900;
+}
+.details {
+  display: flex;
+  gap: 3rem;
+  color: #737272be;
+  font-weight: 300;
+  flex-direction: column;
+}
+.title {
+  color: #000;
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+.timeDetails {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.timeDetails p:nth-child(2) {
+  color: #000;
+  font-weight: 900;
+  font-size: 0.9rem;
+}
+
+.nutritionDetails {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.nutritionDetails div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nutritionDetails div p:nth-child(2) {
+  color: #000;
+  font-weight: 900;
+}

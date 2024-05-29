@@ -8,6 +8,7 @@
   border-radius: 10px;
   padding: 1rem 0;
   height: 100%;
+  border: 1px solid red;
 }
 
 .category p {
@@ -24,6 +25,7 @@
   justify-content: space-between;
   font-size: 10px;
   gap: 1rem;
+  padding: 0 1rem;
 }
 
 .cardInfos div {
