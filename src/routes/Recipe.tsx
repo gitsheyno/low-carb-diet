@@ -4,6 +4,7 @@ import fetchSingleRecipe from "../utils/fetchSingleRecipe";
 import { useQuery } from "@tanstack/react-query";
 import Steps from "../components/Steps";
 import Ingredients from "../components/Ingredients";
+import Descriptions from "../components/Descriptions";
 export default function Recipe() {
   const { id } = useParams();
 
@@ -74,12 +75,18 @@ export default function Recipe() {
                     <p>{response.nutrients.calcium.toFixed()} g</p>
                   </div>
                 </div>
-                <a href="#">Jump to Recipe</a>
+                <div className={styles.btnWrapper}>
+                  <a href="#recipe" className={styles.btn}>
+                    <p>🍴</p>
+                    Jump to Recipe
+                  </a>
+                </div>
               </div>
             </div>
+            <Descriptions data={response?.description} />
+            <Ingredients data={response?.ingredients} />
+            <Steps data={response?.steps} />
           </div>
-          <Ingredients data={response?.ingredients} />
-          <Steps data={response?.steps} />
         </>
       ) : (
         <p> no data</p>

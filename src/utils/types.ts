@@ -4,7 +4,7 @@ type Nutrients = {
 
 export type Ingredient = {
   name: string;
-  servingSizes: {
+  servingSize: {
     [key: string]: string | number;
   };
 };
@@ -17,6 +17,7 @@ export interface Recipe {
   cookTime: number;
   tags: string[];
   steps: [];
+  description: string;
   nutrients: Nutrients;
   ingredients: Ingredient[];
   servings: number;

@@ -1,12 +1,15 @@
+import styles from "../routes/Recipe.module.css";
+
 export default function Steps({ data }: { data: string[] }) {
-  const steps = data[0].split(".");
+  const steps = data.map((item) => item.split(","));
 
   return (
-    <div>
+    <div className={styles.steps}>
       {steps.map((item, index) => (
-        <p>
-          step : {index} - {item}
-        </p>
+        <div key={index}>
+          <p>Step {index}</p>
+          <p>{item}</p>
+        </div>
       ))}
     </div>
   );
