@@ -3,7 +3,7 @@ import card from "../components/Card.module.css";
 import Card from "./Card";
 import { Recipe } from "../utils/types";
 
-export default function Banner({ data }: { data: Recipe }) {
+export default function Banner({ data }: { data: Recipe }): JSX.Element {
   return (
     <section className={styles.banner}>
       {data ? (

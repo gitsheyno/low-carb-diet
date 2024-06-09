@@ -1,9 +1,7 @@
-import { useState } from "react";
-import { Navigate } from "react-router-dom";
 import searchStyle from "../components/Search.module.css";
-
+import { useSearchParams } from "react-router-dom";
 export default function Search() {
-  const [query, setQuery] = useState<string>("");
+  const setSearchParam = useSearchParams();
 
   return (
     <>
@@ -12,7 +10,7 @@ export default function Search() {
           e.preventDefault();
           const formData = new FormData(e.currentTarget);
           const queryStr = formData.get("query")?.toString() ?? "";
-          setQuery(queryStr);
+          setSearchParam[1]({ q: queryStr });
         }}
         className={searchStyle.searchContainer}
       >
@@ -23,7 +21,6 @@ export default function Search() {
           </button>
         </div>
       </form>
-      {query && <Navigate to={`/Recipes/${query}`} />}
     </>
   );
 }

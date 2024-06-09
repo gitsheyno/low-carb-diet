@@ -21,7 +21,7 @@ export default function Signin() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("cllicked");
+
     const formData = new FormData(e.currentTarget);
     const username = formData.get("username")?.toString() ?? "";
     const password = formData.get("password")?.toString() ?? "";
@@ -47,6 +47,7 @@ export default function Signin() {
           // console.log("Login successful:", data);
           console.log("Hello :", data);
           // Handle success (e.g., redirect, set user state)
+          handleLogin();
         } else {
           console.error("Login failed");
           // Handle failure (e.g., display error message)

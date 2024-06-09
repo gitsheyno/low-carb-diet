@@ -17,7 +17,7 @@ export default function Ingredients({ data }: { data: Ingredient[] }) {
           </ul>
         </div>
       ) : (
-        <>no data</>
+        <p>no data</p>
       )}
     </>
   );
