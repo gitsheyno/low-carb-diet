@@ -5,9 +5,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import container from "../components/HomeContainer.module.css";
 import NewRecipes from "../components/NewRecipes";
-
+import Spinner from "../components/Spinner";
 import fetchSearch from "../utils/fetchSearch";
-export default function Protected() {
+export default function Home() {
   const searchParams = useSearchParams();
   const queryData = useQuery({
     queryKey: [
@@ -19,7 +19,7 @@ export default function Protected() {
   });
 
   if (queryData.isLoading) {
-    return <h2 className="loader">🌀</h2>;
+    return <Spinner />;
   }
   const response = queryData?.data ?? [];
 
@@ -34,7 +34,6 @@ export default function Protected() {
           <div className={container.mainContainer}>
             <NewRecipes response={response} />
           </div>
-          q : {searchParams[0].get("q")}
         </div>
       ) : (
         <p>no Recipe</p>
