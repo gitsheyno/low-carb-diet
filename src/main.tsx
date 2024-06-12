@@ -11,6 +11,7 @@ import Spinner from "./components/Spinner.tsx";
 const Home = lazy(() => import("./routes/Home.tsx"));
 const Recipe = lazy(() => import("./routes/Recipe.tsx"));
 const Recipes = lazy(() => import("./routes/Recipes.tsx"));
+const Dashboard = lazy(() => import("./components/Dashboard.tsx"));
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -21,10 +22,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Routes>
           <Route index path="/" element={<Home />} />
           <Route path="login" element={<Login />} />
-          {/* <Route path="protected" element={<Protected />} /> */}
           <Route path="signin" element={<Signin />} />
           <Route path="/Recipes/:id" element={<Recipes />} />
           <Route path="/recipe/:id" element={<Recipe />} />
+          <Route path="/dashboard/:user" element={<Dashboard />} />
         </Routes>
       </Suspense>
     </QueryClientProvider>
