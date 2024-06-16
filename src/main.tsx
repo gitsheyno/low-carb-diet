@@ -5,7 +5,7 @@ import Login from "./components/Login.tsx";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 // import Home from "./routes/Home.tsx";
 import "./index.css";
-import Signin from "./components/Signin.tsx";
+import SignIn from "./components/SignIn.tsx";
 import { lazy, Suspense } from "react";
 import Spinner from "./components/Spinner.tsx";
 const Home = lazy(() => import("./routes/Home.tsx"));
@@ -22,7 +22,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Routes>
           <Route index path="/" element={<Home />} />
           <Route path="login" element={<Login />} />
-          <Route path="signin" element={<Signin />} />
+          <Route path="signin" element={<SignIn />} />
           <Route path="/Recipes/:id" element={<Recipes />} />
           <Route path="/recipe/:id" element={<Recipe />} />
           <Route path="/dashboard/:user" element={<Dashboard />} />

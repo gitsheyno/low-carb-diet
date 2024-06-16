@@ -1,61 +1,81 @@
-/* Login Container */
-.loginContainer {
-  width: 300px;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 8px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+/* src/components/SignIn.module.css */
 
-/* Login Title */
-.loginTitle {
-  font-size: 24px;
-  font-weight: bold;
-  color: #007bff;
-  margin-bottom: 20px;
-}
-
-/* Login Form */
-.loginForm {
+.container {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f9f9f9;
 }
 
-/* Input Group */
-.inputGroup {
-  display: flex;
-  align-items: flex-start;
-  gap: 2rem;
-  margin-bottom: 20px; /* Increased spacing between input groups */
+.form {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
 }
 
-/* Input Fields */
+h2 {
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 1rem;
+  color: #666;
+}
+
 .input {
-  padding: 10px;
-  border-radius: 4px;
-
-  flex: 1;
-  border: 1px solid #ced4da;
-  transition: border-color 0.2s ease;
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-.input:focus {
-  outline: none;
-  border-color: #007bff;
+.troubleLink {
+  display: block;
+  margin-bottom: 1rem;
+  color: #007bff;
+  text-decoration: none;
 }
 
-/* Login Button */
-.loginButton {
-  padding: 10px;
+.signInButton {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #ffbf00;
   border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: #ffffff;
+  border-radius: 5px;
+  color: white;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  margin-bottom: 1rem;
 }
 
-.loginButton:hover {
-  background-color: #0056b3;
+.signInButton:hover {
+  background-color: #e6ac00;
+}
+
+.socialButtons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+}
+
+.socialButton {
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.requestLink {
+  color: #007bff;
+  text-decoration: none;
 }

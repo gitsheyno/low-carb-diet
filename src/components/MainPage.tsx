@@ -1,5 +1,6 @@
 import styles from "./Dashboard.module.css";
 import { BarChart, Bar, Tooltip } from "recharts";
+import VisitedRecipes from "./VisitedRecipes";
 const data = [
   {
     name: "Page A",
@@ -87,6 +88,14 @@ const data = [
   },
 ];
 export default function MainPage() {
+  const nutrients = [
+    { name: "Carbs", value: 50 },
+    { name: "Protein", value: 70 },
+    { name: "Fat", value: 40 },
+    { name: "Vitamins", value: 60 },
+    { name: "Vitamin A", value: 40 },
+    { name: "Vitamin B", value: 60 },
+  ];
   return (
     <main className={styles.mainPage}>
       <div className={styles.content}>
@@ -98,9 +107,31 @@ export default function MainPage() {
             </BarChart>
           </div>
           <div className={styles.todayCalories}>today</div>
-          <div className={styles.visited}>visited</div>
+          <VisitedRecipes />
         </div>
-        <div className={styles.nutrientsSummary}></div>
+        <div className={styles.nutrientsSummary}>
+          <div className={styles.nutrientsProgress}>
+            <h2>Nutrients Progress</h2>
+            {nutrients.map((nutrient) => (
+              <div key={nutrient.name} className={styles.progressBar}>
+                <label htmlFor={nutrient.name} className={styles.label}>
+                  {nutrient.name}
+                </label>
+                <div className={styles.progressContainer}>
+                  <progress
+                    id={nutrient.name}
+                    value={nutrient.value}
+                    max="100"
+                    className={styles.progress}
+                  ></progress>
+                  <span className={styles.progressValue}>
+                    {nutrient.value}%
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </main>
   );

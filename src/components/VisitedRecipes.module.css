@@ -1,0 +1,32 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-content: center;
+  gap: 1rem;
+}
+
+.smallCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #99999914;
+  border-radius: 5px;
+  padding: 0.6rem 0.2rem;
+  border: 5px;
+}
+
+.smallCard img {
+  width: 100%;
+  border-radius: 5px;
+}
+.img {
+  width: 100px;
+}
+
+.smallCard p {
+  font-size: 11px;
+  text-align: center;
+  background-color: white;
+  border-radius: 5px;
+}

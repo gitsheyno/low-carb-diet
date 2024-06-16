@@ -1,5 +1,5 @@
 .container {
-  max-width: 90%;
+  max-width: 80%;
   margin: 0 auto;
   height: calc(100vh - 65px);
   background-color: #000000c4;
@@ -58,6 +58,7 @@
   background-color: #fff;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
+  gap: 2rem;
 }
 .dashboardSummary {
   grid-column: 1/9;
@@ -66,10 +67,81 @@
 }
 .nutrientsSummary {
   grid-column: 9/-1;
-  border: 1px solid black;
 }
 
 .weekSample {
   display: flex;
   align-items: center;
+}
+
+.nutrientsProgress {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+}
+
+.nutrientsProgress h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.progressBar {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.label {
+  font-size: 11px;
+  /* flex: 1; */
+  color: #666;
+  text-align: left;
+}
+
+.progressContainer {
+  display: flex;
+  align-items: center;
+}
+
+.progress {
+  /* position: absolute; */
+  /* left: 30%; */
+  -webkit-appearance: none;
+  appearance: none;
+  width: 150px;
+  height: 5px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #e0e0e0;
+  margin-right: 5px;
+}
+
+.progress::-webkit-progress-bar {
+  background-color: #e0e0e0;
+}
+
+.progress::-webkit-progress-value {
+  background-color: #4caf50;
+  transition: width 0.3s;
+}
+
+.progress::-moz-progress-bar {
+  background-color: #4caf50;
+  transition: width 0.3s;
+}
+
+.progressValue {
+  width: 50px;
+  font-size: 14px;
+  color: #333;
+  text-align: right;
 }

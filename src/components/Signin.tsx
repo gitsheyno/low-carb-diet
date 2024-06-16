@@ -1,99 +1,83 @@
-import { useState, useEffect } from "react";
-import styles from "./Login.module.css"; // Import CSS module
-export default function Signin() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+import React, { useRef, useState, useEffect } from "react";
+import styles from "./Login.module.css";
+import { useQuery } from "@tanstack/react-query";
+import useSignIn from "../utils/useSignIn";
 
-  const handleLogin = () => {
-    // Implement your login logic here
-    console.log(
-      `Logging in with username: ${username} and password: ${password}`
-    );
-    // Reset the form fields after login attempt (optional)
-    setUsername("");
-    setPassword("");
-  };
-
-  const [query, setQuery] = useState({
+const SignIn: React.FC = () => {
+  const userRef = useRef<HTMLInputElement>(null);
+  const passRef = useRef<HTMLInputElement>(null);
+  const [userData, setUserData] = useState({
     username: "",
     password: "",
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const res = useQuery({
+    queryKey: ["signIn", userData],
+    queryFn: useSignIn,
+  });
+
+  const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const username = formData.get("username")?.toString() ?? "";
-    const password = formData.get("password")?.toString() ?? "";
-    setQuery({ username, password });
+    const username = formData.get("username")?.toString() ?? "def";
+    const password = formData.get("password")?.toString() ?? "def";
+
+    console.log(username, password);
+    setUserData({
+      username,
+      password,
+    });
+
+    if (userRef.current && passRef.current) {
+      userRef.current.value = "";
+      passRef.current.value = "";
+    }
   };
 
-  useEffect(() => {
-    const postData = async () => {
-      try {
-        console.log("he");
-        const res = await fetch("http://localhost:3002/signin", {
-          method: "POST",
-          // body: JSON.stringify(query),
-          body: JSON.stringify(query),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        console.log("status", res);
-        if (res.ok) {
-          console.log(res.status);
-          const data = await res.json();
-          // console.log("Login successful:", data);
-          console.log("Hello :", data);
-          // Handle success (e.g., redirect, set user state)
-          handleLogin();
-        } else {
-          console.error("Login failed");
-          // Handle failure (e.g., display error message)
-        }
-      } catch (error) {
-        console.error("Error occurred during login:", error);
-      }
-    };
-
-    if (query.username && query.password) {
-      postData();
-    }
-  }, [query]);
-
   return (
-    <div className={styles.loginContainer}>
-      <h2 className={styles.loginTitle}>Register</h2>
-      <form className={styles.loginForm} onSubmit={handleSubmit}>
-        <div className={styles.inputGroup}>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            // value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            className={styles.input}
-          />
-        </div>
-        <div className={styles.inputGroup}>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            // value={password}
-            name="password"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className={styles.input}
-          />
-        </div>
-        <button type="submit" className={styles.loginButton}>
-          Register
+    <div className={styles.container}>
+      <form onSubmit={handleSignIn} className={styles.form}>
+        <h2>Agent Login</h2>
+        <p>Hey, Enter your details to get sign in to your account</p>
+        <input
+          ref={userRef}
+          type="email"
+          name="username"
+          placeholder="Enter Email / Phone No"
+          required
+          className={styles.input}
+        />
+        <input
+          ref={passRef}
+          type="password"
+          placeholder="Passcode"
+          name="password"
+          required
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+          className={styles.input}
+        />
+        <a href="#" className={styles.troubleLink}>
+          Having trouble in sign in?
+        </a>
+        <button type="submit" className={styles.signInButton}>
+          Sign in
         </button>
+        <p>Or Sign in with</p>
+        <div className={styles.socialButtons}>
+          <button className={styles.socialButton}>Google</button>
+          <button className={styles.socialButton}>Apple ID</button>
+          <button className={styles.socialButton}>Facebook</button>
+        </div>
+        <p>
+          Have you already an account?
+          <a href="#" className={styles.requestLink}>
+            Login
+          </a>
+        </p>
       </form>
     </div>
   );
-}
+};
+
+export default SignIn;
