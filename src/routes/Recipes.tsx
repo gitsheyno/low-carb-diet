@@ -10,6 +10,7 @@ export default function Recipes() {
     queryFn: fetchSearch,
   });
   const response = queryData?.data ?? [];
+  console.log(response);
   return (
     <div>
       <NewRecipes response={response} />

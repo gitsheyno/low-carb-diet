@@ -16,6 +16,12 @@ const SignIn: React.FC = () => {
     queryFn: useSignIn,
   });
 
+  if (res?.data?.token) {
+    const { token } = res.data;
+    console.log("token", token);
+    localStorage.setItem("token", token);
+  }
+
   const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

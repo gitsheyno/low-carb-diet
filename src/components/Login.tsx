@@ -1,84 +1,90 @@
-import { useState, useEffect } from "react";
-import styles from "./Login.module.css"; // Import CSS module
+import React, { useRef, useState, useEffect } from "react";
+import styles from "./Login.module.css";
+import { useQuery } from "@tanstack/react-query";
+import useLogin from "../utils/useLogin";
 
-const Login = () => {
-  const [query, setQuery] = useState({
+const SignIn: React.FC = () => {
+  const userRef = useRef<HTMLInputElement>(null);
+  const passRef = useRef<HTMLInputElement>(null);
+  const [userData, setUserData] = useState({
     username: "",
     password: "",
   });
 
-  useEffect(() => {
-    const postData = async () => {
-      try {
-        console.log("he");
-        const res = await fetch("http://localhost:3002/login", {
-          method: "POST",
-          // body: JSON.stringify(query),
-          body: JSON.stringify(query),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        console.log("status", res);
-        if (res.ok) {
-          console.log(res.status);
-          const data = await res.json();
-          localStorage.setItem("token", data.data.token);
-          console.log("Hello :", data);
-          // Handle success (e.g., redirect, set user state)
-        } else {
-          console.error("Login failed");
-          // Handle failure (e.g., display error message)
-        }
-      } catch (error) {
-        console.error("Error occurred during login:", error);
-      }
-    };
+  const token = localStorage.getItem("token");
+  const res = useQuery({
+    queryKey: ["logIn", userData, token as string],
+    queryFn: useLogin,
+  });
 
-    if (query.username && query.password) {
-      postData();
-    }
-  }, [query]);
+  if (res?.data?.token) {
+    const { token } = res.data;
+    console.log("token", token);
+    localStorage.setItem("token", token);
+  }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("cllicked");
+
     const formData = new FormData(e.currentTarget);
-    const username = formData.get("username")?.toString() ?? "";
-    const password = formData.get("password")?.toString() ?? "";
-    setQuery({ username, password });
+    const username = formData.get("username")?.toString() ?? "def";
+    const password = formData.get("password")?.toString() ?? "def";
+
+    console.log(username, password);
+    setUserData({
+      username,
+      password,
+    });
+
+    if (userRef.current && passRef.current) {
+      userRef.current.value = "";
+      passRef.current.value = "";
+    }
   };
-  console.log(query);
+
   return (
-    <div className={styles.loginContainer}>
-      <h2 className={styles.loginTitle}>Login</h2>
-      <form className={styles.loginForm} onSubmit={handleSubmit}>
-        <div className={styles.inputGroup}>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            required
-            className={styles.input}
-          />
-        </div>
-        <div className={styles.inputGroup}>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            className={styles.input}
-          />
-        </div>
-        <button type="submit" className={styles.loginButton}>
-          Login
+    <div className={styles.container}>
+      <form onSubmit={handleSignIn} className={styles.form}>
+        <h2>Agent Login</h2>
+        <p>Hey, Enter your details to get sign in to your account</p>
+        <input
+          ref={userRef}
+          type="email"
+          name="username"
+          placeholder="Enter Email / Phone No"
+          required
+          className={styles.input}
+        />
+        <input
+          ref={passRef}
+          type="password"
+          placeholder="Passcode"
+          name="password"
+          required
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+          className={styles.input}
+        />
+        <a href="#" className={styles.troubleLink}>
+          Having trouble in sign in?
+        </a>
+        <button type="submit" className={styles.signInButton}>
+          Sign in
         </button>
+        <p>Or Sign in with</p>
+        <div className={styles.socialButtons}>
+          <button className={styles.socialButton}>Google</button>
+          <button className={styles.socialButton}>Apple ID</button>
+          <button className={styles.socialButton}>Facebook</button>
+        </div>
+        <p>
+          Have you already an account?
+          <a href="#" className={styles.requestLink}>
+            Login
+          </a>
+        </p>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default SignIn;

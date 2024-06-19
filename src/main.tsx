@@ -5,7 +5,7 @@ import Login from "./components/Login.tsx";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 // import Home from "./routes/Home.tsx";
 import "./index.css";
-import SignIn from "./components/SignIn.tsx";
+import SignIn from "./components/Signin.tsx";
 import { lazy, Suspense } from "react";
 import Spinner from "./components/Spinner.tsx";
 const Home = lazy(() => import("./routes/Home.tsx"));

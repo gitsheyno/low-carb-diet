@@ -7,18 +7,21 @@ type UserInfo = {
 
 const createUser: QueryFunction<
   UserInfo,
-  ["signIn", { username: string; password: string }]
+  ["logIn", { username: string; password: string }, token: string]
 > = async ({ queryKey }) => {
   const { username, password } = queryKey[1];
+  const token = queryKey[2];
+
   if (!username.length && !password.length) {
     return {};
   }
   console.log(queryKey);
-  const res = await fetch(`http://localhost:3002/signin`, {
+  const res = await fetch(`http://localhost:3002/login`, {
     method: "POST",
     body: JSON.stringify({ username, password }),
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
   });
   if (!res.ok) {
