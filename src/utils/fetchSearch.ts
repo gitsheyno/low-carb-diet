@@ -8,6 +8,10 @@ const fetchSearch: QueryFunction<
   const query = queryKey[1];
   const token = queryKey[2];
 
+  if (!query || query === "") {
+    return [];
+  }
+
   const res = await fetch(`http://localhost:3002/api/recipes/${query}`, {
     method: "GET",
     headers: {

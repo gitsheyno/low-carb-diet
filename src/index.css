@@ -7,6 +7,6 @@
   box-sizing: content-box;
 }
 body {
-  /* background-color: #fff5e1; */
   background-color: #f8f8f8;
+  height: calc(100vh - 1rem);
 }

@@ -1,22 +1,24 @@
 .searchContainer {
   display: flex;
   align-items: center;
-  position: absolute;
-  top: 50%;
-  right: 4rem;
-  z-index: 200;
-  transform: translateY(-50%);
-  width: 35rem;
-  /* display: flex; */
+  position: relative;
+  display: flex;
+  padding: 1rem 0;
+  /* border: 1px solid red; */
 }
 .search {
-  width: 100%;
+  max-width: 100%;
+  /* border: 1px solid red; */
   display: flex;
+  /* max-width: 100%; */
+
+  align-items: center;
+  justify-content: center;
   flex-grow: 1;
 }
 input {
   width: 100%;
-  padding: 1.5rem 2rem;
+  padding: 1rem 2rem;
   font-size: 16px;
   border: none;
   outline: none;
@@ -32,10 +34,10 @@ button {
   top: 50%;
   transform: translateY(-50%);
   color: #999;
-  font-size: 1.5rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: 500ms;
-  padding: 1rem;
+  padding: 0.7rem;
   border-radius: 5px;
   color: #fff;
   background-color: orange;
@@ -51,7 +53,7 @@ button {
     display: flex;
     right: inherit;
     margin: 0 auto;
-    width: 30rem;
+    /* width: 30rem; */
   }
   h3 {
     grid-column: 1/3;

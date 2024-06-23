@@ -1,33 +1,32 @@
 import styles from "./Dashboard.module.css";
-import { useEffect, useState } from "react";
-import SideNav from "./SideNav";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import MainPage from "./MainPage";
+import fetchUser from "../utils/fetchUser";
+import Spinner from "./Spinner";
 export default function Dashboard() {
-  const [auth, setAuth] = useState<boolean>(false);
-  useEffect(() => {
-    const load = async () => {
-      const res = await fetch(`http://localhost:3002/api/dashboard/`, {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      });
-      if (!res.ok) {
-        throw new Error(`pet search is not ok`);
-      }
+  const { user } = useParams();
 
-      const ans = await res.json();
-      setAuth(ans.message);
-      console.log(ans, "ans");
-    };
+  const res = useQuery({
+    queryKey: [
+      "userInfo",
+      localStorage.getItem("token") as string,
+      user as string,
+    ],
+    queryFn: fetchUser,
+  });
 
-    load();
-  }, []);
+  if (res.isLoading) {
+    return <Spinner />;
+  }
+
+  const response = res?.data;
+  const final = response?.message;
+
   return (
-    <div className={styles.container}>
-      {auth ? (
+    <div>
+      {final ? (
         <>
-          <SideNav />
           <MainPage />
         </>
       ) : (

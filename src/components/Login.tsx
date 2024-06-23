@@ -2,10 +2,14 @@ import React, { useRef, useState, useEffect } from "react";
 import styles from "./Login.module.css";
 import { useQuery } from "@tanstack/react-query";
 import useLogin from "../utils/useLogin";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Spinner from "./Spinner";
 
 const SignIn: React.FC = () => {
   const userRef = useRef<HTMLInputElement>(null);
   const passRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     username: "",
     password: "",
@@ -21,6 +25,11 @@ const SignIn: React.FC = () => {
     const { token } = res.data;
     console.log("token", token);
     localStorage.setItem("token", token);
+    navigate(`/dashboard/${res.data?.name}`);
+  }
+
+  if (res.isFetching) {
+    return <Spinner />;
   }
 
   const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
@@ -77,10 +86,10 @@ const SignIn: React.FC = () => {
           <button className={styles.socialButton}>Facebook</button>
         </div>
         <p>
-          Have you already an account?
-          <a href="#" className={styles.requestLink}>
-            Login
-          </a>
+          Create an account?
+          <Link to="/signin" className={styles.requestLink}>
+            Register
+          </Link>
         </p>
       </form>
     </div>

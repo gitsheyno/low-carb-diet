@@ -2,6 +2,7 @@ import { QueryFunction } from "@tanstack/react-query";
 
 type UserInfo = {
   username: string;
+  name: string;
   token: string;
 };
 

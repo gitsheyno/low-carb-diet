@@ -1,8 +1,9 @@
-export default function ProfileInfo() {
+export default function ProfileInfo({ info }: { info: string }) {
+  const [user] = info.split("@");
   return (
     <div>
-      <p>Shayan</p>
-      <p>hedrydeveloper@gmail.com</p>
+      <h3>Welcome</h3>
+      <p>{user}</p>
     </div>
   );
 }

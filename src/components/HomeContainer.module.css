@@ -1,9 +1,12 @@
-.mainContainer {
+/* .mainContainer {
   gap: 8rem;
   display: grid;
-}
+  width: 200px;
+  border: 1px solid red;
+} */
 
 .container {
+  border: 1px solid red;
   max-width: 90%;
   margin: 0 auto;
   display: grid;

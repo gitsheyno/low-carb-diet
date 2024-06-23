@@ -97,7 +97,7 @@ export default function MainPage() {
     { name: "Vitamin B", value: 60 },
   ];
   return (
-    <main className={styles.mainPage}>
+    <main>
       <div className={styles.content}>
         <div className={styles.dashboardSummary}>
           <div className={styles.weekSample}>

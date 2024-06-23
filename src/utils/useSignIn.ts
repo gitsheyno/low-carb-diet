@@ -2,21 +2,22 @@ import { QueryFunction } from "@tanstack/react-query";
 
 type UserInfo = {
   username: string;
+  name: string;
   token: string;
 };
 
 const createUser: QueryFunction<
   UserInfo,
-  ["signIn", { username: string; password: string }]
+  ["signIn", { username: string; password: string; name: string }]
 > = async ({ queryKey }) => {
-  const { username, password } = queryKey[1];
+  const { username, password, name } = queryKey[1];
   if (!username.length && !password.length) {
     return {};
   }
   console.log(queryKey);
   const res = await fetch(`http://localhost:3002/signin`, {
     method: "POST",
-    body: JSON.stringify({ username, password }),
+    body: JSON.stringify({ username, password, name }),
     headers: {
       "Content-Type": "application/json",
     },
