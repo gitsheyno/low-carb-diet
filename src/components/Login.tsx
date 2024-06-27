@@ -23,11 +23,16 @@ const SignIn: React.FC = () => {
     queryFn: useLogin,
   });
 
-  if (res?.data?.token) {
-    const { token } = res.data;
-    console.log("token", token);
-    localStorage.setItem("token", token);
-    navigate(`/dashboard/${res.data?.name}`);
+  useEffect(() => {
+    if (res?.data?.token) {
+      const { token } = res.data;
+      localStorage.setItem("token", token);
+      navigate(`/dashboard/${res.data?.name}`);
+    }
+  }, [res, navigate]);
+
+  if (res.isFetching) {
+    return <Spinner />;
   }
 
   if (res.isFetching) {
