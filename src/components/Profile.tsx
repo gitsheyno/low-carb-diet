@@ -5,11 +5,23 @@ interface UserProfile {
   age: number;
   activityLevel: string;
   goal: string;
+  validated: boolean;
 }
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./Profile.module.css";
+import { z } from "zod";
+import { useQuery } from "@tanstack/react-query";
+import fetchUser from "../utils/postUserProfile";
+import Spinner from "./Spinner";
 
 const Profile: React.FC = () => {
+  const genderRef = useRef<HTMLSelectElement>(null);
+  const weightRef = useRef<HTMLInputElement>(null);
+  const heightRef = useRef<HTMLInputElement>(null);
+  const ageRef = useRef<HTMLInputElement>(null);
+  const activityRef = useRef<HTMLSelectElement>(null);
+  const goalRef = useRef<HTMLSelectElement>(null);
+
   const [userProfile, setUserProfile] = useState<UserProfile>({
     gender: "",
     weight: 0,
@@ -17,22 +29,76 @@ const Profile: React.FC = () => {
     age: 0,
     activityLevel: "",
     goal: "",
+    validated: false,
+  });
+  const UserProfileInfo = z.object({
+    gender: z.string(),
+    weight: z.number(),
+    height: z.number(),
+    age: z.number(),
+    activityLevel: z.string(),
+    goal: z.string(),
   });
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
-    // const data = Object.fromEntries(formData.entries()) as UserProfile;
-    // setUserProfile(data);
-    console.log("User Profile:", formData);
+
+    const data = {
+      gender: formData.get("gender"),
+      weight: parseFloat(formData.get("weight") as string),
+      height: parseFloat(formData.get("height") as string),
+      age: parseInt(formData.get("age") as string),
+      activityLevel: formData.get("activityLevel"),
+      goal: formData.get("goal"),
+    };
+
+    const validatedProfileInfo = UserProfileInfo.safeParse(data);
+    const getData = validatedProfileInfo.data as UserProfile;
+    const final = { ...getData, validated: true };
+    setUserProfile(final);
+    resetForm();
   };
 
+  const response = useQuery({
+    queryKey: [
+      "userProfile",
+      userProfile,
+      localStorage.getItem("token") as string,
+    ],
+    queryFn: fetchUser,
+  });
+
+  if (response.isFetching) {
+    return <Spinner />;
+  }
+  const resetForm = () => {
+    if (
+      weightRef.current &&
+      genderRef.current &&
+      ageRef.current &&
+      activityRef.current &&
+      goalRef.current
+    ) {
+      weightRef.current.value = "";
+      genderRef.current.value = "";
+      ageRef.current.value = "";
+      activityRef.current.value = "";
+      goalRef.current.value = "";
+    }
+  };
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
           <label htmlFor="gender">Gender</label>
-          <select name="gender" id="gender" className={styles.input} required>
+          <select
+            ref={genderRef}
+            name="gender"
+            id="gender"
+            className={styles.input}
+            required
+          >
             <option value="">Select Gender</option>
             <option value="female">Female</option>
             <option value="male">Male</option>
@@ -42,6 +108,7 @@ const Profile: React.FC = () => {
         <div className={styles.formGroup}>
           <label htmlFor="weight">Weight (kg)</label>
           <input
+            ref={weightRef}
             type="number"
             name="weight"
             id="weight"
@@ -53,6 +120,7 @@ const Profile: React.FC = () => {
         <div className={styles.formGroup}>
           <label htmlFor="height">Height (cm)</label>
           <input
+            ref={heightRef}
             type="number"
             name="height"
             id="height"
@@ -64,6 +132,7 @@ const Profile: React.FC = () => {
         <div className={styles.formGroup}>
           <label htmlFor="age">Age</label>
           <input
+            ref={ageRef}
             type="number"
             name="age"
             id="age"
@@ -75,6 +144,7 @@ const Profile: React.FC = () => {
         <div className={styles.formGroup}>
           <label htmlFor="activityLevel">Activity Level</label>
           <select
+            ref={activityRef}
             name="activityLevel"
             id="activityLevel"
             className={styles.input}
@@ -91,7 +161,13 @@ const Profile: React.FC = () => {
 
         <div className={styles.formGroup}>
           <label htmlFor="goal">Goal</label>
-          <select name="goal" id="goal" className={styles.input} required>
+          <select
+            ref={goalRef}
+            name="goal"
+            id="goal"
+            className={styles.input}
+            required
+          >
             <option value="">Select Goal</option>
             <option value="lose">Lose Weight</option>
             <option value="gain">Gain Weight</option>
