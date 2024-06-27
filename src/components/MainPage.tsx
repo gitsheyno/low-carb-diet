@@ -87,7 +87,7 @@ const data = [
     amt: 2100,
   },
 ];
-export default function MainPage() {
+export default function zMainPage() {
   const nutrients = [
     { name: "Carbs", value: 50 },
     { name: "Protein", value: 70 },

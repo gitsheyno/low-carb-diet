@@ -25,7 +25,7 @@ export default function SideNav({ data }: { data: string }) {
           <Link to={`/dashboard/${user}`}>Calories Tracker</Link>
           <Link to={`/dashboard/${user}`}>Favorites</Link>
           <Link to={`/dashboard/${user}`}>Shopping List</Link>
-          <Link to={`/dashboard/${user}`}>Profile</Link>
+          <Link to={`/dashboard/${user}/profile`}>Profile</Link>
         </div>
         <div className={styles.btn}>
           {/* <Link to={`//:${user}`}>Logout</Link> */}

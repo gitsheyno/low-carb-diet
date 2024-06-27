@@ -1,6 +1,5 @@
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Nav from "./components/Nav.tsx";
 import Login from "./components/Login.tsx";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import MealPlanner from "./routes/dashboard/MealPlanner.tsx";
@@ -12,6 +11,7 @@ import Spinner from "./components/Spinner.tsx";
 const Home = lazy(() => import("./routes/Home.tsx"));
 const Recipe = lazy(() => import("./routes/Recipe.tsx"));
 // const Recipes = lazy(() => import("./routes/Recipes.tsx"));
+const Profile = lazy(() => import("./routes/dashboard/ProfilePage.tsx"));
 import Container from "./components/custom/Container.tsx";
 const Dashboard = lazy(() => import("./components/Dashboard.tsx"));
 const queryClient = new QueryClient();
@@ -34,6 +34,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                 <Route path=":user/recipe/:id" element={<Recipe />} />
                 <Route path=":user" element={<Dashboard />} />
                 <Route path=":user/planing" element={<MealPlanner />} />
+                <Route path=":user/profile" element={<Profile />} />
               </Route>
             </Routes>
           </Container>
