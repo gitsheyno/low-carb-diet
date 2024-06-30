@@ -1,26 +1,35 @@
 import searchStyle from "../components/Search.module.css";
 import { useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 export default function Search() {
+  const [query, setQuery] = useState<string>("");
   const setSearchParam = useSearchParams();
 
+  const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSearchParam[1]({ q: query });
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [query]);
   return (
-    <>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const formData = new FormData(e.currentTarget);
-          const queryStr = formData.get("query")?.toString() ?? "";
-          setSearchParam[1]({ q: queryStr });
-        }}
-        className={searchStyle.searchContainer}
-      >
-        <div className={searchStyle.search}>
-          <input type="text" placeholder="Search your Recipe..." name="query" />
-          <button type="submit">
-            <i className="fa fa-search"></i>
-          </button>
-        </div>
-      </form>
-    </>
+    <div className={searchStyle.search}>
+      <input
+        type="text"
+        placeholder="Search your Recipe..."
+        name="query"
+        value={query}
+        onChange={handleQuery}
+      />
+      {/* <button type="submit">
+        <i className="fa fa-search"></i>
+      </button> */}
+    </div>
   );
 }
