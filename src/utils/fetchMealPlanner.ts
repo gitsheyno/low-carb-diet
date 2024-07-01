@@ -1,6 +1,9 @@
 import { QueryFunction } from "@tanstack/react-query";
 type Res = {
   name: string;
+  id: string;
+  caloriesKCal: number;
+  protein: number;
 };
 
 const fetchMealPlanner: QueryFunction<
@@ -27,7 +30,7 @@ const fetchMealPlanner: QueryFunction<
 
   console.log("mealPlane", jsonRes);
 
-  return jsonRes.data;
+  return jsonRes.data.createdMeals;
 };
 
 export default fetchMealPlanner;
