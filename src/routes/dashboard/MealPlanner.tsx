@@ -6,7 +6,6 @@ import { Suspense } from "react";
 import Spinner from "../../components/Spinner";
 import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
-
 type Meal = {
   name: string;
   id: string;
@@ -16,6 +15,7 @@ type Meal = {
 
 export default function MealPlanner() {
   const [selectedMeal, setSelectedMeal] = useState<Meal[]>([]);
+  const [submitted, setSubmitted] = useState(false);
 
   const addNewMeal = (item: Meal) => {
     setSelectedMeal((prev) => [...prev, item]);
@@ -40,13 +40,6 @@ export default function MealPlanner() {
     { calories: 0, protein: 0 }
   );
 
-  const onSubmit = (selectedMeal: Meal[]) => {
-    console.log(selectedMeal);
-    selectedMeal.forEach((item) => {
-      console.log(item);
-    });
-  };
-
   return (
     <div className={styles.mealPlaner}>
       <div className={styles.searchContainer}>
@@ -67,7 +60,6 @@ export default function MealPlanner() {
           selectedMeal={selectedMeal}
           total={totals}
           onRemove={handleRemove}
-          onSubmit={onSubmit}
         />
       </div>
     </div>

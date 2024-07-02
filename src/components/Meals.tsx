@@ -1,11 +1,16 @@
 import styles from "../components/Dashboard.module.css";
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
+import UserMeals from "./UserMeals";
+import { Suspense } from "react";
+import Spinner from "./Spinner";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 type Meal = {
   name: string;
   id: string;
+  caloriesKCal: number;
+  protein: number;
 };
 
 type Nut = {
@@ -13,50 +18,26 @@ type Nut = {
   calories: number;
 };
 
-//TODO add remove handler
 export default function Meals({
   selectedMeal,
   total,
   onRemove,
-  onSubmit,
 }: {
   selectedMeal: Meal[];
   total: Nut;
-  onRemove: Function;
-  onSubmit: Function;
+  onRemove: (id: string) => void;
 }) {
   const data = [
-    { name: "Group A", value: total.calories },
-    { name: "Group B", value: total.protein },
-    { name: "Group C", value: 300 },
-    // { name: "Group D", value: 200 },
+    { name: "Calories", value: total.calories },
+    { name: "Protein", value: total.protein },
+    { name: "Other", value: 300 },
   ];
+
   return (
     <>
-      <div className={styles.listContainer}>
-        <ul className={styles.selectedLists}>
-          {selectedMeal.length > 0 ? (
-            <>
-              {selectedMeal.map((item) => (
-                <li key={item.id} className={styles.selectedList}>
-                  {item.name}
-                  <span
-                    className={styles.icon}
-                    onClick={() => onRemove(item.id)}
-                  >
-                    ❌
-                  </span>
-                </li>
-              ))}
-            </>
-          ) : (
-            <p>no meal is added</p>
-          )}
-        </ul>
-        <button type="button" onClick={() => onSubmit(selectedMeal)}>
-          Submit
-        </button>
-      </div>
+      <Suspense fallback={<Spinner />}>
+        <UserMeals selectedMeal={selectedMeal} onRemove={onRemove} />
+      </Suspense>
       <div className={styles.pieChart}>
         <PieChart width={300} height={200}>
           <Pie
