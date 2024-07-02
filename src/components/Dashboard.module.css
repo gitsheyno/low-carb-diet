@@ -204,6 +204,7 @@
   display: flex;
   gap: 1rem;
   padding: 0.5rem;
+  animation: slideInFromLeft 1s ease-out forwards;
 }
 
 .selectedMealsBox .listContainer {
@@ -233,6 +234,15 @@
   font-size: 12px;
 }
 
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(100%); /* Start off the right side of the screen */
+  }
+  100% {
+    transform: translateX(0); /* End at its original position */
+  }
+}
+
 .selectedList {
   display: flex;
   justify-content: space-between;
@@ -249,7 +259,18 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  animation: slideInFromRight 1s ease-out forwards;
 }
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%); /* Start off the right side of the screen */
+  }
+  100% {
+    transform: translateX(0); /* End at its original position */
+  }
+}
+
 .searchContainer input {
   width: 100%;
 }
