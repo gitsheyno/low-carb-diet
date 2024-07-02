@@ -10,7 +10,7 @@ const fetchUser: QueryFunction<
 > = async ({ queryKey }) => {
   const token = queryKey[1];
   const id = queryKey[2];
-  console.log(id, "in fetch");
+
   const res = await fetch(`http://localhost:3002/api/dashboard/${id}`, {
     method: "POST",
     body: JSON.stringify({ username: id }),
