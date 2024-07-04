@@ -1,6 +1,7 @@
 import styles from "./Dashboard.module.css";
 import { BarChart, Bar, Tooltip } from "recharts";
 import VisitedRecipes from "./VisitedRecipes";
+import DailyMeals from "./DailyMeals";
 const data = [
   {
     name: "Page A",
@@ -106,7 +107,7 @@ export default function zMainPage() {
               <Tooltip />
             </BarChart>
           </div>
-          <div className={styles.todayCalories}>today</div>
+          <DailyMeals />
           <VisitedRecipes />
         </div>
         <div className={styles.nutrientsSummary}>

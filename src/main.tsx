@@ -8,18 +8,17 @@ import SignIn from "./components/Signin.tsx";
 import MainDashboard from "./routes/dashboard/MainDashboard.tsx";
 import { lazy, Suspense } from "react";
 import Spinner from "./components/Spinner.tsx";
+// const Recipes = lazy(() => import("./routes/Recipes.tsx"));
+import Container from "./components/custom/Container.tsx";
 const Home = lazy(() => import("./routes/Home.tsx"));
 const Recipe = lazy(() => import("./routes/Recipe.tsx"));
-// const Recipes = lazy(() => import("./routes/Recipes.tsx"));
 const Profile = lazy(() => import("./routes/dashboard/ProfilePage.tsx"));
-import Container from "./components/custom/Container.tsx";
 const Dashboard = lazy(() => import("./components/Dashboard.tsx"));
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <QueryClientProvider client={queryClient}>
-      {/* <Nav /> */}
       <Container>
         <Suspense fallback={<Spinner />}>
           <Routes>

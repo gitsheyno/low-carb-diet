@@ -2,17 +2,11 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, useSearchParams } from "react-router-dom";
 import fetchMealPlanner from "../utils/fetchMealPlanner";
 import styles from "../components/Dashboard.module.css";
-type Meal = {
-  name: string;
-  id: string;
-  caloriesKCal: number;
-  protein: number;
-};
-export default function RenderMeals({
-  handleNewMeal,
-}: {
-  handleNewMeal: Function;
-}) {
+import { MyPlanningContext } from "../store/PlanningContext";
+import { useContext } from "react";
+
+export default function RenderMeals() {
+  const { addMeal } = useContext(MyPlanningContext);
   const searchParams = useSearchParams();
 
   const query = searchParams[0].get("q") as string;
@@ -21,14 +15,8 @@ export default function RenderMeals({
     queryFn: fetchMealPlanner,
   });
 
-  if (queryData.isLoading) {
-    // return <Spinner />;
-  }
   const meals = queryData?.data ?? [];
 
-  const handleMeal = (item: Meal) => {
-    handleNewMeal(item);
-  };
   return (
     <>
       {meals ? (
@@ -40,7 +28,7 @@ export default function RenderMeals({
               </Link>
               <button
                 onClick={() =>
-                  handleMeal({
+                  addMeal({
                     id: meal.id,
                     name: meal.name,
                     caloriesKCal: meal.caloriesKCal,
