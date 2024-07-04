@@ -1,29 +1,19 @@
 import { useState } from "react";
 import styles from "../components/Dashboard.module.css";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import handleUserMeals from "../utils/handleUserMeals";
+import { useContext } from "react";
+import { MyPlanningContext } from "../store/PlanningContext";
 
-type Meal = {
-  name: string;
-  id: string;
-  caloriesKCal: number;
-  protein: number;
-};
-
-export default function UserMeals({
-  selectedMeal,
-  onRemove,
-}: {
-  selectedMeal: Meal[];
-  onRemove: (id: string) => void;
-}) {
+export default function UserMeals() {
   const [submit, setSubmit] = useState(false);
+  const { meals, removeMeal } = useContext(MyPlanningContext);
 
-  const queryRes = useSuspenseQuery({
+  const queryRes = useQuery({
     queryKey: [
       "handleUserMeals",
       localStorage.getItem("token") as string,
-      selectedMeal,
+      meals,
       submit,
     ],
     queryFn: handleUserMeals,
@@ -31,15 +21,21 @@ export default function UserMeals({
 
   const response = queryRes.data ?? [];
 
+  // if (queryRes.isPending) {
+  //   return <Spinner />;
+  // }
   return (
     <div className={styles.listContainer}>
       <ul className={styles.selectedLists}>
-        {selectedMeal.length > 0 ? (
+        {meals.length > 0 ? (
           <>
-            {selectedMeal.map((item) => (
+            {meals.map((item) => (
               <li key={item.id} className={styles.selectedList}>
                 {item.name}
-                <span className={styles.icon} onClick={() => onRemove(item.id)}>
+                <span
+                  className={styles.icon}
+                  onClick={() => removeMeal(item.id)}
+                >
                   ❌
                 </span>
               </li>

@@ -233,15 +233,15 @@
   gap: 0.5rem;
   font-size: 12px;
 }
-
+/* 
 @keyframes slideInFromLeft {
   0% {
-    transform: translateX(100%); /* Start off the right side of the screen */
+    transform: translateX(100%); 
   }
   100% {
-    transform: translateX(0); /* End at its original position */
+    transform: translateX(0); 
   }
-}
+} */
 
 .selectedList {
   display: flex;
@@ -262,14 +262,14 @@
   animation: slideInFromRight 1s ease-out forwards;
 }
 
-@keyframes slideInFromRight {
+/* @keyframes slideInFromRight {
   0% {
-    transform: translateX(100%); /* Start off the right side of the screen */
+    transform: translateX(100%); 
   }
   100% {
-    transform: translateX(0); /* End at its original position */
+    transform: translateX(0); 
   }
-}
+} */
 
 .searchContainer input {
   width: 100%;
@@ -312,4 +312,48 @@
 .meal:hover {
   color: #000;
   cursor: pointer;
+}
+
+.dailyMeals {
+}
+
+.dailyMealsLists {
+  display: flex;
+  list-style-type: none;
+  column-gap: 2rem;
+  row-gap: 0.5rem;
+  flex-wrap: wrap;
+  background-color: #aeadad;
+  background-color: rgba(255, 255, 0, 0.211);
+
+  /* background-color: rgba(255, 255, 0, 0.211); */
+
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+.dailyMealsLists li {
+  display: flex;
+  /* width: 80px; */
+  align-items: center;
+  justify-content: space-between;
+  background-color: #aeadad62;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+  font-size: 10px;
+}
+
+.dailyMealsLists li span {
+  cursor: pointer;
+}
+
+/* .dailyMealsLists li:hover {
+  background-color: #aeadad;
+} */
+
+.dailyMealsLists li a {
+  text-decoration: none;
+  color: #777;
+  display: block;
+  /* background-color: #e0e0e0; */
 }
