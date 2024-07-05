@@ -3,40 +3,35 @@ import { PieChart, Pie, Cell } from "recharts";
 import UserMeals from "./UserMeals";
 import { Suspense } from "react";
 import Spinner from "./Spinner";
-
+import { useContext } from "react";
+import { MyPlanningContext } from "../store/PlanningContext";
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-
-type Meal = {
-  name: string;
-  id: string;
-  caloriesKCal: number;
-  protein: number;
-};
 
 type Nut = {
   protein: number;
   calories: number;
 };
 
-export default function Meals({
-  selectedMeal,
-  total,
-  onRemove,
-}: {
-  selectedMeal: Meal[];
-  total: Nut;
-  onRemove: (id: string) => void;
-}) {
+export default function Meals() {
+  const { meals } = useContext(MyPlanningContext);
+
+  const totals: Nut = meals.reduce(
+    (accumulator, meal) => {
+      accumulator.calories += meal.caloriesKCal;
+      accumulator.protein += meal.protein;
+      return accumulator;
+    },
+    { calories: 0, protein: 0 }
+  );
   const data = [
-    { name: "Calories", value: total.calories },
-    { name: "Protein", value: total.protein },
+    { name: "Calories", value: totals.calories },
+    { name: "Protein", value: totals.protein },
     { name: "Other", value: 300 },
   ];
-
   return (
     <>
       <Suspense fallback={<Spinner />}>
-        <UserMeals selectedMeal={selectedMeal} onRemove={onRemove} />
+        <UserMeals />
       </Suspense>
       <div className={styles.pieChart}>
         <PieChart width={300} height={200}>

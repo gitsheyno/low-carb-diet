@@ -98,11 +98,6 @@
   grid-column: 9/-1;
 }
 
-.weekSample {
-  display: flex;
-  align-items: center;
-}
-
 .nutrientsProgress {
   padding: 20px;
   display: flex;
@@ -233,15 +228,15 @@
   gap: 0.5rem;
   font-size: 12px;
 }
-
+/* 
 @keyframes slideInFromLeft {
   0% {
-    transform: translateX(100%); /* Start off the right side of the screen */
+    transform: translateX(100%); 
   }
   100% {
-    transform: translateX(0); /* End at its original position */
+    transform: translateX(0); 
   }
-}
+} */
 
 .selectedList {
   display: flex;
@@ -262,14 +257,14 @@
   animation: slideInFromRight 1s ease-out forwards;
 }
 
-@keyframes slideInFromRight {
+/* @keyframes slideInFromRight {
   0% {
-    transform: translateX(100%); /* Start off the right side of the screen */
+    transform: translateX(100%); 
   }
   100% {
-    transform: translateX(0); /* End at its original position */
+    transform: translateX(0); 
   }
-}
+} */
 
 .searchContainer input {
   width: 100%;
@@ -312,4 +307,89 @@
 .meal:hover {
   color: #000;
   cursor: pointer;
+}
+
+.dailyMeals {
+  overflow: scroll;
+}
+
+.dailyMealsLists {
+  display: flex;
+  list-style-type: none;
+  column-gap: 2rem;
+  row-gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+.dailyMealsLists li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #aeadad2c;
+  gap: 2.5rem;
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+  font-size: 10px;
+}
+
+.dailyMealsLists li span {
+  cursor: pointer;
+}
+
+.dailyMealsLists li div img {
+  width: 40px;
+  aspect-ratio: 3/2;
+  object-fit: contain;
+  border-radius: 3px;
+}
+.dailyMealsLists li div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dailyMealsLists li a {
+  text-decoration: none;
+  color: #777;
+  display: block;
+  /* background-color: #e0e0e0; */
+}
+
+.weekSample {
+  display: flex;
+  align-items: center;
+  /* border: 1px solid red; */
+}
+
+.pieChartInfo {
+  /* border: 1px solid red; */
+  /* display: flex;
+  flex-wrap: wrap; */
+}
+
+.pieChartInfo li {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  justify-content: space-between;
+}
+
+.pieChartInfo li div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.pieChartInfo li div p:first-child {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.pieChartInfo li div p:nth-child(2) {
+  font-size: 10px;
+}
+.pieChartInfo li p:nth-child(2) {
+  font-size: 10px;
 }
