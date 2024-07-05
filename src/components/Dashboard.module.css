@@ -98,11 +98,6 @@
   grid-column: 9/-1;
 }
 
-.weekSample {
-  display: flex;
-  align-items: center;
-}
-
 .nutrientsProgress {
   padding: 20px;
   display: flex;
@@ -315,6 +310,7 @@
 }
 
 .dailyMeals {
+  overflow: scroll;
 }
 
 .dailyMealsLists {
@@ -323,21 +319,15 @@
   column-gap: 2rem;
   row-gap: 0.5rem;
   flex-wrap: wrap;
-  background-color: #aeadad;
-  background-color: rgba(255, 255, 0, 0.211);
-
-  /* background-color: rgba(255, 255, 0, 0.211); */
-
   padding: 0.5rem;
   border-radius: 5px;
 }
 .dailyMealsLists li {
   display: flex;
-  /* width: 80px; */
   align-items: center;
   justify-content: space-between;
-  background-color: #aeadad62;
-  gap: 0.5rem;
+  background-color: #aeadad2c;
+  gap: 2.5rem;
   padding: 0.4rem 1rem;
   border-radius: 5px;
   font-size: 10px;
@@ -347,13 +337,59 @@
   cursor: pointer;
 }
 
-/* .dailyMealsLists li:hover {
-  background-color: #aeadad;
-} */
+.dailyMealsLists li div img {
+  width: 40px;
+  aspect-ratio: 3/2;
+  object-fit: contain;
+  border-radius: 3px;
+}
+.dailyMealsLists li div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
 .dailyMealsLists li a {
   text-decoration: none;
   color: #777;
   display: block;
   /* background-color: #e0e0e0; */
+}
+
+.weekSample {
+  display: flex;
+  align-items: center;
+  /* border: 1px solid red; */
+}
+
+.pieChartInfo {
+  /* border: 1px solid red; */
+  /* display: flex;
+  flex-wrap: wrap; */
+}
+
+.pieChartInfo li {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  justify-content: space-between;
+}
+
+.pieChartInfo li div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.pieChartInfo li div p:first-child {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.pieChartInfo li div p:nth-child(2) {
+  font-size: 10px;
+}
+.pieChartInfo li p:nth-child(2) {
+  font-size: 10px;
 }

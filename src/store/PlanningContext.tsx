@@ -5,6 +5,9 @@ interface Meal {
   id: string;
   caloriesKCal: number;
   protein: number;
+  carbs: number;
+  fat: number;
+  image: string;
 }
 
 interface MyContextType {

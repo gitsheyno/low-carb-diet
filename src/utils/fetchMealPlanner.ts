@@ -4,6 +4,9 @@ type Res = {
   id: string;
   caloriesKCal: number;
   protein: number;
+  carbs: number;
+  fat: number;
+  image: string;
 };
 
 const fetchMealPlanner: QueryFunction<

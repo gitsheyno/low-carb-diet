@@ -1,94 +1,11 @@
 import styles from "./Dashboard.module.css";
-import { BarChart, Bar, Tooltip } from "recharts";
+import { BarChart, Bar, Tooltip, Cell, Pie, PieChart } from "recharts";
 import VisitedRecipes from "./VisitedRecipes";
 import DailyMeals from "./DailyMeals";
-const data = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
-export default function zMainPage() {
+import { useQuery } from "@tanstack/react-query";
+import fetchMeals from "../utils/fetchMeals";
+
+export default function MainPage() {
   const nutrients = [
     { name: "Carbs", value: 50 },
     { name: "Protein", value: 70 },
@@ -97,17 +14,82 @@ export default function zMainPage() {
     { name: "Vitamin A", value: 40 },
     { name: "Vitamin B", value: 60 },
   ];
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
+  const query = useQuery({
+    queryKey: ["getDailyMeals", localStorage.getItem("token") as string],
+    queryFn: fetchMeals,
+  });
+
+  const response = query?.data;
+
+  const data = [
+    { name: "ProteinCal", value: response?.proteinCal },
+    { name: "carbsCal", value: response?.carbsCal },
+    { name: "fatCal", value: response?.fatCal },
+    { name: "required Calories", value: response?.calories },
+  ];
+
   return (
     <main>
       <div className={styles.content}>
         <div className={styles.dashboardSummary}>
           <div className={styles.weekSample}>
-            <BarChart width={300} height={100} data={data}>
-              <Bar dataKey="uv" fill="#8884d8" />
+            <PieChart width={230} height={210}>
+              <Pie
+                data={data}
+                cx={100}
+                cy={100}
+                innerRadius={50}
+                outerRadius={65}
+                fill="#8884d8"
+                paddingAngle={5}
+                dataKey="value"
+              >
+                {data.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
               <Tooltip />
-            </BarChart>
+            </PieChart>
+            <ul className={styles.pieChartInfo}>
+              {data.map((item, index) => (
+                <li key={item.name}>
+                  <div>
+                    <p
+                      style={{
+                        backgroundColor: `${COLORS[index]}`,
+                      }}
+                    ></p>
+                    <p
+                      style={{
+                        color: `${COLORS[index]}`,
+                      }}
+                    >
+                      {item.name}
+                    </p>
+                  </div>
+                  <p
+                    style={{
+                      color: `${COLORS[index]}`,
+                    }}
+                  >
+                    {Math.round(item.value as number)}
+                  </p>
+                </li>
+              ))}
+            </ul>
           </div>
-          <DailyMeals />
+          {response ? (
+            <>
+              <DailyMeals response={response.meals} />
+            </>
+          ) : (
+            <p>no meals added</p>
+          )}
           <VisitedRecipes />
         </div>
         <div className={styles.nutrientsSummary}>
