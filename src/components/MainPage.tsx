@@ -4,22 +4,27 @@ import VisitedRecipes from "./VisitedRecipes";
 import DailyMeals from "./DailyMeals";
 import { useQuery } from "@tanstack/react-query";
 import fetchMeals from "../utils/fetchMeals";
+import Spinner from "./Spinner";
+import NutritionProgress from "./NutritionProgress";
+
+interface NutritionType {
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+}
 
 export default function MainPage() {
-  const nutrients = [
-    { name: "Carbs", value: 50 },
-    { name: "Protein", value: 70 },
-    { name: "Fat", value: 40 },
-    { name: "Vitamins", value: 60 },
-    { name: "Vitamin A", value: 40 },
-    { name: "Vitamin B", value: 60 },
-  ];
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
   const query = useQuery({
     queryKey: ["getDailyMeals", localStorage.getItem("token") as string],
     queryFn: fetchMeals,
   });
+
+  if (query.isFetching) {
+    return <Spinner />;
+  }
 
   const response = query?.data;
 
@@ -29,6 +34,17 @@ export default function MainPage() {
     { name: "fatCal", value: response?.fatCal },
     { name: "required Calories", value: response?.calories },
   ];
+
+  const progressBarData = response?.meals.reduce(
+    (accumulator, meal) => {
+      accumulator.calories += meal.calories;
+      accumulator.protein += meal.protein;
+      accumulator.carbs += meal.carbs;
+      accumulator.fat += meal.protein;
+      return accumulator;
+    },
+    { calories: 0, protein: 0, carbs: 0, fat: 0 }
+  );
 
   return (
     <main>
@@ -93,27 +109,10 @@ export default function MainPage() {
           <VisitedRecipes />
         </div>
         <div className={styles.nutrientsSummary}>
-          <div className={styles.nutrientsProgress}>
-            <h2>Nutrients Progress</h2>
-            {nutrients.map((nutrient) => (
-              <div key={nutrient.name} className={styles.progressBar}>
-                <label htmlFor={nutrient.name} className={styles.label}>
-                  {nutrient.name}
-                </label>
-                <div className={styles.progressContainer}>
-                  <progress
-                    id={nutrient.name}
-                    value={nutrient.value}
-                    max="100"
-                    className={styles.progress}
-                  ></progress>
-                  <span className={styles.progressValue}>
-                    {nutrient.value}%
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+          <NutritionProgress
+            data={progressBarData as NutritionType}
+            response={data}
+          />
         </div>
       </div>
     </main>

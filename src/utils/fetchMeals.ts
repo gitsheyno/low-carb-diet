@@ -3,19 +3,13 @@ import { QueryFunction } from "@tanstack/react-query";
 export interface Meal {
   belongsToId: string;
   calories: number;
-  carbs?: number; // Optional as it's not present in the first example
-  carbsCal?: number; // Optional as it's not present in the second example
-  carbsGram?: number; // Optional as it's not present in the second example
+  carbs: number; // Optional as it's not present in the first example
   createdAT?: string; // Optional as it's not present in the first example
   fat: number;
-  fatCal?: number; // Optional as it's not present in the second example
-  fatGram?: number; // Optional as it's not present in the second example
   id: string;
   image?: string; // Optional as it's not present in the first example
   name: string;
   protein: number;
-  proteinCal?: number; // Optional as it's not present in the second example
-  proteinGram?: number; // Optional as it's not present in the second example
 }
 
 export interface UserMacroData {
