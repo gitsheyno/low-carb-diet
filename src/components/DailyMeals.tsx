@@ -1,6 +1,7 @@
 import styles from "./Dashboard.module.css";
 import { Link } from "react-router-dom";
 import type { Meal, UserMacroData } from "../utils/fetchMeals";
+
 type Res = {
   name: string;
   id: string;
