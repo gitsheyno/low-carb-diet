@@ -1,15 +1,16 @@
 import styles from "./Dashboard.module.css";
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import fetchMeals from "../utils/fetchMeals";
-export default function DailyMeals() {
-  const query = useQuery({
-    queryKey: ["getDailyMeals", localStorage.getItem("token") as string],
-    queryFn: fetchMeals,
-  });
-
-  const response = query?.data ?? [];
-
+import type { Meal, UserMacroData } from "../utils/fetchMeals";
+type Res = {
+  name: string;
+  id: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  image: string;
+};
+export default function DailyMeals({ response }: { response: Meal[] }) {
   return (
     <div className={styles.dailyMeals}>
       {response ? (
@@ -17,7 +18,10 @@ export default function DailyMeals() {
           <ul className={styles.dailyMealsLists}>
             {response.map((item) => (
               <li key={item.id}>
-                <Link to="#">{item.name}</Link>
+                <div>
+                  <img src={item.image} />
+                  <Link to="#">{item.name}</Link>
+                </div>
                 <span>❌</span>
               </li>
             ))}
