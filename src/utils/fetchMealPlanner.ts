@@ -7,6 +7,9 @@ type Res = {
   carbs: number;
   fat: number;
   image: string;
+  description: string;
+  servings: number;
+  cookTime: number;
 };
 
 const fetchMealPlanner: QueryFunction<
