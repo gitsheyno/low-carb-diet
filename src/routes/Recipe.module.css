@@ -1,5 +1,8 @@
 .container {
-  max-width: 80%;
+  max-width: 1000%;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: #fff;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -20,6 +23,8 @@
 img {
   max-width: 100%;
   /* height: 70%; */
+  aspect-ratio: 4/2;
+  object-fit: cover;
   border-radius: 10px;
   /* height: 200px; */
   /* background-size: cover; */
@@ -27,7 +32,7 @@ img {
 }
 
 .right {
-  max-width: 90%;
+  /* max-width: 90%; */
   grid-column: 9/-1;
   background-color: #cccccc21;
   font-size: 0.8rem;
@@ -40,7 +45,7 @@ h1 {
 }
 .details {
   display: flex;
-  gap: 3rem;
+  gap: 2rem;
   color: #737272be;
   font-weight: 300;
   flex-direction: column;
@@ -53,7 +58,7 @@ h1 {
   text-align: center;
 }
 
-.btnWrapper .btn {
+.btnWrapper {
   color: #fff;
   background-color: #222;
   display: flex;
@@ -62,21 +67,28 @@ h1 {
   padding: 0.5rem 1.5rem;
   border-radius: 10px;
   margin-bottom: 0;
+  font-size: 0.7rem;
 }
 
-.btn p {
-  background-color: orange;
-  font-size: 1.1rem;
+.btn {
   display: flex;
   align-items: center;
-  justify-content: center;
+  background-color: transparent;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btnWrapper p {
+  background-color: orange;
+  margin: 0;
+
   padding: 0.2rem;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 .title {
   color: #000;
   font-weight: 900;
-  font-size: 1.1rem;
+  font-size: 0.8rem;
 }
 
 .timeDetails {

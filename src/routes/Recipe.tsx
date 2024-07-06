@@ -29,6 +29,9 @@ export default function Recipe() {
               <div className={styles.image}>
                 <img src={response.image} alt="" />
               </div>
+              <Descriptions data={response?.description} />
+              <Ingredients data={response?.ingredients} />
+              <Steps data={response?.steps} />
             </div>
             <div className={styles.right}>
               <div className={styles.details}>
@@ -76,16 +79,16 @@ export default function Recipe() {
                   </div>
                 </div>
                 <div className={styles.btnWrapper}>
+                  <p>🍴</p>
                   <a href="#recipe" className={styles.btn}>
-                    <p>🍴</p>
                     Jump to Recipe
                   </a>
                 </div>
               </div>
             </div>
-            <Descriptions data={response?.description} />
+            {/* <Descriptions data={response?.description} />
             <Ingredients data={response?.ingredients} />
-            <Steps data={response?.steps} />
+            <Steps data={response?.steps} /> */}
           </div>
         </>
       ) : (

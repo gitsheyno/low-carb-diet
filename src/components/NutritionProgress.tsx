@@ -1,5 +1,5 @@
 import styles from ".//Dashboard.module.css";
-import Lottie from "react-lottie";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import animation2 from "../../public/animation2.json";
 
 interface NutritionType {
@@ -14,15 +14,6 @@ interface Limit {
   value: number | undefined;
 }
 
-const defaultOptions = {
-  loop: true,
-  autoplay: true,
-  animationData: animation2,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid slice",
-  },
-};
-
 export default function NutritionProgress({
   data,
   response,
@@ -36,6 +27,7 @@ export default function NutritionProgress({
     { name: "Fat", value: Math.round(data.fat) },
     { name: "Calories", value: Math.round(data.calories) },
   ];
+
   return (
     <div className={styles.nutrientsProgress}>
       <div>
@@ -58,7 +50,13 @@ export default function NutritionProgress({
         ))}
       </div>
       <div className={styles.lottie}>
-        <Lottie options={defaultOptions} height={200} width={350} />
+        <DotLottieReact
+          loop
+          autoplay
+          src="../../public/animation.lottie"
+          width={370}
+          height={340}
+        />
       </div>
     </div>
   );
