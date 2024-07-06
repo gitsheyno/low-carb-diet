@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import fetchMeals from "../utils/fetchMeals";
 import Spinner from "./Spinner";
 import NutritionProgress from "./NutritionProgress";
+import Banner from "./Banner";
 
 interface NutritionType {
   calories: number;
@@ -106,7 +107,6 @@ export default function MainPage() {
           ) : (
             <p>no meals added</p>
           )}
-          <VisitedRecipes />
         </div>
         <div className={styles.nutrientsSummary}>
           <NutritionProgress

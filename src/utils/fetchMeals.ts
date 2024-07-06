@@ -10,6 +10,9 @@ export interface Meal {
   image?: string; // Optional as it's not present in the first example
   name: string;
   protein: number;
+  description: string;
+  servings: number;
+  cookTime: number;
 }
 
 export interface UserMacroData {

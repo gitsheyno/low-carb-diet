@@ -29,7 +29,7 @@ export default function NewRecipes() {
             <img src={item.image} alt={item.name} />
             <div className={styles.header}>Today's Featured Recipe</div>
           </div>
-          <Link to={`/recipe/${item.id}`} className={styles.category}>
+          <Link to={`/dashboard/recipe/${item.id}`} className={styles.category}>
             {item.name}
           </Link>
           <div className={styles.infoContainer}>
