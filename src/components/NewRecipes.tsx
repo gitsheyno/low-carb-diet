@@ -1,26 +1,39 @@
-import card from "./Cards.module.css";
-import { Link } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
-import Card from "./Card";
+import styles from "./Cards.module.css";
+import { Link, useSearchParams } from "react-router-dom";
 import { Recipe } from "../utils/types";
 import container from "../components/HomeContainer.module.css";
-
-export default function NewRecipes({ response }: { response: Recipe[] }) {
-  const x = useSearchParams();
-  console.log(x);
-  const params = new URLSearchParams(document.location.search);
-  console.log("param", params);
+import sty from "../components/Dashboard.module.css";
+import { useQuery } from "@tanstack/react-query";
+import fetchSearch from "../utils/fetchSearch";
+import Spinner from "./Spinner";
+export default function NewRecipes() {
+  const searchParams = useSearchParams();
+  const queryData = useQuery({
+    queryKey: [
+      "search",
+      searchParams[0].get("q") as string,
+      localStorage.getItem("token") as string,
+    ],
+    queryFn: fetchSearch,
+  });
+  console.log("query", searchParams[0].get("q") as string);
+  if (queryData.isLoading) {
+    return <Spinner />;
+  }
+  const response = queryData?.data ?? [];
   return (
-    <div className={container.container}>
-      <h3>Cook What's New!</h3>
+    <div className={sty.recipesContainer}>
       {response.map((item) => (
-        <Card key={item.id}>
-          <div className={card.card}>
-            <div className={card.img}>
-              <img src={item.image} alt="" />
-            </div>
-            <Link to={`/recipe/${item.id}`}>{item.name}</Link>
-            <div className={card.cardInfos}>
+        <div key={item.id} className={styles.card}>
+          <div className={styles.img}>
+            <img src={item.image} alt={item.name} />
+            <div className={styles.header}>Today's Featured Recipe</div>
+          </div>
+          <Link to={`/recipe/${item.id}`} className={styles.category}>
+            {item.name}
+          </Link>
+          <div className={styles.infoContainer}>
+            <div className={styles.cardInfos}>
               <div>
                 <p>Cal</p>
                 <p>{item.nutrients.caloriesKCal}</p>
@@ -39,7 +52,8 @@ export default function NewRecipes({ response }: { response: Recipe[] }) {
               </div>
             </div>
           </div>
-        </Card>
+          <button className={styles.button}>View Recipe</button>
+        </div>
       ))}
     </div>
   );

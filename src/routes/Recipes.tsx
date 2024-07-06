@@ -11,9 +11,5 @@ export default function Recipes() {
   });
   const response = queryData?.data ?? [];
   console.log(response);
-  return (
-    <div>
-      <NewRecipes response={response} />
-    </div>
-  );
+  return <div>{/* <NewRecipes response={response} /> */}</div>;
 }

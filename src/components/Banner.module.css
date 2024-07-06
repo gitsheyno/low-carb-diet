@@ -6,12 +6,14 @@
 }
 
 .image {
-  width: 70%;
+  width: 40%;
   border-radius: 20px;
   /* margin: 0 auto; */
 }
 
 .image img {
+  aspect-ratio: 3/2;
+
   width: 100%;
   min-width: 30%;
   border-radius: 20px;
