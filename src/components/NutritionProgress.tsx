@@ -58,7 +58,7 @@ export default function NutritionProgress({
         ))}
       </div>
       <div className={styles.lottie}>
-        <Lottie options={defaultOptions} height={200} width={400} />
+        <Lottie options={defaultOptions} height={200} width={350} />
       </div>
     </div>
   );

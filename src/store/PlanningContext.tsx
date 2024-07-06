@@ -8,6 +8,9 @@ interface Meal {
   carbs: number;
   fat: number;
   image: string;
+  description: string;
+  servings: number;
+  cookTime: number;
 }
 
 interface MyContextType {

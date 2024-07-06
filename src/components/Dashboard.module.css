@@ -176,7 +176,7 @@
 .dashboardSummary {
   grid-column: 1/9;
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 2fr;
 }
 .nutrientsSummary {
   grid-column: 9/-1;
@@ -393,17 +393,21 @@
   color: #000;
   cursor: pointer;
 }
-
+.visited {
+  display: grid;
+}
 .dailyMeals {
   overflow: scroll;
+  height: 300px;
+  overflow-y: scroll;
 }
 
 .dailyMealsLists {
   display: flex;
+  flex-direction: column;
   list-style-type: none;
-  column-gap: 2rem;
-  row-gap: 0.5rem;
-  flex-wrap: wrap;
+  /* column-gap: 2rem; */
+  /* row-gap: 0.5rem; */
   padding: 0.5rem;
   border-radius: 5px;
 }
@@ -411,27 +415,52 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #aeadad2c;
   gap: 2.5rem;
   padding: 0.4rem 1rem;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   font-size: 10px;
+  border-bottom: 0.7px solid #777;
 }
 
-.dailyMealsLists li span {
-  cursor: pointer;
+.dailyMealsLists li div .img {
+  justify-self: stretch;
 }
 
 .dailyMealsLists li div img {
-  width: 40px;
+  width: 50px;
+  /*  */
+  border-radius: 5px;
   aspect-ratio: 3/2;
-  object-fit: contain;
-  border-radius: 3px;
+  object-fit: cover;
+  /* justify-self: stretch; */
 }
-.dailyMealsLists li div {
+
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* gap: 0.5rem; */
+}
+
+.dailyMealsLists li .innerBox {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.status {
+  margin: 0;
+}
+.total {
+  color: #333;
+  font-weight: bolder;
+  font-size: 0.6rem;
+}
+.date {
+  font-size: 0.6rem;
+}
+
+.moreInfo {
 }
 
 .dailyMealsLists li a {

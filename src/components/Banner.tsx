@@ -2,7 +2,23 @@ import styles from "../components/test.module.css";
 import { Recipe } from "../utils/types";
 import card from "../components/Dashboard.module.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-export default function Banner({ data }: { data: Recipe }): JSX.Element {
+import type { Meal, UserMacroData } from "../utils/fetchMeals";
+
+type Res = {
+  belongsToId: string;
+  calories: number;
+  carbs: number; // Optional as it's not present in the first example
+  createdAT?: string; // Optional as it's not present in the first example
+  fat: number;
+  id: string;
+  image?: string; // Optional as it's not present in the first example
+  name: string;
+  protein: number;
+  description: string;
+  servings: number;
+  cookTime: number;
+};
+export default function Banner({ data }: { data: Res }): JSX.Element {
   console.log(data);
   return (
     <section className={styles.banner}>

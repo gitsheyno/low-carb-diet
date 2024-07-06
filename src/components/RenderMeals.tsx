@@ -36,6 +36,9 @@ export default function RenderMeals() {
                     carbs: meal.carbs,
                     fat: meal.fat,
                     image: meal.image,
+                    description: meal.description,
+                    servings: meal.servings,
+                    cookTime: meal.cookTime,
                   })
                 }
               >
