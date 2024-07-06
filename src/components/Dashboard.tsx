@@ -23,5 +23,9 @@ export default function Dashboard() {
   const response = res?.data;
   const final = response?.message;
 
-  return <div>{final ? <>{<MainPage />}</> : <p>protected</p>}</div>;
+  return (
+    <div className={styles.mm}>
+      {final ? <>{<MainPage />}</> : <p>protected</p>}
+    </div>
+  );
 }

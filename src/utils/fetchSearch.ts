@@ -8,6 +8,7 @@ const fetchSearch: QueryFunction<
   const query = queryKey[1];
   const token = queryKey[2];
 
+  console.log("q", query);
   if (!query || query === "") {
     return [];
   }
