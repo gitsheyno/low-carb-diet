@@ -3,7 +3,9 @@
   display: flex;
   color: #999;
   align-items: center;
+  height: 100px;
   justify-content: center;
+  /* border: 1px solid red; */
 }
 .search input {
   width: 100%;
@@ -15,27 +17,6 @@
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
 }
-button {
-  border: none;
-}
-/* .search i {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #999;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: 500ms;
-  padding: 0.7rem;
-  border-radius: 5px;
-  color: #fff;
-  background-color: orange;
-}
-
-.search i:hover {
-  color: black;
-} */
 
 @media (max-width: 1000px) {
   .searchContainer {

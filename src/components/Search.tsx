@@ -1,4 +1,4 @@
-import searchStyle from "../components/Search.module.css";
+import searchStyle from "../components/Dashboard.module.css";
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 export default function Search() {
@@ -27,9 +27,6 @@ export default function Search() {
         value={query}
         onChange={handleQuery}
       />
-      {/* <button type="submit">
-        <i className="fa fa-search"></i>
-      </button> */}
     </div>
   );
 }

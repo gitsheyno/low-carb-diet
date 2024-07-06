@@ -7,28 +7,27 @@
   transition: box-shadow 0.3s ease;
   max-width: 300px;
   margin: auto;
-  padding-bottom: 0.3rem;
 }
 
 .card:hover {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
-.img {
+.image {
   position: relative;
   width: 100%;
   overflow: hidden;
   border-radius: 12px 12px 0 0;
 }
 
-.img img {
+.image img {
   width: 100%;
   height: auto;
   display: block;
   transition: transform 0.3s ease;
 }
 
-.img img:hover {
+.image img:hover {
   transform: scale(1.05);
 }
 
@@ -40,17 +39,15 @@
   color: #fff;
   padding: 4px 8px;
   border-radius: 4px;
-  font-size: 10px;
+  font-size: 14px;
 }
 
 .category {
-  display: block;
   padding: 16px;
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 600;
   color: #333;
   text-align: center;
-  text-decoration: none;
 }
 
 .infoContainer {
@@ -94,23 +91,11 @@
   color: #fff;
   text-transform: uppercase;
   font-weight: bold;
-  font-size: 10px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s ease;
   margin: 0 auto;
-}
-
-.infoContainer {
-  /* gap: 1rem; */
-}
-.cardInfos {
-  display: flex;
-}
-
-.cardInfos div p {
-  font-size: 10px;
 }
 
 .button:hover {
