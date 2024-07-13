@@ -1,8 +1,10 @@
 import styles from "./Dashboard.module.css";
 import ProfileInfo from "./ProfileInfo";
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 export default function SideNav({ data }: { data: string }) {
+  const [missedInfo, setMissedInfo] = useState(true);
   const { user } = useParams();
   const navigate = useNavigate();
 
@@ -18,16 +20,27 @@ export default function SideNav({ data }: { data: string }) {
             <ProfileInfo info={data} />
           </Link>
         </div>
-        <div className={styles.items}>
-          <Link to={`/dashboard/${user}`}>Dashboard</Link>
-          <Link to={`/dashboard/${user}/Recipes`}>Recipes</Link>
-          <Link to={`/dashboard/${user}/planing`}>Meal Planner</Link>
-          <Link to={`/dashboard/${user}`}>Calories Tracker</Link>
-          <Link to={`/dashboard/${user}/profile`}>Profile</Link>
-        </div>
+        <ul className="text-white space-y-8 text-l">
+          <li className="hover:text-black active:bg-violet-700">
+            <Link to={`/dashboard/${user}`}>Dashboard</Link>
+          </li>
+          <li>
+            <Link to={`/dashboard/${user}/Recipes`}>Recipes</Link>
+          </li>
+          <li>
+            <Link to={`/dashboard/${user}/planing`}>Meal Planner</Link>
+          </li>
+          <li>
+            <Link to={`/dashboard/${user}`}>Calories Tracker</Link>
+          </li>
+          <li className={`${missedInfo ? "text-red-700" : "text-white"}`}>
+            {missedInfo && <span>❗️ </span>}
+            <Link to={`/dashboard/${user}/profile`}>Profile</Link>
+          </li>
+        </ul>
         <div className={styles.btn}>
           {/* <Link to={`//:${user}`}>Logout</Link> */}
-          <a href="#" onClick={handleLogout}>
+          <a className="text-white px-2 py-1" href="#" onClick={handleLogout}>
             Logout
           </a>
         </div>

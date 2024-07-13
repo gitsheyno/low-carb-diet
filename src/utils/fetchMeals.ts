@@ -26,7 +26,13 @@ export interface UserMacroData {
   name: string;
   proteinCal: number;
   proteinGram: number;
+  status: boolean;
   meals: Meal[];
+}
+
+interface Data {
+  request: UserMacroData;
+  status: boolean;
 }
 
 const fetchMeals: QueryFunction<

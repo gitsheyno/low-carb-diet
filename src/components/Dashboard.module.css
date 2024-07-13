@@ -51,12 +51,9 @@
 }
 .sideNavList a {
   text-decoration: none;
-  color: #edececb2;
+  /* color: #edececb2; */
 }
 
-.sideNavList a:hover {
-  color: #fff;
-}
 .mainPage {
   padding: 1rem;
   display: grid;
@@ -296,7 +293,7 @@
 
 .selectedMealsBox .listContainer button {
   padding: 0.5rem 2rem;
-  background-color: rgba(0, 51, 255, 0.357);
+  /* background-color: rgba(0, 51, 255, 0.357); */
   align-self: center;
   border-radius: 5px;
 }
