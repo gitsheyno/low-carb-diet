@@ -45,7 +45,11 @@ export default function UserMeals() {
           <p>No meal is added</p>
         )}
       </ul>
-      <button type="button" onClick={() => setSubmit(true)}>
+      <button
+        className="bg-blue-500"
+        type="button"
+        onClick={() => setSubmit(true)}
+      >
         Submit
       </button>
     </div>

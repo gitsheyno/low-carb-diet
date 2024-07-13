@@ -17,6 +17,7 @@ export default function RenderMeals() {
 
   const meals = queryData?.data ?? [];
 
+  console.log(",meals", meals);
   return (
     <>
       {meals ? (

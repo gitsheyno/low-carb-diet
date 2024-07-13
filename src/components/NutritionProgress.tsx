@@ -53,7 +53,7 @@ export default function NutritionProgress({
         <DotLottieReact
           loop
           autoplay
-          src="../../public/animation.lottie"
+          src="../animation.lottie"
           width={370}
           height={340}
         />
