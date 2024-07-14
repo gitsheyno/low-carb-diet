@@ -7,7 +7,7 @@ interface UserProfile {
   goal: string;
   validated: boolean;
 }
-import React, { useEffect, useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Profile.module.css";
 import { z } from "zod";
@@ -23,7 +23,6 @@ const Profile: React.FC = () => {
   const ageRef = useRef<HTMLInputElement>(null);
   const activityRef = useRef<HTMLSelectElement>(null);
   const goalRef = useRef<HTMLSelectElement>(null);
-  const navigate = useNavigate();
   const { handleStatus } = useContext(userProfileCTX);
 
   const [userProfile, setUserProfile] = useState<UserProfile>({

@@ -1,6 +1,6 @@
 import styles from "./Dashboard.module.css";
 import ProfileInfo from "./ProfileInfo";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { userProfileCTX } from "../store/UserProfileContext";

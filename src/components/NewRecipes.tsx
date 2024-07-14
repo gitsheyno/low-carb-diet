@@ -1,7 +1,5 @@
 import styles from "./Cards.module.css";
 import { Link, useSearchParams } from "react-router-dom";
-import { Recipe } from "../utils/types";
-import container from "../components/HomeContainer.module.css";
 import sty from "../components/Dashboard.module.css";
 import { useQuery } from "@tanstack/react-query";
 import fetchSearch from "../utils/fetchSearch";
