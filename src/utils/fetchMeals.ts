@@ -30,11 +30,6 @@ export interface UserMacroData {
   meals: Meal[];
 }
 
-interface Data {
-  request: UserMacroData;
-  status: boolean;
-}
-
 const fetchMeals: QueryFunction<
   UserMacroData,
   ["getDailyMeals", string]
@@ -57,7 +52,7 @@ const fetchMeals: QueryFunction<
 
   const jsonRes = await res.json();
 
-  console.log("mealPlane", jsonRes);
+  console.log("mealPlane now", jsonRes);
 
   return jsonRes?.data;
 };

@@ -10,7 +10,7 @@ export default function DailyMeals({ response }: { response: Meal[] }) {
           <ul className={styles.dailyMealsLists}>
             {response.map((item) => {
               const date = new Date(response[0].createdAT as string);
-              const day = date.getDay();
+              const day = date.getDate();
               const month = date.toLocaleString("default", { month: "short" });
               return (
                 <li key={item.id}>
@@ -20,7 +20,9 @@ export default function DailyMeals({ response }: { response: Meal[] }) {
                         <img src={item.image} />
                       </div>
 
-                      <Link to="#">{item.name}</Link>
+                      <Link to={`/dashboard/recipe/${item.id}`}>
+                        {item.name}
+                      </Link>
                     </div>
                     <p className={styles.status}>
                       Status : <span style={{ color: "green" }}>Completed</span>
