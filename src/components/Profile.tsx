@@ -7,12 +7,14 @@ interface UserProfile {
   goal: string;
   validated: boolean;
 }
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Profile.module.css";
 import { z } from "zod";
 import { useQuery } from "@tanstack/react-query";
 import fetchUser from "../utils/postUserProfile";
 import Spinner from "./Spinner";
+import { userProfileCTX } from "../store/UserProfileContext";
 
 const Profile: React.FC = () => {
   const genderRef = useRef<HTMLSelectElement>(null);
@@ -21,6 +23,8 @@ const Profile: React.FC = () => {
   const ageRef = useRef<HTMLInputElement>(null);
   const activityRef = useRef<HTMLSelectElement>(null);
   const goalRef = useRef<HTMLSelectElement>(null);
+  const navigate = useNavigate();
+  const { handleStatus } = useContext(userProfileCTX);
 
   const [userProfile, setUserProfile] = useState<UserProfile>({
     gender: "",
@@ -57,6 +61,7 @@ const Profile: React.FC = () => {
     const getData = validatedProfileInfo.data as UserProfile;
     const final = { ...getData, validated: true };
     setUserProfile(final);
+    handleStatus();
     resetForm();
   };
 

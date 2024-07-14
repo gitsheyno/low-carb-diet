@@ -1,14 +1,12 @@
 import styles from "./Dashboard.module.css";
 import { BarChart, Bar, Tooltip, Cell, Pie, PieChart } from "recharts";
-import VisitedRecipes from "./VisitedRecipes";
 import DailyMeals from "./DailyMeals";
 import { useQuery } from "@tanstack/react-query";
 import fetchMeals from "../utils/fetchMeals";
 import Spinner from "./Spinner";
 import NutritionProgress from "./NutritionProgress";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { userProfileCTX } from "../store/UserProfileContext";
-import Banner from "./Banner";
 
 interface NutritionType {
   calories: number;
@@ -20,21 +18,23 @@ interface NutritionType {
 export default function MainPage() {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-  const { handleStatus } = useContext(userProfileCTX);
+  const { completed, handleStatus } = useContext(userProfileCTX);
 
   const query = useQuery({
     queryKey: ["getDailyMeals", localStorage.getItem("token") as string],
     queryFn: fetchMeals,
   });
 
-  if (query.isFetching) {
-    return <Spinner />;
-  }
-
   const response = query?.data;
 
-  if (response?.status) {
-    handleStatus();
+  useEffect(() => {
+    if (response?.status) {
+      handleStatus();
+    }
+  }, [response?.status, handleStatus]);
+
+  if (query.isFetching) {
+    return <Spinner />;
   }
 
   const data = [
@@ -57,6 +57,7 @@ export default function MainPage() {
 
   return (
     <main>
+      {completed}
       <div className={styles.content}>
         <div className={styles.dashboardSummary}>
           <div className={styles.weekSample}>
