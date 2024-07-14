@@ -14,7 +14,7 @@ export const ProfileProvider = ({ children }: PropsWithChildren) => {
   const [isCompleted, setIsCompleted] = useState(false);
 
   const handleStatus = () => {
-    setIsCompleted((prev) => !prev);
+    setIsCompleted(true);
   };
   return (
     <userProfileCTX.Provider value={{ completed: isCompleted, handleStatus }}>

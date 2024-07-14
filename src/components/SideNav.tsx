@@ -1,6 +1,6 @@
 import styles from "./Dashboard.module.css";
 import ProfileInfo from "./ProfileInfo";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { userProfileCTX } from "../store/UserProfileContext";
@@ -12,6 +12,7 @@ export default function SideNav({ data }: { data: string }) {
     localStorage.removeItem("token");
     navigate("/login");
   };
+
   return (
     <div className={styles.sideNav}>
       <nav className={styles.sideNavList}>
@@ -35,10 +36,10 @@ export default function SideNav({ data }: { data: string }) {
           </li>
           <li
             className={`${
-              completed ? "text-red-700" : "text-white"
+              !completed ? "text-red-700" : "text-white"
             } hover:text-black`}
           >
-            {completed && <span>❗️ </span>}
+            {!completed && <span>❗️ </span>}
             <Link to={`/dashboard/${user}/profile`}>Profile</Link>
           </li>
         </ul>
