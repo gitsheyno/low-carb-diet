@@ -1,13 +1,13 @@
 import styles from "./Dashboard.module.css";
 import ProfileInfo from "./ProfileInfo";
-import { useState } from "react";
+import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { userProfileCTX } from "../store/UserProfileContext";
 export default function SideNav({ data }: { data: string }) {
-  const [missedInfo, setMissedInfo] = useState(true);
   const { user } = useParams();
   const navigate = useNavigate();
-
+  const { completed } = useContext(userProfileCTX);
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");
@@ -21,20 +21,20 @@ export default function SideNav({ data }: { data: string }) {
           </Link>
         </div>
         <ul className="text-white space-y-8 text-l">
-          <li className="hover:text-black active:bg-violet-700">
+          <li className="hover:text-black">
             <Link to={`/dashboard/${user}`}>Dashboard</Link>
           </li>
-          <li>
+          <li className="hover:text-black">
             <Link to={`/dashboard/${user}/Recipes`}>Recipes</Link>
           </li>
-          <li>
+          <li className="hover:text-black">
             <Link to={`/dashboard/${user}/planing`}>Meal Planner</Link>
           </li>
-          <li>
+          <li className="hover:text-black">
             <Link to={`/dashboard/${user}`}>Calories Tracker</Link>
           </li>
-          <li className={`${missedInfo ? "text-red-700" : "text-white"}`}>
-            {missedInfo && <span>❗️ </span>}
+          <li className={`${completed ? "text-red-700" : "text-white"}`}>
+            {completed && <span>❗️ </span>}
             <Link to={`/dashboard/${user}/profile`}>Profile</Link>
           </li>
         </ul>
