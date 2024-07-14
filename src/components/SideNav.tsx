@@ -33,7 +33,11 @@ export default function SideNav({ data }: { data: string }) {
           <li className="hover:text-black">
             <Link to={`/dashboard/${user}`}>Calories Tracker</Link>
           </li>
-          <li className={`${completed ? "text-red-700" : "text-white"}`}>
+          <li
+            className={`${
+              completed ? "text-red-700" : "text-white"
+            } hover:text-black`}
+          >
             {completed && <span>❗️ </span>}
             <Link to={`/dashboard/${user}/profile`}>Profile</Link>
           </li>
