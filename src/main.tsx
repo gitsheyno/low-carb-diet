@@ -30,7 +30,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <Routes>
               <Route path="/dashboard" element={<MainDashboard />}>
                 <Route path=":user/Recipes" element={<Home />} />
-                <Route path="recipe/:id" element={<Recipe />} />
+                <Route path=":user/recipe/:id" element={<Recipe />} />
                 <Route path=":user" element={<Dashboard />} />
                 <Route path=":user/planing" element={<MealPlanner />} />
                 <Route path=":user/profile" element={<Profile />} />

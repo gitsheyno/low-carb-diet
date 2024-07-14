@@ -1,8 +1,9 @@
 import styles from "./Dashboard.module.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import type { Meal } from "../utils/fetchMeals";
 
 export default function DailyMeals({ response }: { response: Meal[] }) {
+  const { user } = useParams();
   return (
     <div className={styles.dailyMeals}>
       {response ? (
@@ -20,7 +21,7 @@ export default function DailyMeals({ response }: { response: Meal[] }) {
                         <img src={item.image} />
                       </div>
 
-                      <Link to={`/dashboard/recipe/${item.id}`}>
+                      <Link to={`/dashboard/${user}/recipe/${item.id}`}>
                         {item.name}
                       </Link>
                     </div>
