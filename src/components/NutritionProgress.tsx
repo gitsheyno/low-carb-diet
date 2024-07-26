@@ -1,6 +1,5 @@
 import styles from ".//Dashboard.module.css";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import animation2 from "../../public/animation2.json";
 
 interface NutritionType {
   calories: number;

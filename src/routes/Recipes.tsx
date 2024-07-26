@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import NewRecipes from "../components/NewRecipes";
 import { useParams } from "react-router-dom";
 import fetchSearch from "../utils/fetchSearch";
 export default function Recipes() {

@@ -8,7 +8,6 @@ interface UserProfile {
   validated: boolean;
 }
 import React, { useRef, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import styles from "./Profile.module.css";
 import { z } from "zod";
 import { useQuery } from "@tanstack/react-query";

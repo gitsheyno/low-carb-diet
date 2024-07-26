@@ -9,7 +9,7 @@ export default function UserMeals() {
   const [submit, setSubmit] = useState(false);
   const { meals, removeMeal } = useContext(MyPlanningContext);
 
-  const queryRes = useQuery({
+  useQuery({
     queryKey: [
       "handleUserMeals",
       localStorage.getItem("token") as string,
@@ -19,11 +19,6 @@ export default function UserMeals() {
     queryFn: handleUserMeals,
   });
 
-  const response = queryRes.data ?? [];
-
-  // if (queryRes.isPending) {
-  //   return <Spinner />;
-  // }
   return (
     <div className={styles.listContainer}>
       <ul className={styles.selectedLists}>

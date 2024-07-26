@@ -1,5 +1,5 @@
 import styles from "./Dashboard.module.css";
-import { BarChart, Bar, Tooltip, Cell, Pie, PieChart } from "recharts";
+import { Tooltip, Cell, Pie, PieChart } from "recharts";
 import DailyMeals from "./DailyMeals";
 import { useQuery } from "@tanstack/react-query";
 import fetchMeals from "../utils/fetchMeals";
@@ -72,7 +72,7 @@ export default function MainPage() {
                 paddingAngle={5}
                 dataKey="value"
               >
-                {data.map((entry, index) => (
+                {data.map((_, index) => (
                   <Cell
                     key={`cell-${index}`}
                     fill={COLORS[index % COLORS.length]}

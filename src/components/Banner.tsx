@@ -1,8 +1,5 @@
 import styles from "../components/test.module.css";
-import { Recipe } from "../utils/types";
-import card from "../components/Dashboard.module.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import type { Meal, UserMacroData } from "../utils/fetchMeals";
 
 type Res = {
   belongsToId: string;

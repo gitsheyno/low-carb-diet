@@ -1,5 +1,4 @@
 import { QueryFunction } from "@tanstack/react-query";
-import { json } from "react-router-dom";
 
 type UserInfo = {
   username: string;
