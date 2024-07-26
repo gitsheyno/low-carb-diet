@@ -6,7 +6,7 @@ export default function MainDashboard() {
   return (
     <ProfileProvider>
       <div className={styles.container}>
-        <SideNav data={"hasan"} />
+        <SideNav />
         <main className={styles.mainPage}>
           <Outlet />
         </main>

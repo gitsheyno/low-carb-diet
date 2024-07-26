@@ -13,12 +13,15 @@ const fetchSearch: QueryFunction<
     return [];
   }
 
-  const res = await fetch(`http://localhost:3002/api/recipes/${query}`, {
-    method: "GET",
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  });
+  const res = await fetch(
+    `https://low-carb-server.onrender.com/api/recipes/${query}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
   if (!res.ok) {
     throw new Error(`pet search is not ok`);
   }

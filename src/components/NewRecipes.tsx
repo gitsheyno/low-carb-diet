@@ -1,11 +1,12 @@
 import styles from "./Cards.module.css";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import sty from "../components/Dashboard.module.css";
 import { useQuery } from "@tanstack/react-query";
 import fetchSearch from "../utils/fetchSearch";
 import Spinner from "./Spinner";
 export default function NewRecipes() {
   const searchParams = useSearchParams();
+  const { user } = useParams();
   const queryData = useQuery({
     queryKey: [
       "search",
@@ -27,7 +28,10 @@ export default function NewRecipes() {
             <img src={item.image} alt={item.name} />
             <div className={styles.header}>Today's Featured Recipe</div>
           </div>
-          <Link to={`/dashboard/recipe/${item.id}`} className={styles.category}>
+          <Link
+            to={`/dashboard/${user}/recipe/${item.id}`}
+            className={styles.category}
+          >
             {item.name}
           </Link>
           <div className={styles.infoContainer}>

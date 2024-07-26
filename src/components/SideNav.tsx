@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { userProfileCTX } from "../store/UserProfileContext";
-export default function SideNav({ data }: { data: string }) {
+export default function SideNav() {
   const { user } = useParams();
   const navigate = useNavigate();
   const { completed } = useContext(userProfileCTX);
@@ -18,7 +18,7 @@ export default function SideNav({ data }: { data: string }) {
       <nav className={styles.sideNavList}>
         <div className={styles.profileInfo}>
           <Link to="#">
-            <ProfileInfo info={data} />
+            <ProfileInfo info={user as string} />
           </Link>
         </div>
         <ul className="text-white space-y-8 text-l">
@@ -31,9 +31,9 @@ export default function SideNav({ data }: { data: string }) {
           <li className="hover:text-black">
             <Link to={`/dashboard/${user}/planing`}>Meal Planner</Link>
           </li>
-          <li className="hover:text-black">
+          {/* <li className="hover:text-black">
             <Link to={`/dashboard/${user}`}>Calories Tracker</Link>
-          </li>
+          </li> */}
           <li
             className={`${
               !completed ? "text-red-700" : "text-white"

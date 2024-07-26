@@ -25,14 +25,17 @@ const fetchUser: QueryFunction<
   if (!userProfile.validated) {
     return {};
   }
-  const res = await fetch(`http://localhost:3002/api/dashboard/profile`, {
-    method: "PATCH",
-    body: JSON.stringify({ userProfile }),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
-  });
+  const res = await fetch(
+    `https://low-carb-server.onrender.com/api/dashboard/profile`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({ userProfile }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
   if (!res.ok) {
     throw new Error(`pet search is not ok`);
   }
