@@ -8,6 +8,7 @@ import SignIn from "./components/Signin.tsx";
 import MainDashboard from "./routes/dashboard/MainDashboard.tsx";
 import { lazy, Suspense } from "react";
 import Spinner from "./components/Spinner.tsx";
+
 // const Recipes = lazy(() => import("./routes/Recipes.tsx"));
 import Container from "./components/custom/Container.tsx";
 const Home = lazy(() => import("./routes/Home.tsx"));
@@ -32,7 +33,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                 <Route path=":user/Recipes" element={<Home />} />
                 <Route path=":user/recipe/:id" element={<Recipe />} />
                 <Route path=":user" element={<Dashboard />} />
-                <Route path=":user/planing" element={<MealPlanner />} />
+                <Route path=":user/planning" element={<MealPlanner />} />
                 <Route path=":user/profile" element={<Profile />} />
               </Route>
             </Routes>

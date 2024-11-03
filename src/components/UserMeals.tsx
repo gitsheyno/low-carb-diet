@@ -2,13 +2,13 @@ import { useState } from "react";
 import styles from "../components/Dashboard.module.css";
 import { useQuery } from "@tanstack/react-query";
 import handleUserMeals from "../utils/handleUserMeals";
-import { useContext } from "react";
-import { MyPlanningContext } from "../store/PlanningContext";
 
+import { useDispatch, useSelector } from "react-redux";
+import { removeMeal, selectMeals } from "../store/mealPlanningSlice";
 export default function UserMeals() {
   const [submit, setSubmit] = useState(false);
-  const { meals, removeMeal } = useContext(MyPlanningContext);
-
+  const dispatch = useDispatch();
+  const meals = useSelector(selectMeals);
   useQuery({
     queryKey: [
       "handleUserMeals",
@@ -29,7 +29,7 @@ export default function UserMeals() {
                 {item.name}
                 <span
                   className={styles.icon}
-                  onClick={() => removeMeal(item.id)}
+                  onClick={() => dispatch(removeMeal(item.id))}
                 >
                   ❌
                 </span>

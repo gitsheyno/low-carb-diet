@@ -8,20 +8,15 @@ const fetchSearch: QueryFunction<
   const query = queryKey[1];
   const token = queryKey[2];
 
-  console.log("q", query);
   if (!query || query === "") {
     return [];
   }
-
-  const res = await fetch(
-    `https://low-carb-server.onrender.com/api/recipes/${query}`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    }
-  );
+  const res = await fetch(`http://localhost:3003/api/recipes/${query}`, {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
   if (!res.ok) {
     throw new Error(`pet search is not ok`);
   }
@@ -29,7 +24,7 @@ const fetchSearch: QueryFunction<
   const jsonResponse = await res.json();
 
   console.log("wha is the data", jsonResponse.data.response);
-  return jsonResponse?.data.response ?? []; // Access the recipe array inside data
+  return jsonResponse?.data.response ?? [];
 };
 
 export default fetchSearch;

@@ -3,8 +3,9 @@ import { PieChart, Pie, Cell } from "recharts";
 import UserMeals from "./UserMeals";
 import { Suspense } from "react";
 import Spinner from "./Spinner";
-import { useContext } from "react";
-import { MyPlanningContext } from "../store/PlanningContext";
+import { useSelector } from "react-redux";
+import { selectMeals } from "../store/mealPlanningSlice";
+
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 type Nut = {
@@ -13,7 +14,7 @@ type Nut = {
 };
 
 export default function Meals() {
-  const { meals } = useContext(MyPlanningContext);
+  const meals = useSelector(selectMeals);
 
   const totals: Nut = meals.reduce(
     (accumulator, meal) => {

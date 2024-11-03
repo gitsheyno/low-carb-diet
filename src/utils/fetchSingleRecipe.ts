@@ -7,15 +7,12 @@ const fetchSingleRecipe: QueryFunction<
 > = async ({ queryKey }) => {
   const query = queryKey[1];
   const token = queryKey[2];
-  const res = await fetch(
-    `https://low-carb-server.onrender.com/api/recipe/${query}`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    }
-  );
+  const res = await fetch(`http://localhost:3003/api/recipe/${query}`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
   if (!res.ok) {
     throw new Error(`pet search is not ok`);
   }

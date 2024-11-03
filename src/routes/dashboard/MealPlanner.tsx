@@ -5,7 +5,6 @@ import RenderMeals from "../../components/RenderMeals";
 import { Suspense } from "react";
 import Spinner from "../../components/Spinner";
 import { useSearchParams } from "react-router-dom";
-import { PlanningProvider } from "../../store/PlanningContext";
 
 export default function MealPlanner() {
   const searchParams = useSearchParams();
@@ -13,24 +12,22 @@ export default function MealPlanner() {
 
   return (
     <div className={styles.mealPlaner}>
-      <PlanningProvider>
-        <div className={styles.searchContainer}>
-          <Search />
+      <div className={styles.searchContainer}>
+        <Search />
 
-          {query && (
-            <div className={styles.mealsBox}>
-              <ul className={styles.meals}>
-                <Suspense fallback={<Spinner />}>
-                  <RenderMeals />
-                </Suspense>
-              </ul>
-            </div>
-          )}
-        </div>
-        <div className={styles.selectedMealsBox}>
-          <Meals />
-        </div>
-      </PlanningProvider>
+        {query && (
+          <div className={styles.mealsBox}>
+            <ul className={styles.meals}>
+              <Suspense fallback={<Spinner />}>
+                <RenderMeals />
+              </Suspense>
+            </ul>
+          </div>
+        )}
+      </div>
+      <div className={styles.selectedMealsBox}>
+        <Meals />
+      </div>
     </div>
   );
 }

@@ -1,23 +1,21 @@
 .container {
-  max-width: 90%;
+  max-width: 80%;
   margin: 0 auto;
   height: 100vh;
-  background-color: #000000bb;
+  /* background-color: #e0e0e0; */
   border-radius: 10px;
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: 1fr;
+  display: flex;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-.sideNav {
-  grid-column: 1/3;
-  display: grid;
-  padding: 1rem 1rem;
-  align-items: center;
-  justify-content: center;
+.side {
+  position: absolute;
 }
+
 .sideNavList {
-  max-width: 100%;
+  width: 100%;
   height: 100%;
   justify-content: space-between;
   display: flex;
@@ -35,12 +33,7 @@
   font-size: 13px;
   color: #e0e0e0;
 }
-.sideNav .sideNavList .items {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
+
 .btn {
   border-radius: 5px;
   padding: 0.7rem 2.5rem;
@@ -49,25 +42,23 @@
   justify-content: center;
   background-color: black;
 }
-.sideNavList a {
-  text-decoration: none;
-  /* color: #edececb2; */
-}
 
 .mainPage {
+  width: 100%;
+  margin-top: 5rem;
+  height: 85%;
   padding: 1rem;
   display: grid;
-  grid-column: 3/-1;
   overflow-y: scroll;
 }
 .mainPage main {
-  height: 100%;
+  width: 100%;
+
   overflow-y: scroll;
 }
 .content {
-  height: 100%;
+  width: 100%;
   border-radius: 10px;
-  padding: 0 1rem;
   background-color: #fff;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -76,7 +67,7 @@
 }
 .mealPlaner {
   border-radius: 10px;
-  padding: 1rem;
+  padding: 0 1rem;
   background-color: #fff;
   display: flex;
   flex-direction: column;
@@ -93,83 +84,31 @@
   border-radius: 10px;
 }
 
-.search {
-  width: 100%;
-  display: flex;
-  color: #999;
-  align-items: center;
-  /* height: 100px; */
-  justify-content: center;
-}
-.search input {
-  width: 100%;
-  padding: 1rem 0.5rem;
-  font-size: 16px;
-  border: none;
-  outline: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-}
-
 .recipesContainer {
   margin: 0 auto;
-
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   align-items: center;
   justify-content: center;
-
   row-gap: 1em;
   column-gap: 0.5rem;
 }
 
-.recipesContainer .card {
-  background-color: #fff;
-  padding: 0.5rem;
-  border-radius: 10px;
-  transition: 500ms;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  border: 1px solid rgba(0, 0, 0, 0.16);
+@media (max-width: 900px) {
+  .recipesContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .nutrientsSummary {
+    display: none;
+  }
 }
 
-.recipesContainer .card .img {
-  width: 100%;
+@media (max-width: 480px) {
+  .recipesContainer {
+    grid-template-columns: 1fr;
+  }
 }
 
-.recipesContainer .card .img img {
-  max-width: 100%;
-  aspect-ratio: 4/3;
-  border-radius: 10px;
-}
-
-.recipesContainer .card a {
-  text-decoration: none;
-  display: block;
-  color: #000;
-  margin-bottom: 1rem;
-  font-size: 14px;
-  line-height: 1.36;
-  font-weight: 700;
-}
-
-.recipesContainer .card .cardInfos {
-  display: flex;
-  gap: 1rem;
-  font-size: 10px;
-}
-
-.recipesContainer .card .cardInfos div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 0.3rem;
-  font-weight: bold;
-}
 .dashboardSummary {
   grid-column: 1/9;
   display: grid;
@@ -180,17 +119,14 @@
 }
 
 .nutrientsProgress {
-  padding: 20px;
+  padding: 20px 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 400px;
-  height: 90%;
   justify-content: space-around;
-  /* align-self: center; */
   justify-self: center;
 }
 
@@ -222,8 +158,6 @@
 }
 
 .progress {
-  /* position: absolute; */
-  /* left: 30%; */
   -webkit-appearance: none;
   appearance: none;
   width: 150px;
@@ -255,7 +189,6 @@
   text-align: right;
 }
 
-/*Profile page*/
 .profile {
   border-radius: 10px;
   display: flex;
@@ -271,12 +204,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  /* flex: 4; */
   height: 30%;
 }
 
 .selectedMealsBox {
-  /* flex: 6; */
   height: 50%;
   display: flex;
   gap: 1rem;
@@ -293,7 +224,6 @@
 
 .selectedMealsBox .listContainer button {
   padding: 0.5rem 2rem;
-  /* background-color: rgba(0, 51, 255, 0.357); */
   align-self: center;
   border-radius: 5px;
 }
@@ -310,15 +240,6 @@
   gap: 0.5rem;
   font-size: 12px;
 }
-/* 
-@keyframes slideInFromLeft {
-  0% {
-    transform: translateX(100%); 
-  }
-  100% {
-    transform: translateX(0); 
-  }
-} */
 
 .selectedList {
   display: flex;
@@ -339,27 +260,15 @@
   animation: slideInFromRight 1s ease-out forwards;
 }
 
-/* @keyframes slideInFromRight {
-  0% {
-    transform: translateX(100%); 
-  }
-  100% {
-    transform: translateX(0); 
-  }
-} */
-
 .searchContainer input {
   width: 100%;
 }
 .mealsBox {
-  /* position: absolute; */
   background-color: white;
-  /* padding: 1rem 0; */
   width: 100%;
 
   top: 100%;
   box-shadow: 1px 9px 13px -2px rgba(0, 0, 0, 0.49);
-  /* box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1); */
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
 }
@@ -403,8 +312,6 @@
   display: flex;
   flex-direction: column;
   list-style-type: none;
-  /* column-gap: 2rem; */
-  /* row-gap: 0.5rem; */
   padding: 0.5rem;
   border-radius: 5px;
 }
@@ -414,7 +321,6 @@
   justify-content: space-between;
   gap: 2.5rem;
   padding: 0.4rem 1rem;
-  /* border-radius: 5px; */
   font-size: 10px;
   border-bottom: 0.7px solid #777;
 }
@@ -429,14 +335,12 @@
   border-radius: 5px;
   aspect-ratio: 3/2;
   object-fit: cover;
-  /* justify-self: stretch; */
 }
 
 .list {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* gap: 0.5rem; */
 }
 
 .dailyMealsLists li .innerBox {
@@ -469,19 +373,24 @@
   text-decoration: none;
   color: #777;
   display: block;
-  /* background-color: #e0e0e0; */
 }
 
 .weekSample {
   display: flex;
   align-items: center;
-  /* border: 1px solid red; */
 }
 
-.pieChartInfo {
-  /* border: 1px solid red; */
-  /* display: flex;
-  flex-wrap: wrap; */
+@media (max-width: 760px) {
+  .container {
+    width: 100%;
+  }
+  .weekSample {
+    flex-direction: column;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+  }
 }
 
 .pieChartInfo li {
@@ -508,4 +417,10 @@
 }
 .pieChartInfo li p:nth-child(2) {
   font-size: 10px;
+}
+
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }

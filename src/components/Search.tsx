@@ -1,6 +1,6 @@
-import searchStyle from "../components/Dashboard.module.css";
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Box, TextField } from "@mui/material";
 export default function Search() {
   const [query, setQuery] = useState<string>("");
   const setSearchParam = useSearchParams();
@@ -19,14 +19,15 @@ export default function Search() {
     };
   }, [query]);
   return (
-    <div className={searchStyle.search}>
-      <input
-        type="text"
-        placeholder="Search your Recipe..."
-        name="query"
-        value={query}
-        onChange={handleQuery}
+    <Box sx={{ width: "100%", maxWidth: "100%" }}>
+      <TextField
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          handleQuery(event);
+        }}
+        fullWidth
+        label="Search"
+        id="fullWidth"
       />
-    </div>
+    </Box>
   );
 }

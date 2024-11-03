@@ -7,22 +7,24 @@ interface UserProfile {
   goal: string;
   validated: boolean;
 }
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./Profile.module.css";
 import { z } from "zod";
 import { useQuery } from "@tanstack/react-query";
 import fetchUser from "../utils/postUserProfile";
 import Spinner from "./Spinner";
-import { userProfileCTX } from "../store/UserProfileContext";
+import { useDispatch } from "react-redux";
+import { setCompleted } from "../store/useProfileSlice";
 
 const Profile: React.FC = () => {
+  const dispatsch = useDispatch();
+
   const genderRef = useRef<HTMLSelectElement>(null);
   const weightRef = useRef<HTMLInputElement>(null);
   const heightRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
   const activityRef = useRef<HTMLSelectElement>(null);
   const goalRef = useRef<HTMLSelectElement>(null);
-  const { handleStatus } = useContext(userProfileCTX);
 
   const [userProfile, setUserProfile] = useState<UserProfile>({
     gender: "",
@@ -59,7 +61,7 @@ const Profile: React.FC = () => {
     const getData = validatedProfileInfo.data as UserProfile;
     const final = { ...getData, validated: true };
     setUserProfile(final);
-    handleStatus();
+    dispatsch(setCompleted());
     resetForm();
   };
 

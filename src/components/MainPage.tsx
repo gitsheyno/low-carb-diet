@@ -5,8 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import fetchMeals from "../utils/fetchMeals";
 import Spinner from "./Spinner";
 import NutritionProgress from "./NutritionProgress";
-import { useContext, useEffect } from "react";
-import { userProfileCTX } from "../store/UserProfileContext";
+import { useEffect } from "react";
 
 interface NutritionType {
   calories: number;
@@ -18,8 +17,6 @@ interface NutritionType {
 export default function MainPage() {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-  const { completed, handleStatus } = useContext(userProfileCTX);
-
   const query = useQuery({
     queryKey: ["getDailyMeals", localStorage.getItem("token") as string],
     queryFn: fetchMeals,
@@ -27,11 +24,11 @@ export default function MainPage() {
 
   const response = query?.data;
 
-  useEffect(() => {
-    if (response?.status) {
-      handleStatus();
-    }
-  }, [response?.status, handleStatus]);
+  // useEffect(() => {
+  //   if (response?.status) {
+  //     handleStatus();
+  //   }
+  // }, [response?.status, handleStatus]);
 
   if (query.isFetching) {
     return <Spinner />;
@@ -54,10 +51,9 @@ export default function MainPage() {
     },
     { calories: 0, protein: 0, carbs: 0, fat: 0 }
   );
-
+  console.log(data, "data");
   return (
     <main>
-      {completed}
       <div className={styles.content}>
         <div className={styles.dashboardSummary}>
           <div className={styles.weekSample}>

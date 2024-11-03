@@ -2,13 +2,12 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, useSearchParams } from "react-router-dom";
 import fetchMealPlanner from "../utils/fetchMealPlanner";
 import styles from "../components/Dashboard.module.css";
-import { MyPlanningContext } from "../store/PlanningContext";
-import { useContext } from "react";
+import { addMeal } from "../store/mealPlanningSlice";
+import { useDispatch } from "react-redux";
 
 export default function RenderMeals() {
-  const { addMeal } = useContext(MyPlanningContext);
   const searchParams = useSearchParams();
-
+  const dispatch = useDispatch();
   const query = searchParams[0].get("q") as string;
   const queryData = useSuspenseQuery({
     queryKey: ["mealPlanner", localStorage.getItem("token") as string, query],
@@ -17,7 +16,6 @@ export default function RenderMeals() {
 
   const meals = queryData?.data ?? [];
 
-  console.log(",meals", meals);
   return (
     <>
       {meals ? (
@@ -29,18 +27,20 @@ export default function RenderMeals() {
               </Link>
               <button
                 onClick={() =>
-                  addMeal({
-                    id: meal.id,
-                    name: meal.name,
-                    caloriesKCal: meal.caloriesKCal,
-                    protein: meal.protein,
-                    carbs: meal.carbs,
-                    fat: meal.fat,
-                    image: meal.image,
-                    description: meal.description,
-                    servings: meal.servings,
-                    cookTime: meal.cookTime,
-                  })
+                  dispatch(
+                    addMeal({
+                      id: meal.id,
+                      name: meal.name,
+                      caloriesKCal: meal.caloriesKCal,
+                      protein: meal.protein,
+                      carbs: meal.carbs,
+                      fat: meal.fat,
+                      image: meal.image,
+                      description: meal.description,
+                      servings: meal.servings,
+                      cookTime: meal.cookTime,
+                    })
+                  )
                 }
               >
                 ➕

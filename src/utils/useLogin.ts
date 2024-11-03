@@ -17,7 +17,7 @@ const createUser: QueryFunction<
     return {};
   }
   console.log(queryKey);
-  const res = await fetch(`https://low-carb-server.onrender.com/login`, {
+  const res = await fetch(`http://localhost:3003/login`, {
     method: "POST",
     body: JSON.stringify({ username, password }),
     headers: {

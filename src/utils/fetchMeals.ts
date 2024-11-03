@@ -41,17 +41,14 @@ const fetchMeals: QueryFunction<
   //     return [];
   //   }
 
-  const res = await fetch(
-    `https://low-carb-server.onrender.com/api/dashboard/meals`,
-    {
-      method: "GET",
-      // body: JSON.stringify({ data: query }),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    }
-  );
+  const res = await fetch(`http://localhost:3003/api/dashboard/meals`, {
+    method: "GET",
+    // body: JSON.stringify({ data: query }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
 
   const jsonRes = await res.json();
 

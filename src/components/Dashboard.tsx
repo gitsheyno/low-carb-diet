@@ -1,12 +1,13 @@
 import styles from "./Dashboard.module.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+
 import { useQuery } from "@tanstack/react-query";
 import MainPage from "./MainPage";
 import fetchUser from "../utils/fetchUser";
 import Spinner from "./Spinner";
 export default function Dashboard() {
   const { user } = useParams();
-
+  const navigate = useNavigate();
   const res = useQuery({
     queryKey: [
       "userInfo",
@@ -23,9 +24,13 @@ export default function Dashboard() {
   const response = res?.data;
   const final = response?.message;
 
+  if (!final) {
+    navigate("/login");
+  }
+
   return (
     <div className={styles.mm}>
-      {final ? <>{<MainPage />}</> : <p>protected</p>}
+      <MainPage />
     </div>
   );
 }

@@ -25,17 +25,14 @@ const fetchUser: QueryFunction<
   if (!userProfile.validated) {
     return {};
   }
-  const res = await fetch(
-    `https://low-carb-server.onrender.com/api/dashboard/profile`,
-    {
-      method: "PATCH",
-      body: JSON.stringify({ userProfile }),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    }
-  );
+  const res = await fetch(`http://localhost:3003/api/dashboard/profile`, {
+    method: "PATCH",
+    body: JSON.stringify({ userProfile }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
   if (!res.ok) {
     throw new Error(`pet search is not ok`);
   }
@@ -43,7 +40,7 @@ const fetchUser: QueryFunction<
   const jsonResponse = await res.json();
 
   console.log("wha is the data", jsonResponse);
-  return jsonResponse.data.message; // Access the recipe array inside data
+  return jsonResponse.data.message;
 };
 
 export default fetchUser;
