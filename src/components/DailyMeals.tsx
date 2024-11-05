@@ -6,7 +6,7 @@ export default function DailyMeals({ response }: { response: Meal[] }) {
   const { user } = useParams();
   return (
     <div className={styles.dailyMeals}>
-      {response ? (
+      {response.length ? (
         <>
           <ul className={styles.dailyMealsLists}>
             {response.map((item) => {
@@ -41,7 +41,7 @@ export default function DailyMeals({ response }: { response: Meal[] }) {
           </ul>
         </>
       ) : (
-        <p>no Meals Found</p>
+        <p style={{ textAlign: "center" }}>no meals found</p>
       )}
     </div>
   );

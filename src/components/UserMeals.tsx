@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "../components/Dashboard.module.css";
 import { useQuery } from "@tanstack/react-query";
 import handleUserMeals from "../utils/handleUserMeals";
-
+import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { removeMeal, selectMeals } from "../store/mealPlanningSlice";
 export default function UserMeals() {
@@ -40,13 +40,9 @@ export default function UserMeals() {
           <p>No meal is added</p>
         )}
       </ul>
-      <button
-        className="bg-blue-500"
-        type="button"
-        onClick={() => setSubmit(true)}
-      >
+      <Button variant="contained" type="button" onClick={() => setSubmit(true)}>
         Submit
-      </button>
+      </Button>
     </div>
   );
 }

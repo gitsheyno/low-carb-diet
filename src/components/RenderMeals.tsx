@@ -15,10 +15,9 @@ export default function RenderMeals() {
   });
 
   const meals = queryData?.data ?? [];
-
   return (
     <>
-      {meals ? (
+      {meals.length ? (
         <>
           {meals.map((meal) => (
             <li key={meal.name} className={styles.meal}>
@@ -49,7 +48,7 @@ export default function RenderMeals() {
           ))}
         </>
       ) : (
-        <p>no data</p>
+        <p style={{ textAlign: "center" }}>no data founded</p>
       )}
     </>
   );

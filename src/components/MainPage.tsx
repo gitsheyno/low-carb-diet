@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import fetchMeals from "../utils/fetchMeals";
 import Spinner from "./Spinner";
 import NutritionProgress from "./NutritionProgress";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 interface NutritionType {
   calories: number;
@@ -105,12 +105,10 @@ export default function MainPage() {
               ))}
             </ul>
           </div>
-          {response ? (
+          {response && (
             <>
               <DailyMeals response={response.meals} />
             </>
-          ) : (
-            <p>no meals added</p>
           )}
         </div>
         <div className={styles.nutrientsSummary}>

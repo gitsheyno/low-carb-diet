@@ -4,7 +4,6 @@ type UserInfo = {
   username: string;
   name: string;
   token: string;
-  message?: string;
 };
 
 const createUser: QueryFunction<
@@ -32,7 +31,7 @@ const createUser: QueryFunction<
     }
 
     console.log("wha is the data", jsonResponse);
-    return jsonResponse.data; // Access the recipe array inside data
+    return jsonResponse.data;
   } catch (err) {
     return err;
   }

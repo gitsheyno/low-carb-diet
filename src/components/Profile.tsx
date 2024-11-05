@@ -15,6 +15,7 @@ import fetchUser from "../utils/postUserProfile";
 import Spinner from "./Spinner";
 import { useDispatch } from "react-redux";
 import { setCompleted } from "../store/useProfileSlice";
+import Button from "@mui/material/Button";
 
 const Profile: React.FC = () => {
   const dispatsch = useDispatch();
@@ -180,9 +181,9 @@ const Profile: React.FC = () => {
           </select>
         </div>
 
-        <button type="submit" className={styles.button}>
+        <Button variant="contained" type="submit">
           Submit
-        </button>
+        </Button>
       </form>
     </div>
   );

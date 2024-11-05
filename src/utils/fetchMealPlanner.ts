@@ -34,8 +34,6 @@ const fetchMealPlanner: QueryFunction<
 
   const jsonRes = await res.json();
 
-  console.log("mealPlane", jsonRes);
-
   return jsonRes.data.createdMeals;
 };
 
