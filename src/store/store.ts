@@ -1,11 +1,9 @@
 // src/store/store.ts
 import { configureStore } from "@reduxjs/toolkit";
-import profileReducer from "./useProfileSlice";
 import mealPlanningReducer from "./mealPlanningSlice";
 
 const store = configureStore({
   reducer: {
-    profile: profileReducer,
     mealPlanning: mealPlanningReducer,
   },
 });

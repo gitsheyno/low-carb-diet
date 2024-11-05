@@ -13,13 +13,9 @@ import { z } from "zod";
 import { useQuery } from "@tanstack/react-query";
 import fetchUser from "../utils/postUserProfile";
 import Spinner from "./Spinner";
-import { useDispatch } from "react-redux";
-import { setCompleted } from "../store/useProfileSlice";
 import Button from "@mui/material/Button";
 
 const Profile: React.FC = () => {
-  const dispatsch = useDispatch();
-
   const genderRef = useRef<HTMLSelectElement>(null);
   const weightRef = useRef<HTMLInputElement>(null);
   const heightRef = useRef<HTMLInputElement>(null);
@@ -36,6 +32,7 @@ const Profile: React.FC = () => {
     goal: "",
     validated: false,
   });
+
   const UserProfileInfo = z.object({
     gender: z.string(),
     weight: z.number(),
@@ -62,7 +59,6 @@ const Profile: React.FC = () => {
     const getData = validatedProfileInfo.data as UserProfile;
     const final = { ...getData, validated: true };
     setUserProfile(final);
-    dispatsch(setCompleted());
     resetForm();
   };
 

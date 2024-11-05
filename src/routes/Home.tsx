@@ -7,7 +7,6 @@ export default function Home() {
   return (
     <div className={styles.recipes}>
       <>
-        {/* <Banner data={response[1]} /> */}
         <Search />
         <Suspense fallback={<Spinner />}>
           <NewRecipes />

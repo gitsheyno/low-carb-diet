@@ -13,6 +13,7 @@ export default function MainDashboard() {
       navigate("/login");
     }
   }, [navigate]);
+
   return (
     <Provider store={store}>
       <div className={styles.container}>

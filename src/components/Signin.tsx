@@ -172,9 +172,6 @@ const SignIn: React.FC = () => {
             label="Password"
           />
         </FormControl>
-        <a href="#" className={styles.troubleLink}>
-          Having trouble signing in?
-        </a>
         <Button
           variant="contained"
           type="submit"
@@ -182,7 +179,7 @@ const SignIn: React.FC = () => {
         >
           Sign in
         </Button>
-        <p>
+        <p style={{ marginTop: "1rem" }}>
           Already have an account?
           <Link to="/login" className={styles.requestLink}>
             login

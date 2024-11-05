@@ -157,17 +157,15 @@ const SignIn: React.FC = () => {
           />
         </FormControl>
         <p style={{ color: "red" }}>{error}</p>
-        <a href="#" className={styles.troubleLink}>
-          Having trouble signing in?
-        </a>
+
         <Button
           variant="contained"
           type="submit"
           className={styles.signInButton}
         >
-          Sign in
+          Log in
         </Button>
-        <p>
+        <p className="link" style={{ marginTop: "1rem" }}>
           Create an account?
           <Link to="/signin" className={styles.requestLink}>
             Register

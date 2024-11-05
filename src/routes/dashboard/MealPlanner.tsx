@@ -14,7 +14,6 @@ export default function MealPlanner() {
     <div className={styles.mealPlaner}>
       <div className={styles.searchContainer}>
         <Search />
-
         {query && (
           <div className={styles.mealsBox}>
             <ul className={styles.meals}>

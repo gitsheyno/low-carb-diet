@@ -35,15 +35,9 @@ const fetchMeals: QueryFunction<
   ["getDailyMeals", string]
 > = async ({ queryKey }) => {
   const token = queryKey[1];
-  //   const query = queryKey[2];
-
-  //   if (!query) {
-  //     return [];
-  //   }
 
   const res = await fetch(`http://localhost:3003/api/dashboard/meals`, {
     method: "GET",
-    // body: JSON.stringify({ data: query }),
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
@@ -51,8 +45,6 @@ const fetchMeals: QueryFunction<
   });
 
   const jsonRes = await res.json();
-
-  console.log("mealPlane now", jsonRes);
 
   return jsonRes?.data;
 };

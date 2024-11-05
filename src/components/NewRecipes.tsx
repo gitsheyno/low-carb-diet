@@ -35,7 +35,7 @@ export default function NewRecipes() {
       {response ? (
         <div className={sty.recipesContainer}>
           {response.map((item) => (
-            <Card key={item.id} className={styles.card}>
+            <Card key={item.id}>
               <CardActionArea
                 component={Link}
                 to={`/dashboard/${user}/recipe/${item.id}`}

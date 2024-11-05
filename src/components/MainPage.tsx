@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import fetchMeals from "../utils/fetchMeals";
 import Spinner from "./Spinner";
 import NutritionProgress from "./NutritionProgress";
-// import { useEffect } from "react";
 
 interface NutritionType {
   calories: number;
@@ -23,12 +22,6 @@ export default function MainPage() {
   });
 
   const response = query?.data;
-
-  // useEffect(() => {
-  //   if (response?.status) {
-  //     handleStatus();
-  //   }
-  // }, [response?.status, handleStatus]);
 
   if (query.isFetching) {
     return <Spinner />;

@@ -10,6 +10,8 @@ import { lazy, Suspense } from "react";
 import Spinner from "./components/Spinner.tsx";
 
 // const Recipes = lazy(() => import("./routes/Recipes.tsx"));
+
+//Code spliting
 import Container from "./components/custom/Container.tsx";
 const Home = lazy(() => import("./routes/Home.tsx"));
 const Recipe = lazy(() => import("./routes/Recipe.tsx"));
