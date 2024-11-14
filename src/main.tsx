@@ -13,7 +13,7 @@ import Spinner from "./components/Spinner.tsx";
 
 //Code spliting
 import Container from "./components/custom/Container.tsx";
-const Home = lazy(() => import("./routes/Home.tsx"));
+const Home = lazy(() => import("./routes/dashboard/Home.tsx"));
 const Recipe = lazy(() => import("./routes/Recipe.tsx"));
 const Profile = lazy(() => import("./routes/dashboard/ProfilePage.tsx"));
 const Dashboard = lazy(() => import("./components/Dashboard.tsx"));
