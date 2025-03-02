@@ -15,7 +15,7 @@ const signIn: QueryFunction<
     return {} as UserInfo;
   }
 
-  const res = await fetch(`http://localhost:3003/signin`, {
+  const res = await fetch(`https://low-carb-server.onrender.com/signin`, {
     method: "POST",
     body: JSON.stringify({ username, password, name }),
     headers: {
@@ -43,7 +43,7 @@ const logIn: QueryFunction<
     return {} as UserInfo;
   }
 
-  const res = await fetch(`http://localhost:3003/login`, {
+  const res = await fetch(`https://low-carb-server.onrender.com/login`, {
     method: "POST",
     body: JSON.stringify({ username, password }),
     headers: {

@@ -11,14 +11,17 @@ const fetchUser: QueryFunction<
   const token = queryKey[1];
   const id = queryKey[2];
 
-  const res = await fetch(`http://localhost:3003/api/dashboard/${id}`, {
-    method: "POST",
-    body: JSON.stringify({ username: id }),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
-  });
+  const res = await fetch(
+    `https://low-carb-server.onrender.com/api/dashboard/${id}`,
+    {
+      method: "POST",
+      body: JSON.stringify({ username: id }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
   if (!res.ok) {
     throw new Error(`pet search is not ok`);
   }
