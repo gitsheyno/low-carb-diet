@@ -22,8 +22,7 @@ const fetchSingleRecipe: QueryFunction<
 
   const jsonResponse = await res.json();
 
-  console.log("wha is the data", jsonResponse.data);
-  return jsonResponse?.data?.result; // Access the recipe array inside data
+  return jsonResponse?.data?.result;
 };
 
 export default fetchSingleRecipe;

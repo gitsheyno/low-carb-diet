@@ -26,7 +26,6 @@ const fetchSearch: QueryFunction<
 
   const jsonResponse = await res.json();
 
-  console.log("wha is the data", jsonResponse.data.response);
   return jsonResponse?.data.response ?? [];
 };
 

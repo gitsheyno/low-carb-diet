@@ -1,8 +1,6 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { NavLink, useParams, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
-import BottomNavigation from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Paper from "@mui/material/Paper";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import BookIcon from "@mui/icons-material/Book";
@@ -14,15 +12,39 @@ import { useMediaQuery, useTheme } from "@mui/material";
 const BottomNavigationComponent: React.FC = () => {
   const { user } = useParams();
   const navigate = useNavigate();
-  const [value, setValue] = React.useState(0);
-
-  // Use theme breakpoints to check if the screen size is small
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm")); // Adjusts to small screens
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const handleNavigation = (index: number, path: string) => {
-    setValue(index);
-    navigate(path);
+  const navItems = [
+    {
+      label: "Dashboard",
+      icon: <DashboardIcon />,
+      path: `/dashboard/${user}`,
+      exact: true,
+    },
+    {
+      label: "Recipes",
+      icon: <BookIcon />,
+      path: `/dashboard/${user}/Recipes`,
+      exact: false,
+    },
+    {
+      label: "Meal Planner",
+      icon: <CalendarTodayIcon />,
+      path: `/dashboard/${user}/planning`,
+      exact: false,
+    },
+    {
+      label: "Profile",
+      icon: <PersonIcon />,
+      path: `/dashboard/${user}/profile`,
+      exact: false,
+    },
+  ];
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   return (
@@ -31,65 +53,76 @@ const BottomNavigationComponent: React.FC = () => {
         sx={{ position: "fixed", top: 0, left: 0, right: 0 }}
         elevation={3}
       >
-        <BottomNavigation
-          showLabels
-          value={value}
-          onChange={(_, newValue) => setValue(newValue)}
-        >
-          <BottomNavigationAction
-            label="Dashboard"
-            icon={<DashboardIcon />}
-            onClick={() => handleNavigation(0, `/dashboard/${user}`)}
+        <Box sx={{ display: "flex", justifyContent: "space-around" }}>
+          {navItems.map((item) => (
+            <NavLink
+              key={item.label}
+              to={item.path}
+              end={item.exact}
+              style={({ isActive }) => ({
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "12px 16px",
+                minWidth: 0,
+                flex: 1,
+                textDecoration: "none",
+                color: isActive
+                  ? theme.palette.primary.main
+                  : theme.palette.text.secondary,
+                borderBottom: isActive
+                  ? `2px solid ${theme.palette.primary.main}`
+                  : "none",
+              })}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                {item.icon}
+                <Box
+                  component="span"
+                  sx={{
+                    fontSize: isSmallScreen ? "0.6rem" : "0.8rem",
+                    mt: 0.5,
+                  }}
+                >
+                  {item.label}
+                </Box>
+              </Box>
+            </NavLink>
+          ))}
+
+          <Box
+            onClick={handleLogout}
             sx={{
-              "& .MuiBottomNavigationAction-label": {
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "12px 16px",
+              minWidth: 0,
+              flex: 1,
+              color: theme.palette.text.secondary,
+              cursor: "pointer",
+            }}
+          >
+            <LogoutIcon />
+            <Box
+              component="span"
+              sx={{
                 fontSize: isSmallScreen ? "0.6rem" : "0.8rem",
-              },
-            }}
-          />
-          <BottomNavigationAction
-            label="Recipes"
-            icon={<BookIcon />}
-            onClick={() => handleNavigation(1, `/dashboard/${user}/Recipes`)}
-            sx={{
-              "& .MuiBottomNavigationAction-label": {
-                fontSize: isSmallScreen ? "0.6rem" : "0.8rem",
-              },
-            }}
-          />
-          <BottomNavigationAction
-            label="Meal Planner"
-            icon={<CalendarTodayIcon />}
-            onClick={() => handleNavigation(2, `/dashboard/${user}/planning`)}
-            sx={{
-              "& .MuiBottomNavigationAction-label": {
-                fontSize: isSmallScreen ? "0.6rem" : "0.8rem",
-              },
-            }}
-          />
-          <BottomNavigationAction
-            label="Profile"
-            icon={<PersonIcon />}
-            onClick={() => handleNavigation(3, `/dashboard/${user}/profile`)}
-            sx={{
-              "& .MuiBottomNavigationAction-label": {
-                fontSize: isSmallScreen ? "0.6rem" : "0.8rem",
-              },
-            }}
-          />
-          <BottomNavigationAction
-            label="Logout"
-            icon={<LogoutIcon />}
-            sx={{
-              "& .MuiBottomNavigationAction-label": {
-                fontSize: isSmallScreen ? "0.6rem" : "0.8rem",
-              },
-            }}
-            onClick={() => {
-              localStorage.removeItem("token");
-              navigate("/login");
-            }}
-          />
-        </BottomNavigation>
+                mt: 0.5,
+              }}
+            >
+              Logout
+            </Box>
+          </Box>
+        </Box>
       </Paper>
     </Box>
   );

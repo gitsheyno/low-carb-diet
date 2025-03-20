@@ -15,9 +15,7 @@ const handleUserMeals: QueryFunction<
   const token = queryKey[1];
   const meals = queryKey[2];
   const submitted = queryKey[3];
-  console.log("meals", meals);
   if (!submitted) {
-    console.log("submit,", submitted);
     return [];
   }
 

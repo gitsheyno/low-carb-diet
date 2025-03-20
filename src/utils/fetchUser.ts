@@ -27,8 +27,7 @@ const fetchUser: QueryFunction<
   }
 
   const jsonResponse = await res.json();
-
-  console.log("wha is the data", jsonResponse);
+  console.log(jsonResponse);
   return jsonResponse;
 };
 

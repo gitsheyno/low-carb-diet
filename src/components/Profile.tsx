@@ -12,7 +12,6 @@ import {
   CircularProgress,
 } from "@mui/material";
 
-// Define the user profile interface
 interface UserProfile {
   gender: string;
   weight: number;
@@ -23,7 +22,6 @@ interface UserProfile {
   validated: boolean;
 }
 
-// Zod schema for validation
 const UserProfileSchema = z.object({
   gender: z.string().min(1, "Please select your gender"),
   weight: z.number().positive("Weight must be a positive number"),
@@ -58,7 +56,6 @@ const Profile: React.FC = () => {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Handle form input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -66,7 +63,6 @@ const Profile: React.FC = () => {
       [name]: value,
     });
 
-    // Clear error when field is edited
     if (errors[name]) {
       setErrors({
         ...errors,
@@ -101,7 +97,6 @@ const Profile: React.FC = () => {
       return;
     }
 
-    // Set validated user profile
     const final = { ...data, validated: true } as UserProfile;
     setUserProfile(final);
     resetForm();

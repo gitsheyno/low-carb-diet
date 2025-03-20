@@ -20,7 +20,6 @@ const fetchUser: QueryFunction<
 > = async ({ queryKey }) => {
   const userProfile = queryKey[1];
   const token = queryKey[2];
-  console.log(userProfile, "in fetch");
 
   if (!userProfile.validated) {
     return {};
@@ -41,8 +40,7 @@ const fetchUser: QueryFunction<
   }
 
   const jsonResponse = await res.json();
-
-  console.log("wha is the data", jsonResponse);
+  console.log(jsonResponse);
   return jsonResponse.data.message;
 };
 
