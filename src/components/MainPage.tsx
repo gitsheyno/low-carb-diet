@@ -4,6 +4,7 @@ import fetchMeals from "../utils/fetchMeals";
 import Spinner from "./Spinner";
 import DailyMeals from "./DailyMeals";
 import NutritionProgress from "./NutritionProgress";
+import { Link, useParams } from "react-router-dom";
 
 interface NutritionType {
   calories: number;
@@ -14,6 +15,7 @@ interface NutritionType {
 
 export default function MainPage() {
   const COLORS = ["#4F46E5", "#16A34A", "#F59E0B", "#EF4444"];
+  const { user } = useParams();
 
   const query = useQuery({
     queryKey: ["getDailyMeals", localStorage.getItem("token") as string],
@@ -225,9 +227,12 @@ export default function MainPage() {
               <h2 className="text-lg font-semibold text-gray-800">
                 Today's Meals
               </h2>
-              <button className="text-sm bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition-colors">
+              <Link
+                to={`/dashboard/${user}/planning`}
+                className="text-sm bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition-colors"
+              >
                 Add Meal
-              </button>
+              </Link>
             </div>
             <div className="max-h-96 overflow-y-auto pr-1">
               {response && <DailyMeals response={response.meals} />}

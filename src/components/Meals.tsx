@@ -5,7 +5,6 @@ import UserMeals from "./UserMeals";
 import Spinner from "./Spinner";
 import { selectMeals } from "../store/mealPlanningSlice";
 
-// Updated colors for a more modern look
 const COLORS = ["#3B82F6", "#F59E0B", "#10B981", "#EF4444"];
 
 type Nutrient = {
@@ -18,7 +17,6 @@ type Nutrient = {
 export default function Meals() {
   const meals = useSelector(selectMeals);
 
-  // Calculate totals with all nutrients
   const totals: Nutrient = meals.reduce(
     (accumulator, meal) => {
       accumulator.calories += meal.caloriesKCal || 0;
@@ -30,16 +28,13 @@ export default function Meals() {
     { calories: 0, protein: 0, carbs: 0, fat: 0 }
   );
 
-  // Create data for chart
   const chartData = [
     { name: "Protein", value: totals.protein > 0 ? totals.protein : 0.1 },
     { name: "Carbs", value: totals.carbs > 0 ? totals.carbs : 0.1 },
     { name: "Fat", value: totals.fat > 0 ? totals.fat : 0.1 },
   ];
-
   return (
     <div className="flex flex-col space-y-4">
-      {/* Selected Meals List */}
       <div className="flex-1 border border-gray-200 rounded-lg overflow-hidden">
         <div className="bg-gray-50 px-4 py-2 border-b border-gray-200">
           <h3 className="text-sm font-medium text-gray-700">Selected Meals</h3>
@@ -57,13 +52,11 @@ export default function Meals() {
         </div>
       </div>
 
-      {/* Nutritional Summary */}
       <div className="bg-gray-50 p-4 rounded-lg">
         <h3 className="text-sm font-medium text-gray-700 mb-3">
           Nutritional Summary
         </h3>
 
-        {/* Calories callout */}
         <div className="bg-white rounded-lg p-3 mb-4 border border-gray-200">
           <div className="text-xs text-gray-500">Total Calories</div>
           <div className="text-2xl font-bold text-blue-600">
@@ -71,9 +64,7 @@ export default function Meals() {
           </div>
         </div>
 
-        {/* Chart and Legend */}
         <div className="flex flex-col md:flex-row">
-          {/* Chart */}
           <div className="w-full md:w-1/2 h-48">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -106,7 +97,6 @@ export default function Meals() {
             </ResponsiveContainer>
           </div>
 
-          {/* Legend and Macros */}
           <div className="w-full md:w-1/2">
             <ul className="space-y-2 px-2">
               {chartData.map((item, index) => (
@@ -128,7 +118,6 @@ export default function Meals() {
               ))}
             </ul>
 
-            {/* Macro distribution */}
             {meals.length > 0 && (
               <div className="mt-3 pt-3 border-t border-gray-200">
                 <div className="text-xs text-gray-500 mb-1">

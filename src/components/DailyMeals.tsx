@@ -10,7 +10,7 @@ export default function DailyMeals({ response }: { response: Meal[] }) {
         <div className="text-center">
           <p className="text-gray-500 mb-2">No meals found for today</p>
           <Link
-            to="/meal-planner"
+            to={`/dashboard/${user}/planning`}
             className="text-sm text-blue-600 hover:text-blue-800 font-medium px-4 py-2 bg-blue-50 rounded-full"
           >
             Add a meal

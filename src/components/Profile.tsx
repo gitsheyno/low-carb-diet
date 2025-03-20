@@ -1,3 +1,18 @@
+import React, { useState } from "react";
+import { z } from "zod";
+import { useQuery } from "@tanstack/react-query";
+import fetchUser from "../utils/postUserProfile";
+import {
+  Box,
+  TextField,
+  MenuItem,
+  Button,
+  Paper,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
+
+// Define the user profile interface
 interface UserProfile {
   gender: string;
   weight: number;
@@ -7,22 +22,21 @@ interface UserProfile {
   goal: string;
   validated: boolean;
 }
-import React, { useRef, useState } from "react";
-import styles from "./Profile.module.css";
-import { z } from "zod";
-import { useQuery } from "@tanstack/react-query";
-import fetchUser from "../utils/postUserProfile";
-import Spinner from "./Spinner";
-import Button from "@mui/material/Button";
+
+// Zod schema for validation
+const UserProfileSchema = z.object({
+  gender: z.string().min(1, "Please select your gender"),
+  weight: z.number().positive("Weight must be a positive number"),
+  height: z.number().positive("Height must be a positive number"),
+  age: z
+    .number()
+    .positive("Age must be a positive number")
+    .int("Age must be a whole number"),
+  activityLevel: z.string().min(1, "Please select your activity level"),
+  goal: z.string().min(1, "Please select your goal"),
+});
 
 const Profile: React.FC = () => {
-  const genderRef = useRef<HTMLSelectElement>(null);
-  const weightRef = useRef<HTMLInputElement>(null);
-  const heightRef = useRef<HTMLInputElement>(null);
-  const ageRef = useRef<HTMLInputElement>(null);
-  const activityRef = useRef<HTMLSelectElement>(null);
-  const goalRef = useRef<HTMLSelectElement>(null);
-
   const [userProfile, setUserProfile] = useState<UserProfile>({
     gender: "",
     weight: 0,
@@ -33,155 +47,229 @@ const Profile: React.FC = () => {
     validated: false,
   });
 
-  const UserProfileInfo = z.object({
-    gender: z.string(),
-    weight: z.number(),
-    height: z.number(),
-    age: z.number(),
-    activityLevel: z.string(),
-    goal: z.string(),
+  const [formData, setFormData] = useState({
+    gender: "",
+    weight: "",
+    height: "",
+    age: "",
+    activityLevel: "",
+    goal: "",
   });
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Handle form input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+
+    // Clear error when field is edited
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: "",
+      });
+    }
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
+    setErrors({});
 
     const data = {
-      gender: formData.get("gender"),
-      weight: parseFloat(formData.get("weight") as string),
-      height: parseFloat(formData.get("height") as string),
-      age: parseInt(formData.get("age") as string),
-      activityLevel: formData.get("activityLevel"),
-      goal: formData.get("goal"),
+      gender: formData.gender,
+      weight: parseFloat(formData.weight) || 0,
+      height: parseFloat(formData.height) || 0,
+      age: parseInt(formData.age) || 0,
+      activityLevel: formData.activityLevel,
+      goal: formData.goal,
     };
 
-    const validatedProfileInfo = UserProfileInfo.safeParse(data);
-    const getData = validatedProfileInfo.data as UserProfile;
-    const final = { ...getData, validated: true };
+    const validationResult = UserProfileSchema.safeParse(data);
+
+    if (!validationResult.success) {
+      const formattedErrors: Record<string, string> = {};
+      validationResult.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          formattedErrors[err.path[0].toString()] = err.message;
+        }
+      });
+      setErrors(formattedErrors);
+      return;
+    }
+
+    // Set validated user profile
+    const final = { ...data, validated: true } as UserProfile;
     setUserProfile(final);
     resetForm();
   };
 
-  const response = useQuery({
+  const resetForm = () => {
+    setFormData({
+      gender: "",
+      weight: "",
+      height: "",
+      age: "",
+      activityLevel: "",
+      goal: "",
+    });
+  };
+
+  const { isFetching } = useQuery({
     queryKey: [
       "userProfile",
       userProfile,
       localStorage.getItem("token") as string,
     ],
     queryFn: fetchUser,
+    enabled: userProfile.validated,
   });
 
-  if (response.isFetching) {
-    return <Spinner />;
+  const activityLevels = [
+    { value: "sedentary", label: "Sedentary" },
+    { value: "lightly_active", label: "Lightly Active" },
+    { value: "moderately_active", label: "Moderately Active" },
+    { value: "very_active", label: "Very Active" },
+    { value: "super_active", label: "Super Active" },
+  ];
+
+  const goals = [
+    { value: "lose", label: "Lose Weight" },
+    { value: "gain", label: "Gain Weight" },
+    { value: "maintain", label: "Maintain Weight" },
+  ];
+
+  if (isFetching) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="400px"
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
-  const resetForm = () => {
-    if (
-      weightRef.current &&
-      genderRef.current &&
-      ageRef.current &&
-      activityRef.current &&
-      goalRef.current
-    ) {
-      weightRef.current.value = "";
-      genderRef.current.value = "";
-      ageRef.current.value = "";
-      activityRef.current.value = "";
-      goalRef.current.value = "";
-    }
-  };
+
   return (
-    <div className={styles.container}>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.formGroup}>
-          <label htmlFor="gender">Gender</label>
-          <select
-            ref={genderRef}
+    <Paper
+      elevation={2}
+      sx={{
+        maxWidth: 500,
+        mx: "auto",
+        p: 3,
+        borderRadius: 2,
+      }}
+    >
+      <Typography variant="h5" component="h2" gutterBottom sx={{ mb: 3 }}>
+        Your Profile
+      </Typography>
+
+      <form onSubmit={handleSubmit}>
+        <Box display="grid" gap={3}>
+          <TextField
+            select
+            label="Gender"
             name="gender"
-            id="gender"
-            className={styles.input}
-            required
+            value={formData.gender}
+            onChange={handleChange}
+            error={!!errors.gender}
+            helperText={errors.gender}
+            fullWidth
           >
-            <option value="">Select Gender</option>
-            <option value="female">Female</option>
-            <option value="male">Male</option>
-          </select>
-        </div>
+            <MenuItem value="">Select Gender</MenuItem>
+            <MenuItem value="female">Female</MenuItem>
+            <MenuItem value="male">Male</MenuItem>
+          </TextField>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="weight">Weight (kg)</label>
-          <input
-            ref={weightRef}
-            type="number"
+          <TextField
+            label="Weight (kg)"
             name="weight"
-            id="weight"
-            className={styles.input}
-            required
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="height">Height (cm)</label>
-          <input
-            ref={heightRef}
             type="number"
+            value={formData.weight}
+            onChange={handleChange}
+            error={!!errors.weight}
+            helperText={errors.weight}
+            inputProps={{ min: 0, step: 0.1 }}
+            fullWidth
+          />
+
+          <TextField
+            label="Height (cm)"
             name="height"
-            id="height"
-            className={styles.input}
-            required
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="age">Age</label>
-          <input
-            ref={ageRef}
             type="number"
-            name="age"
-            id="age"
-            className={styles.input}
-            required
+            value={formData.height}
+            onChange={handleChange}
+            error={!!errors.height}
+            helperText={errors.height}
+            inputProps={{ min: 0, step: 0.1 }}
+            fullWidth
           />
-        </div>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="activityLevel">Activity Level</label>
-          <select
-            ref={activityRef}
+          <TextField
+            label="Age"
+            name="age"
+            type="number"
+            value={formData.age}
+            onChange={handleChange}
+            error={!!errors.age}
+            helperText={errors.age}
+            inputProps={{ min: 0, step: 1 }}
+            fullWidth
+          />
+
+          <TextField
+            select
+            label="Activity Level"
             name="activityLevel"
-            id="activityLevel"
-            className={styles.input}
-            required
+            value={formData.activityLevel}
+            onChange={handleChange}
+            error={!!errors.activityLevel}
+            helperText={errors.activityLevel}
+            fullWidth
           >
-            <option value="">Select Activity Level</option>
-            <option value="sedentary">Sedentary</option>
-            <option value="lightly_active">Lightly Active</option>
-            <option value="moderately_active">Moderately Active</option>
-            <option value="very_active">Very Active</option>
-            <option value="super_active">Super Active</option>
-          </select>
-        </div>
+            <MenuItem value="">Select Activity Level</MenuItem>
+            {activityLevels.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="goal">Goal</label>
-          <select
-            ref={goalRef}
+          <TextField
+            select
+            label="Goal"
             name="goal"
-            id="goal"
-            className={styles.input}
-            required
+            value={formData.goal}
+            onChange={handleChange}
+            error={!!errors.goal}
+            helperText={errors.goal}
+            fullWidth
           >
-            <option value="">Select Goal</option>
-            <option value="lose">Lose Weight</option>
-            <option value="gain">Gain Weight</option>
-            <option value="maintain">Maintain Weight</option>
-          </select>
-        </div>
+            <MenuItem value="">Select Goal</MenuItem>
+            {goals.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
 
-        <Button variant="contained" type="submit">
-          Submit
-        </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            size="large"
+            sx={{ mt: 2 }}
+          >
+            Save Profile
+          </Button>
+        </Box>
       </form>
-    </div>
+    </Paper>
   );
 };
 

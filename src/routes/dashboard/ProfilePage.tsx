@@ -1,9 +1,10 @@
 import Profile from "../../components/Profile";
-import styles from "../../components/Dashboard.module.css";
+import { Box } from "@mui/material";
+
 export default function ProfilePage() {
   return (
-    <div className={styles.profile}>
+    <Box sx={{ p: 3, maxWidth: "100%" }}>
       <Profile />
-    </div>
+    </Box>
   );
 }
