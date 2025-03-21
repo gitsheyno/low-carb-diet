@@ -1,20 +1,19 @@
 import React, { useRef, useState, useEffect } from "react";
-import styles from "./Login.module.css";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "./Spinner";
 import useAuth from "../utils/useAuth";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import { VisibilityOff, Visibility } from "@mui/icons-material";
+import NutritionSVG from "./Svg";
 import {
-  InputLabel,
-  OutlinedInput,
+  Button,
+  TextField,
   InputAdornment,
   IconButton,
   FormControl,
+  InputLabel,
+  OutlinedInput,
 } from "@mui/material";
+import { VisibilityOff, Visibility } from "@mui/icons-material";
 
 const SignIn: React.FC = () => {
   const { signIn } = useAuth();
@@ -112,80 +111,126 @@ const SignIn: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <Box
-        className={styles.form}
-        onSubmit={handleSignIn}
-        component="form"
-        sx={{ "& .MuiTextField-root": { m: 1, width: "100%" } }}
-        autoComplete="off"
-      >
-        <TextField
-          sx={{ width: "100%", transition: "all 5000ms ease" }}
-          onBlur={handleBlurName}
-          autoComplete="true"
-          ref={nameRef}
-          type="text"
-          name="name"
-          error={!inputIsValid?.nameIsValid}
-          id="outlined-error"
-          label="name"
-        />
-        <TextField
-          sx={{ width: "100%", transition: "all 5000ms ease" }}
-          onBlur={handleBlur}
-          autoComplete="true"
-          ref={userRef}
-          type="email"
-          name="username"
-          error={!inputIsValid?.usernameIsValid}
-          id="outlined-error"
-          label="email"
-        />
-        <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
-          <InputLabel
-            htmlFor="outlined-adornment-password"
-            error={!inputIsValid?.passwordIsValid}
-          >
-            password
-          </InputLabel>
-          <OutlinedInput
-            error={!inputIsValid?.passwordIsValid}
-            id="outlined-adornment-password"
-            type={showPassword ? "text" : "password"}
-            onBlur={handleBlur2}
-            ref={passRef}
-            name="password"
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label={
-                    showPassword ? "hide the password" : "display the password"
-                  }
-                  onClick={handleClickShowPassword}
-                  edge="end"
+    <div className="flex min-h-screen w-full">
+      <div className="hidden md:flex md:w-1/2 bg-green-50 flex-col items-center justify-center p-8">
+        <div className="text-center max-w-md mx-auto">
+          <h2 className="text-2xl font-bold text-green-600 mb-2">
+            Start Your Wellness Journey
+          </h2>
+          <p className="text-gray-600 mb-8">
+            Create an account to track nutrition, set goals, and achieve your
+            best health
+          </p>
+          <div className="w-full max-w-md mx-auto">
+            <NutritionSVG />
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full md:w-1/2 flex items-center justify-center bg-white p-4">
+        <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
+          <form onSubmit={handleSignIn} className="space-y-6">
+            <div className="text-center mb-6">
+              <h1 className="text-2xl font-bold text-gray-800">
+                Create Account
+              </h1>
+              <p className="text-gray-600 mt-2">
+                Join us on your path to better health
+              </p>
+            </div>
+
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Name"
+              variant="outlined"
+              type="text"
+              name="name"
+              autoComplete="name"
+              error={!inputIsValid.nameIsValid}
+              helperText={!inputIsValid.nameIsValid ? "Name is required" : ""}
+              onBlur={handleBlurName}
+              inputRef={nameRef}
+            />
+
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Email"
+              variant="outlined"
+              type="email"
+              name="username"
+              autoComplete="email"
+              error={!inputIsValid.usernameIsValid}
+              helperText={
+                !inputIsValid.usernameIsValid
+                  ? "Please enter a valid email"
+                  : ""
+              }
+              onBlur={handleBlur}
+              inputRef={userRef}
+            />
+
+            <FormControl variant="outlined" fullWidth margin="normal">
+              <InputLabel
+                htmlFor="outlined-adornment-password"
+                error={!inputIsValid.passwordIsValid}
+              >
+                Password
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                error={!inputIsValid.passwordIsValid}
+                onBlur={handleBlur2}
+                inputRef={passRef}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label={
+                        showPassword ? "hide password" : "show password"
+                      }
+                      onClick={handleClickShowPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+              {!inputIsValid.passwordIsValid && (
+                <p className="text-red-500 text-xs mt-1">
+                  Password must be longer than 6 characters
+                </p>
+              )}
+            </FormControl>
+
+            <Button
+              fullWidth
+              variant="contained"
+              type="submit"
+              className="py-3 rounded-md bg-green-600 hover:bg-green-700 text-white font-medium"
+              style={{ backgroundColor: "#4caf50", textTransform: "none" }}
+            >
+              Sign up
+            </Button>
+
+            <div className="text-center mt-4">
+              <p className="text-gray-600 text-sm">
+                Already have an account?
+                <Link
+                  to="/login"
+                  className="text-green-600 font-medium ml-2 hover:text-green-700"
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Password"
-          />
-        </FormControl>
-        <Button
-          variant="contained"
-          type="submit"
-          className={styles.signInButton}
-        >
-          Sign in
-        </Button>
-        <p style={{ marginTop: "1rem" }}>
-          Already have an account?
-          <Link to="/login" className={styles.requestLink}>
-            login
-          </Link>
-        </p>
-      </Box>
+                  Login
+                </Link>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
