@@ -1,14 +1,12 @@
-import styles from "../routes/Recipe.module.css";
-
 export default function Steps({ data }: { data: string[] }) {
   const steps = data.map((item) => item.split(","));
 
   return (
-    <div className={styles.steps}>
+    <div className="col-span-full flex flex-col gap-8">
       {steps.map((item, index) => (
         <div key={index}>
-          <p>Step {index}</p>
-          <p>{item}</p>
+          <p className="text-xl text-orange-500 mb-4">Step {index}</p>
+          <p className="text-xl">{item}</p>
         </div>
       ))}
     </div>
