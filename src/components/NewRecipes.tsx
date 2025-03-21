@@ -1,15 +1,9 @@
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import CardActionArea from "@mui/material/CardActionArea";
 import Button from "@mui/material/Button";
 import Spinner from "./Spinner";
 import fetchSearch from "../utils/fetchSearch";
-import sty from "../components/Dashboard.module.css";
-import styles from "./Cards.module.css";
 
 export default function NewRecipes() {
   const [searchParams] = useSearchParams();
@@ -23,63 +17,88 @@ export default function NewRecipes() {
     queryFn: fetchSearch,
   });
 
-  if (queryData.isLoading) {
-    return <Spinner />;
+  if (queryData.isFetching) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-white">
+        <Spinner />
+      </div>
+    );
   }
 
   const response = queryData?.data ?? [];
-  console.log(response);
 
   return (
     <>
-      {response ? (
-        <div className={sty.recipesContainer}>
+      {response.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-4 w-full">
           {response.map((item) => (
-            <Card key={item.id}>
-              <CardActionArea
-                component={Link}
+            <Card
+              key={item.id}
+              className="flex flex-col h-full overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
+            >
+              <Link
                 to={`/dashboard/${user}/recipe/${item.id}`}
-                className={styles.img}
+                className="flex flex-col flex-1 no-underline text-inherit"
               >
-                <CardMedia
-                  component="img"
-                  height="180"
-                  image={item.image}
-                  alt={item.name}
-                  className={styles.img}
-                />
-                <CardContent>
-                  <Typography gutterBottom component="div">
-                    <p>{item.name}</p>
-                  </Typography>
-                  <div className={styles.infoContainer}>
-                    <div className={styles.cardInfos}>
-                      <div>
-                        <p>Cal</p>
-                        <p>{item.nutrients.caloriesKCal}</p>
-                      </div>
-                      <div>
-                        <p>Protein</p>
-                        <p>{item.nutrients.protein}</p>
-                      </div>
-                      <div>
-                        <p>Fats</p>
-                        <p>{item.nutrients.fat}</p>
-                      </div>
-                      <div>
-                        <p>Carbs</p>
-                        <p>{item.nutrients.totalCarbs}</p>
-                      </div>
+                <div className="relative w-full pb-[66%] overflow-hidden bg-gray-100">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="absolute top-0 left-0 w-full h-full object-cover"
+                  />
+                </div>
+
+                <div className="flex-1 p-4">
+                  <h3 className="text-base font-semibold mb-3 overflow-hidden text-ellipsis line-clamp-2 h-10">
+                    {item.name}
+                  </h3>
+
+                  <div className="flex justify-between items-center mt-2 bg-gray-50 rounded-md p-2">
+                    <div className="text-center px-1">
+                      <span className="text-xs text-gray-500 block">Cal</span>
+                      <span className="text-sm font-medium">
+                        {item.nutrients.caloriesKCal}
+                      </span>
+                    </div>
+                    <div className="text-center px-1">
+                      <span className="text-xs text-gray-500 block">
+                        Protein
+                      </span>
+                      <span className="text-sm font-medium">
+                        {item.nutrients.protein}g
+                      </span>
+                    </div>
+
+                    <div className="text-center px-1">
+                      <span className="text-xs text-gray-500 block">Carbs</span>
+                      <span className="text-sm font-medium">
+                        {item.nutrients.totalCarbs}g
+                      </span>
                     </div>
                   </div>
-                </CardContent>
-              </CardActionArea>
-              <Button>View Recipe</Button>
+                </div>
+              </Link>
+              <div className="px-4 pb-4 pt-0">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  component={Link}
+                  to={`/dashboard/${user}/recipe/${item.id}`}
+                >
+                  View Recipe
+                </Button>
+              </div>
             </Card>
           ))}
         </div>
       ) : (
-        <p>no</p>
+        <div className="flex flex-col items-center justify-center py-10 text-center">
+          <h3 className="text-lg font-medium">No recipes found</h3>
+          <p className="text-sm text-gray-500 mt-2">
+            Try adjusting your search criteria
+          </p>
+        </div>
       )}
     </>
   );
