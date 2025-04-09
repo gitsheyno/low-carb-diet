@@ -256,7 +256,6 @@ export default function RecipeDetails() {
                   </div>
                 </div>
 
-                {/* Time summary */}
                 <div className="mt-6 sm:mt-8 bg-white p-3 sm:p-4 rounded-lg shadow-sm">
                   <h4 className="font-medium text-gray-800 mb-2 sm:mb-3">
                     Time Breakdown
@@ -284,7 +283,6 @@ export default function RecipeDetails() {
                   </div>
                 </div>
 
-                {/* Share buttons */}
                 <div className="mt-6 sm:mt-8">
                   <h4 className="font-medium text-gray-800 mb-2 sm:mb-3">
                     Share This Recipe

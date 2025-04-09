@@ -11,7 +11,6 @@ export default function MealPlanner() {
 
   return (
     <div className="flex flex-col md:flex-row w-full gap-6 p-4 bg-gray-50 min-h-screen">
-      {/* Left Panel - Search and Results */}
       <div className="w-full md:w-1/2 flex flex-col rounded-xl bg-white shadow-md p-4">
         <h2 className="text-xl font-semibold mb-4 text-gray-800">Find Meals</h2>
         <div className="mb-4">
@@ -40,7 +39,6 @@ export default function MealPlanner() {
         )}
       </div>
 
-      {/* Right Panel - Selected Meals and Chart */}
       <div className="w-full md:w-1/2 rounded-xl bg-white shadow-md p-4">
         <h2 className="text-xl font-semibold mb-4 text-gray-800">Meal Plan</h2>
         <Meals />

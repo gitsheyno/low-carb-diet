@@ -41,8 +41,8 @@ const Login: React.FC = () => {
   const res = useQuery({
     queryKey: ["logIn", userData, token as string],
     queryFn: logIn,
-    enabled: !!userData.username && !!userData.password, // Only fetch when userData is populated
-    retry: false, // Disable automatic retries if login fails
+    enabled: !!userData.username && !!userData.password,
+    retry: false,
   });
 
   const handleInputValidation = (userData: {
@@ -76,7 +76,7 @@ const Login: React.FC = () => {
 
   const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null); // Reset error before attempting login
+    setError(null);
 
     const formData = new FormData(e.currentTarget);
     const username = formData.get("username")?.toString() ?? "";
@@ -93,7 +93,11 @@ const Login: React.FC = () => {
   };
 
   if (res.isFetching) {
-    return <Spinner />;
+    return (
+      <div className="h-[100vh] flex items-center justify-center ">
+        <Spinner />
+      </div>
+    );
   }
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -108,7 +112,6 @@ const Login: React.FC = () => {
 
   return (
     <div className="flex min-h-screen w-full">
-      {/* Left side with illustration */}
       <div className="hidden md:flex md:w-1/2 bg-green-50 flex-col items-center justify-center p-8">
         <div className="text-center max-w-md mx-auto">
           <h2 className="text-2xl font-bold text-green-600 mb-2">
@@ -124,7 +127,6 @@ const Login: React.FC = () => {
         </div>
       </div>
 
-      {/* Right side with login form */}
       <div className="w-full md:w-1/2 flex items-center justify-center bg-white p-4">
         <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
           <form onSubmit={handleSignIn} className="space-y-6">

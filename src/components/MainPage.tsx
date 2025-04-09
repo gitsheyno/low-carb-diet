@@ -74,7 +74,7 @@ export default function MainPage() {
             <div>
               <p className="text-sm text-gray-500">Daily Calories</p>
               <p className="text-xl font-bold">
-                {Math.round(totalCalories)} / {calorieGoal}
+                {Math.round(totalCalories)} / {Math.round(calorieGoal)}
               </p>
             </div>
             <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">

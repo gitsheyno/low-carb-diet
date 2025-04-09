@@ -20,11 +20,8 @@ export default function DailyMeals({ response }: { response: Meal[] }) {
     );
   }
 
-  // Group meals by type
   const mealTypes = ["Breakfast", "Lunch", "Dinner", "Snack"];
   const groupedMeals = response.reduce((acc, meal, index) => {
-    // For this example, we're assigning meal types based on index
-    // In a real app, this would come from the meal data
     const type = mealTypes[index % mealTypes.length];
     if (!acc[type]) acc[type] = [];
     acc[type].push(meal);
@@ -42,13 +39,12 @@ export default function DailyMeals({ response }: { response: Meal[] }) {
               const day = date.getDate();
               const month = date.toLocaleString("default", { month: "short" });
 
-              // Calculate macros percentage
-              const totalCal = item.calories;
-              const proteinPct = Math.round(
-                ((item.protein * 4) / totalCal) * 100
-              );
-              const carbsPct = Math.round(((item.carbs * 4) / totalCal) * 100);
-              const fatPct = Math.round(((item.protein * 9) / totalCal) * 100);
+              // const totalCal = item.calories;
+              // const proteinPct = Math.round(
+              //   ((item.protein * 4) / totalCal) * 100
+              // );
+              // const carbsPct = Math.round(((item.carbs * 4) / totalCal) * 100);
+              // const fatPct = Math.round(((item.protein * 9) / totalCal) * 100);
 
               return (
                 <li
@@ -86,7 +82,7 @@ export default function DailyMeals({ response }: { response: Meal[] }) {
                       </p>
 
                       {/* Macros visual representation */}
-                      <div className="flex h-1.5 w-full mt-2 rounded-full overflow-hidden">
+                      {/* <div className="flex h-1.5 w-full mt-2 rounded-full overflow-hidden">
                         <div
                           className="bg-blue-500"
                           style={{ width: `${proteinPct}%` }}
@@ -99,13 +95,13 @@ export default function DailyMeals({ response }: { response: Meal[] }) {
                           className="bg-yellow-500"
                           style={{ width: `${fatPct}%` }}
                         ></div>
-                      </div>
+                      </div> */}
 
-                      <div className="flex justify-between text-xs text-gray-500 mt-1">
+                      {/* <div className="flex justify-between text-xs text-gray-500 mt-1">
                         <span>{Math.round(item.protein)}g P</span>
                         <span>{Math.round(item.carbs)}g C</span>
                         <span>{Math.round(item.protein)}g F</span>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div className="flex justify-between text-xs text-gray-600 mt-3 pt-2 border-t border-gray-200">
