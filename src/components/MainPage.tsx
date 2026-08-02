@@ -4,7 +4,7 @@ import fetchMeals from "../utils/fetchMeals";
 import Spinner from "./Spinner";
 import DailyMeals from "./DailyMeals";
 import NutritionProgress from "./NutritionProgress";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 
 interface NutritionType {
   calories: number;

@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Login from "./components/Login.tsx";
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router";
 import MealPlanner from "./routes/dashboard/MealPlanner.tsx";
 import "./index.css";
 import SignIn from "./components/Signin.tsx";

@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router";
 import { useDispatch } from "react-redux";
 import fetchMealPlanner from "../utils/fetchMealPlanner";
 import { addMeal } from "../store/mealPlanningSlice";

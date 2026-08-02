@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router";
 import SideNav from "../../components/SideNav";
 import { Provider } from "react-redux";
 import store from "../../store/store";

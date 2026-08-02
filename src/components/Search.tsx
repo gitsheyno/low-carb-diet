@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { useState, useEffect } from "react";
 import { Box, TextField } from "@mui/material";
 export default function Search() {

@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import Search from "../../components/Search";
 import Meals from "../../components/Meals";
 import RenderMeals from "../../components/RenderMeals";

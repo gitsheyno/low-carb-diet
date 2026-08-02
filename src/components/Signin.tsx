@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 import Spinner from "./Spinner";
 import useAuth from "../utils/useAuth";
 import NutritionSVG from "./Svg";

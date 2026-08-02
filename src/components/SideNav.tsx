@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useParams, useNavigate } from "react-router-dom";
+import { NavLink, useParams, useNavigate } from "react-router";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import DashboardIcon from "@mui/icons-material/Dashboard";
