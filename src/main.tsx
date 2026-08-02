@@ -8,6 +8,7 @@ import SignIn from "./components/Signin.tsx";
 import MainDashboard from "./routes/dashboard/MainDashboard.tsx";
 import { lazy, Suspense } from "react";
 import Spinner from "./components/Spinner.tsx";
+import App from "./App.tsx";
 
 import Container from "./components/custom/Container.tsx";
 const Home = lazy(() => import("./routes/dashboard/Home.tsx"));
@@ -22,7 +23,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <Container>
         <Suspense fallback={<Spinner />}>
           <Routes>
-            <Route index path="/" element={<SignIn />} />
+            <Route index path="/" element={<App />} />
+            <Route path="signup" element={<SignIn />} />
             <Route path="signin" element={<SignIn />} />
             <Route path="login" element={<Login />} />
           </Routes>

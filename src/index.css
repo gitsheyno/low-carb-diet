@@ -2,15 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @import url(//fonts.googleapis.com/css?family=Nunito); */
-
 * {
-  font-family: "Nunito", sans-serif, "Times New Roman", Times, serif;
+  font-family: "DM Sans", Arial, sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: content-box;
+  box-sizing: border-box;
 }
 body {
-  background-color: #f8f8f8;
-  height: calc(100vh - 1rem);
+  background-color: #fbfaf6;
+  min-height: 100vh;
 }
