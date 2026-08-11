@@ -1,42 +1,37 @@
-import React, { useRef, useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Link, useNavigate } from "react-router";
-import Spinner from "./Spinner";
-import useAuth from "../utils/useAuth";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,
-  TextField,
-  InputAdornment,
-  IconButton,
   FormControl,
+  IconButton,
+  InputAdornment,
   InputLabel,
   OutlinedInput,
+  TextField,
 } from "@mui/material";
-import { VisibilityOff, Visibility } from "@mui/icons-material";
-import NutritionSVG from "./Svg";
+import { useQuery } from "@tanstack/react-query";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router";
+import useAuth from "../utils/useAuth";
+import AuthShell from "./AuthShell";
+import Spinner from "./Spinner";
+
+const fieldSx = {
+  "& .MuiOutlinedInput-root": { borderRadius: "14px", backgroundColor: "#fff" },
+};
 
 const Login: React.FC = () => {
   const { logIn } = useAuth();
   const userRef = useRef<HTMLInputElement>(null);
   const passRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const [userData, setUserData] = useState({
-    username: "",
-    password: "",
+  const [userData, setUserData] = useState({ username: "", password: "" });
+  const [inputIsValid, setInputIsValid] = useState({
+    usernameIsValid: true,
+    passwordIsValid: true,
   });
-
-  // Client side validation
-  const [inputIsValid, setInputIsValid] = useState<{
-    usernameIsValid: boolean;
-    passwordIsValid: boolean;
-  }>({ usernameIsValid: true, passwordIsValid: true });
-
-  // Server side validation
   const [error, setError] = useState<string | null>(null);
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const token = localStorage.getItem("token");
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const res = useQuery({
     queryKey: ["logIn", userData, token as string],
@@ -45,181 +40,129 @@ const Login: React.FC = () => {
     retry: false,
   });
 
-  const handleInputValidation = (userData: {
-    username: string;
-    password: string;
-  }) => {
-    console.log(userData.username, userData.password);
-    const userValidation = userData.username.includes("@");
-    const passwordIsValid = userData.password.length > 6;
-
-    setInputIsValid((prevData) => ({
-      ...prevData,
-      usernameIsValid: userValidation,
-      passwordIsValid: passwordIsValid,
-    }));
-  };
-
   useEffect(() => {
-    if (res.isError && res.error) {
-      setError("Login Failed");
-    }
+    if (res.isError && res.error)
+      setError("We couldn't sign you in. Check your details and try again.");
   }, [res.isError, res.error]);
 
   useEffect(() => {
     if (res.data?.token) {
-      const { token } = res.data;
-      localStorage.setItem("token", token);
+      localStorage.setItem("token", res.data.token);
       navigate(`/dashboard/${res.data.name}`);
     }
   }, [res.data, navigate]);
 
-  const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setError(null);
-
-    const formData = new FormData(e.currentTarget);
+    const formData = new FormData(event.currentTarget);
     const username = formData.get("username")?.toString() ?? "";
     const password = formData.get("password")?.toString() ?? "";
-
-    handleInputValidation({ username, password });
-
+    setInputIsValid({
+      usernameIsValid: username.includes("@"),
+      passwordIsValid: password.length > 6,
+    });
     setUserData({ username, password });
-
     if (userRef.current && passRef.current) {
       userRef.current.value = "";
       passRef.current.value = "";
     }
   };
 
-  if (res.isFetching) {
-    return (
-      <div className="h-[100vh] flex items-center justify-center ">
-        <Spinner />
-      </div>
-    );
-  }
-
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    const inputIsValid = e.target.value.includes("@");
-    setInputIsValid((prev) => ({ ...prev, usernameIsValid: inputIsValid }));
-  };
-
-  const handleBlur2 = (e: React.FocusEvent<HTMLInputElement>) => {
-    const inputIsValid = e.target.value.length > 6;
-    setInputIsValid((prev) => ({ ...prev, passwordIsValid: inputIsValid }));
-  };
+  if (res.isFetching) return <Spinner fullScreen label="Signing you in" />;
 
   return (
-    <div className="flex min-h-screen w-full">
-      <div className="hidden md:flex md:w-1/2 bg-green-50 flex-col items-center justify-center p-8">
-        <div className="text-center max-w-md mx-auto">
-          <h2 className="text-2xl font-bold text-green-600 mb-2">
-            Nourish Your Journey
-          </h2>
-          <p className="text-gray-600 mb-8">
-            Track your calories, maintain a balanced diet, and achieve your
-            health goals
-          </p>
-          <div className="w-full max-w-md mx-auto">
-            <NutritionSVG />
-          </div>
-        </div>
-      </div>
+    <AuthShell mode="login">
+      <p className="page-eyebrow">Welcome back</p>
+      <h1>Log in to Plateful</h1>
+      <p className="auth-card__lede">
+        Your meals, targets, and progress are right where you left them.
+      </p>
 
-      <div className="w-full md:w-1/2 flex items-center justify-center bg-white p-4">
-        <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
-          <form onSubmit={handleSignIn} className="space-y-6">
-            <div className="text-center mb-6">
-              <h1 className="text-2xl font-bold text-gray-800">
-                Welcome Back!
-              </h1>
-              <p className="text-gray-600 mt-2">
-                Sign in to continue your health journey
-              </p>
-            </div>
-
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Email"
-              variant="outlined"
-              type="email"
-              name="username"
-              autoComplete="email"
-              error={!inputIsValid.usernameIsValid}
-              helperText={
-                !inputIsValid.usernameIsValid
-                  ? "Please enter a valid email"
-                  : ""
-              }
-              onBlur={handleBlur}
-              inputRef={userRef}
-            />
-
-            <FormControl variant="outlined" fullWidth margin="normal">
-              <InputLabel
-                htmlFor="outlined-adornment-password"
-                error={!inputIsValid.passwordIsValid}
-              >
-                Password
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={showPassword ? "text" : "password"}
-                name="password"
-                error={!inputIsValid.passwordIsValid}
-                onBlur={handleBlur2}
-                inputRef={passRef}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label={
-                        showPassword ? "hide password" : "show password"
-                      }
-                      onClick={handleClickShowPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
-              />
-              {!inputIsValid.passwordIsValid && (
-                <p className="text-red-500 text-xs mt-1">
-                  Password must be longer than 6 characters
-                </p>
-              )}
-            </FormControl>
-
-            {error && <p className="text-red-500 text-sm">{error}</p>}
-
-            <Button
-              fullWidth
-              variant="contained"
-              type="submit"
-              className="py-3 rounded-md bg-green-600 hover:bg-green-700 text-white font-medium"
-              style={{ backgroundColor: "#4caf50", textTransform: "none" }}
-            >
-              Log in
-            </Button>
-
-            <div className="text-center mt-4">
-              <p className="text-gray-600 text-sm">
-                Don't have an account?
-                <Link
-                  to="/signin"
-                  className="text-green-600 font-medium ml-2 hover:text-green-700"
+      <form className="auth-form" onSubmit={handleSubmit}>
+        <TextField
+          autoComplete="email"
+          error={!inputIsValid.usernameIsValid}
+          fullWidth
+          helperText={
+            !inputIsValid.usernameIsValid ? "Enter a valid email address" : " "
+          }
+          inputRef={userRef}
+          label="Email address"
+          name="username"
+          onBlur={(event) =>
+            setInputIsValid((current) => ({
+              ...current,
+              usernameIsValid: event.target.value.includes("@"),
+            }))
+          }
+          sx={fieldSx}
+          type="email"
+        />
+        <FormControl fullWidth variant="outlined">
+          <InputLabel
+            error={!inputIsValid.passwordIsValid}
+            htmlFor="login-password"
+          >
+            Password
+          </InputLabel>
+          <OutlinedInput
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  edge="end"
+                  onClick={() => setShowPassword((value) => !value)}
                 >
-                  Register
-                </Link>
-              </p>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            error={!inputIsValid.passwordIsValid}
+            id="login-password"
+            inputRef={passRef}
+            label="Password"
+            name="password"
+            onBlur={(event) =>
+              setInputIsValid((current) => ({
+                ...current,
+                passwordIsValid: event.target.value.length > 6,
+              }))
+            }
+            sx={{ borderRadius: "14px", backgroundColor: "#fff" }}
+            type={showPassword ? "text" : "password"}
+          />
+          <span
+            style={{
+              minHeight: 23,
+              padding: "4px 14px 0",
+              color: "#d32f2f",
+              fontSize: 12,
+            }}
+          >
+            {!inputIsValid.passwordIsValid
+              ? "Password must be longer than 6 characters"
+              : ""}
+          </span>
+        </FormControl>
+        {error && (
+          <p className="auth-error" role="alert">
+            {error}
+          </p>
+        )}
+        <Button
+          className="auth-submit"
+          fullWidth
+          type="submit"
+          variant="contained"
+        >
+          Log in
+        </Button>
+      </form>
+      <p className="auth-switch">
+        New to Plateful?<Link to="/signup">Create an account</Link>
+      </p>
+    </AuthShell>
   );
 };
 

@@ -1,44 +1,41 @@
-import React from "react";
-import { NavLink, useParams, useNavigate } from "react-router";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import BookIcon from "@mui/icons-material/Book";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import PersonIcon from "@mui/icons-material/Person";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { useMediaQuery, useTheme } from "@mui/material";
+import {
+  BookOpen,
+  CalendarDays,
+  LayoutDashboard,
+  LogOut,
+  UserRound,
+} from "lucide-react";
+import { NavLink, useNavigate, useParams } from "react-router";
+import AppBrand from "./AppBrand";
 
-const BottomNavigationComponent: React.FC = () => {
+export default function SideNav() {
   const { user } = useParams();
   const navigate = useNavigate();
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const navItems = [
     {
-      label: "Dashboard",
-      icon: <DashboardIcon />,
+      label: "Today",
+      icon: LayoutDashboard,
       path: `/dashboard/${user}`,
-      exact: true,
+      end: true,
     },
     {
       label: "Recipes",
-      icon: <BookIcon />,
+      icon: BookOpen,
       path: `/dashboard/${user}/Recipes`,
-      exact: false,
+      end: false,
     },
     {
-      label: "Meal Planner",
-      icon: <CalendarTodayIcon />,
+      label: "Plan",
+      icon: CalendarDays,
       path: `/dashboard/${user}/planning`,
-      exact: false,
+      end: false,
     },
     {
       label: "Profile",
-      icon: <PersonIcon />,
+      icon: UserRound,
       path: `/dashboard/${user}/profile`,
-      exact: false,
+      end: false,
     },
   ];
 
@@ -48,84 +45,36 @@ const BottomNavigationComponent: React.FC = () => {
   };
 
   return (
-    <Box sx={{ pb: 7 }}>
-      <Paper
-        sx={{ position: "fixed", top: 0, left: 0, right: 0 }}
-        elevation={3}
-      >
-        <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-          {navItems.map((item) => (
-            <NavLink
-              key={item.label}
-              to={item.path}
-              end={item.exact}
-              style={({ isActive }) => ({
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "12px 16px",
-                minWidth: 0,
-                flex: 1,
-                textDecoration: "none",
-                color: isActive
-                  ? theme.palette.primary.main
-                  : theme.palette.text.secondary,
-                borderBottom: isActive
-                  ? `2px solid ${theme.palette.primary.main}`
-                  : "none",
-              })}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                {item.icon}
-                <Box
-                  component="span"
-                  sx={{
-                    fontSize: isSmallScreen ? "0.6rem" : "0.8rem",
-                    mt: 0.5,
-                  }}
-                >
-                  {item.label}
-                </Box>
-              </Box>
-            </NavLink>
-          ))}
+    <aside className="app-sidebar" aria-label="Dashboard navigation">
+      <AppBrand />
+      <div className="app-sidebar__intro">
+        <p className="app-sidebar__eyebrow">Your daily space</p>
+        <strong>{user || "Welcome back"}</strong>
+      </div>
 
-          <Box
-            onClick={handleLogout}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "12px 16px",
-              minWidth: 0,
-              flex: 1,
-              color: theme.palette.text.secondary,
-              cursor: "pointer",
-            }}
+      <nav className="app-nav">
+        {navItems.map(({ label, icon: Icon, path, end }) => (
+          <NavLink
+            className={({ isActive }) =>
+              `app-nav__item${isActive ? " is-active" : ""}`
+            }
+            end={end}
+            key={label}
+            to={path}
           >
-            <LogoutIcon />
-            <Box
-              component="span"
-              sx={{
-                fontSize: isSmallScreen ? "0.6rem" : "0.8rem",
-                mt: 0.5,
-              }}
-            >
-              Logout
-            </Box>
-          </Box>
-        </Box>
-      </Paper>
-    </Box>
+            <Icon aria-hidden="true" size={20} strokeWidth={1.8} />
+            <span>{label}</span>
+          </NavLink>
+        ))}
+        <button
+          className="app-nav__logout"
+          onClick={handleLogout}
+          type="button"
+        >
+          <LogOut aria-hidden="true" size={20} strokeWidth={1.8} />
+          <span>Log out</span>
+        </button>
+      </nav>
+    </aside>
   );
-};
-
-export default BottomNavigationComponent;
+}

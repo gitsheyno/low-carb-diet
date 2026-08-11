@@ -1,9 +1,8 @@
-import { Link, useParams, useSearchParams } from "react-router";
+import { ArrowUpRight, SearchX } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import Card from "@mui/material/Card";
-import Button from "@mui/material/Button";
-import Spinner from "./Spinner";
+import { Link, useParams, useSearchParams } from "react-router";
 import fetchSearch from "../utils/fetchSearch";
+import Spinner from "./Spinner";
 
 export default function NewRecipes() {
   const [searchParams] = useSearchParams();
@@ -17,89 +16,59 @@ export default function NewRecipes() {
     queryFn: fetchSearch,
   });
 
-  if (queryData.isFetching) {
+  if (queryData.isFetching) return <Spinner label="Finding good matches" />;
+  const response = queryData.data ?? [];
+
+  if (!response.length) {
     return (
-      <div className="flex items-center justify-center h-screen bg-white">
-        <Spinner />
+      <div className="empty-state">
+        <div>
+          <span className="empty-state__icon">
+            <SearchX size={20} />
+          </span>
+          <h3>Start with an ingredient or meal</h3>
+          <p>Try something like “salmon”, “quick lunch”, or “warm bowl”.</p>
+        </div>
       </div>
     );
   }
 
-  const response = queryData?.data ?? [];
-
   return (
-    <>
-      {response.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-4 w-full">
-          {response.map((item) => (
-            <Card
-              key={item.id}
-              className="flex flex-col h-full overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
-            >
-              <Link
-                to={`/dashboard/${user}/recipe/${item.id}`}
-                className="flex flex-col flex-1 no-underline text-inherit"
-              >
-                <div className="relative w-full pb-[66%] overflow-hidden bg-gray-100">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="absolute top-0 left-0 w-full h-full object-cover"
-                  />
-                </div>
-
-                <div className="flex-1 p-4">
-                  <h3 className="text-base font-semibold mb-3 overflow-hidden text-ellipsis line-clamp-2 h-10">
-                    {item.name}
-                  </h3>
-
-                  <div className="flex justify-between items-center mt-2 bg-gray-50 rounded-md p-2">
-                    <div className="text-center px-1">
-                      <span className="text-xs text-gray-500 block">Cal</span>
-                      <span className="text-sm font-medium">
-                        {item.nutrients.caloriesKCal}
-                      </span>
-                    </div>
-                    <div className="text-center px-1">
-                      <span className="text-xs text-gray-500 block">
-                        Protein
-                      </span>
-                      <span className="text-sm font-medium">
-                        {item.nutrients.protein}g
-                      </span>
-                    </div>
-
-                    <div className="text-center px-1">
-                      <span className="text-xs text-gray-500 block">Carbs</span>
-                      <span className="text-sm font-medium">
-                        {item.nutrients.totalCarbs}g
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-              <div className="px-4 pb-4 pt-0">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  component={Link}
-                  to={`/dashboard/${user}/recipe/${item.id}`}
-                >
-                  View Recipe
-                </Button>
+    <div className="recipe-results">
+      {response.map((item) => (
+        <article className="product-recipe-card" key={item.id}>
+          <Link
+            className="block no-underline"
+            to={`/dashboard/${user}/recipe/${item.id}`}
+          >
+            <div className="product-recipe-card__image">
+              <img alt={item.name} loading="lazy" src={item.image} />
+            </div>
+            <div className="product-recipe-card__body">
+              <div className="flex items-start justify-between gap-3">
+                <h3>{item.name}</h3>
+                <span className="icon-button">
+                  <ArrowUpRight size={16} />
+                </span>
               </div>
-            </Card>
-          ))}
-        </div>
-      ) : (
-        <div className="flex flex-col items-center justify-center py-10 text-center">
-          <h3 className="text-lg font-medium">No recipes found</h3>
-          <p className="text-sm text-gray-500 mt-2">
-            Try adjusting your search criteria
-          </p>
-        </div>
-      )}
-    </>
+              <div className="macro-row">
+                <div>
+                  <span>Calories</span>
+                  <strong>{item.nutrients.caloriesKCal}</strong>
+                </div>
+                <div>
+                  <span>Protein</span>
+                  <strong>{item.nutrients.protein}g</strong>
+                </div>
+                <div>
+                  <span>Carbs</span>
+                  <strong>{item.nutrients.totalCarbs}g</strong>
+                </div>
+              </div>
+            </div>
+          </Link>
+        </article>
+      ))}
+    </div>
   );
 }

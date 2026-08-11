@@ -1,9 +1,10 @@
 import { useSearchParams } from "react-router";
 import { useState, useEffect } from "react";
-import { Box, TextField } from "@mui/material";
+import { InputAdornment, TextField } from "@mui/material";
+import { Search as SearchIcon } from "lucide-react";
 export default function Search() {
   const [query, setQuery] = useState<string>("");
-  const setSearchParam = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -11,23 +12,29 @@ export default function Search() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setSearchParam[1]({ q: query });
+      setSearchParams({ q: query });
     }, 500);
 
     return () => {
       clearTimeout(timer);
     };
-  }, [query]);
+  }, [query, setSearchParams]);
   return (
-    <Box sx={{ width: "100%", maxWidth: "100%" }}>
-      <TextField
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          handleQuery(event);
-        }}
-        fullWidth
-        label="Search"
-        id="fullWidth"
-      />
-    </Box>
+    <TextField
+      className="search-field"
+      fullWidth
+      id="recipe-search"
+      label="Search meals and recipes"
+      onChange={handleQuery}
+      slotProps={{
+        input: {
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon color="#69766e" size={18} />
+            </InputAdornment>
+          ),
+        },
+      }}
+    />
   );
 }

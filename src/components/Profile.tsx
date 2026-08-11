@@ -7,10 +7,9 @@ import {
   TextField,
   MenuItem,
   Button,
-  Paper,
-  Typography,
   CircularProgress,
 } from "@mui/material";
+import { ShieldCheck, UserRound } from "lucide-react";
 
 interface UserProfile {
   gender: string;
@@ -150,121 +149,146 @@ const Profile: React.FC = () => {
     );
   }
 
+  const fieldSx = {
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "13px",
+      backgroundColor: "#fff",
+    },
+  };
+
   return (
-    <Paper
-      elevation={2}
-      sx={{
-        maxWidth: 500,
-        mx: "auto",
-        p: 3,
-        borderRadius: 2,
-      }}
-    >
-      <Typography variant="h5" component="h2" gutterBottom sx={{ mb: 3 }}>
-        Your Profile
-      </Typography>
+    <div className="profile-layout">
+      <aside className="surface profile-aside">
+        <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white/10">
+          <UserRound size={22} />
+        </span>
+        <h2>Your plan starts here.</h2>
+        <p>
+          Keep these details current so your daily targets continue to reflect
+          your routine.
+        </p>
+        <div className="absolute bottom-8 left-8 z-10 flex items-center gap-2 text-xs font-bold text-[#cce895]">
+          <ShieldCheck size={16} />
+          Your profile, your pace
+        </div>
+      </aside>
+      <section className="surface profile-form">
+        <div className="surface-header">
+          <div>
+            <h2>Personal details</h2>
+            <p>Update the information used for your nutrition targets.</p>
+          </div>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="profile-form__grid">
+            <TextField
+              className="profile-form__wide"
+              select
+              label="Gender"
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+              error={!!errors.gender}
+              helperText={errors.gender}
+              fullWidth
+              sx={fieldSx}
+            >
+              <MenuItem value="">Select Gender</MenuItem>
+              <MenuItem value="female">Female</MenuItem>
+              <MenuItem value="male">Male</MenuItem>
+            </TextField>
 
-      <form onSubmit={handleSubmit}>
-        <Box display="grid" gap={3}>
-          <TextField
-            select
-            label="Gender"
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            error={!!errors.gender}
-            helperText={errors.gender}
-            fullWidth
-          >
-            <MenuItem value="">Select Gender</MenuItem>
-            <MenuItem value="female">Female</MenuItem>
-            <MenuItem value="male">Male</MenuItem>
-          </TextField>
+            <TextField
+              label="Weight (kg)"
+              name="weight"
+              type="number"
+              value={formData.weight}
+              onChange={handleChange}
+              error={!!errors.weight}
+              helperText={errors.weight}
+              inputProps={{ min: 0, step: 0.1 }}
+              fullWidth
+              sx={fieldSx}
+            />
 
-          <TextField
-            label="Weight (kg)"
-            name="weight"
-            type="number"
-            value={formData.weight}
-            onChange={handleChange}
-            error={!!errors.weight}
-            helperText={errors.weight}
-            inputProps={{ min: 0, step: 0.1 }}
-            fullWidth
-          />
+            <TextField
+              label="Height (cm)"
+              name="height"
+              type="number"
+              value={formData.height}
+              onChange={handleChange}
+              error={!!errors.height}
+              helperText={errors.height}
+              inputProps={{ min: 0, step: 0.1 }}
+              fullWidth
+              sx={fieldSx}
+            />
 
-          <TextField
-            label="Height (cm)"
-            name="height"
-            type="number"
-            value={formData.height}
-            onChange={handleChange}
-            error={!!errors.height}
-            helperText={errors.height}
-            inputProps={{ min: 0, step: 0.1 }}
-            fullWidth
-          />
+            <TextField
+              label="Age"
+              name="age"
+              type="number"
+              value={formData.age}
+              onChange={handleChange}
+              error={!!errors.age}
+              helperText={errors.age}
+              inputProps={{ min: 0, step: 1 }}
+              fullWidth
+              sx={fieldSx}
+            />
 
-          <TextField
-            label="Age"
-            name="age"
-            type="number"
-            value={formData.age}
-            onChange={handleChange}
-            error={!!errors.age}
-            helperText={errors.age}
-            inputProps={{ min: 0, step: 1 }}
-            fullWidth
-          />
+            <TextField
+              select
+              label="Activity Level"
+              name="activityLevel"
+              value={formData.activityLevel}
+              onChange={handleChange}
+              error={!!errors.activityLevel}
+              helperText={errors.activityLevel}
+              fullWidth
+              sx={fieldSx}
+            >
+              <MenuItem value="">Select Activity Level</MenuItem>
+              {activityLevels.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
 
-          <TextField
-            select
-            label="Activity Level"
-            name="activityLevel"
-            value={formData.activityLevel}
-            onChange={handleChange}
-            error={!!errors.activityLevel}
-            helperText={errors.activityLevel}
-            fullWidth
-          >
-            <MenuItem value="">Select Activity Level</MenuItem>
-            {activityLevels.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+            <TextField
+              select
+              label="Goal"
+              name="goal"
+              value={formData.goal}
+              onChange={handleChange}
+              error={!!errors.goal}
+              helperText={errors.goal}
+              fullWidth
+              sx={fieldSx}
+            >
+              <MenuItem value="">Select Goal</MenuItem>
+              {goals.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
 
-          <TextField
-            select
-            label="Goal"
-            name="goal"
-            value={formData.goal}
-            onChange={handleChange}
-            error={!!errors.goal}
-            helperText={errors.goal}
-            fullWidth
-          >
-            <MenuItem value="">Select Goal</MenuItem>
-            {goals.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            size="large"
-            sx={{ mt: 2 }}
-          >
-            Save Profile
-          </Button>
-        </Box>
-      </form>
-    </Paper>
+            <Button
+              className="auth-submit profile-form__wide"
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="large"
+              sx={{ mt: 1 }}
+            >
+              Save Profile
+            </Button>
+          </div>
+        </form>
+      </section>
+    </div>
   );
 };
 

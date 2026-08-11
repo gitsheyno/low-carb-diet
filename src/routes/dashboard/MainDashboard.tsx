@@ -1,27 +1,25 @@
+import { useEffect } from "react";
+import { Provider } from "react-redux";
 import { Outlet, useNavigate } from "react-router";
 import SideNav from "../../components/SideNav";
-import { Provider } from "react-redux";
 import store from "../../store/store";
-import { useEffect } from "react";
 
 export default function MainDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-    }
+    if (!token) navigate("/login");
   }, [navigate]);
 
   return (
     <Provider store={store}>
-      <div className="max-w-[80%] mx-auto h-screen flex rounded-lg [&::-webkit-scrollbar]:hidden">
-        <div className="absolute">
-          <SideNav />
-        </div>
-        <main className="w-full mt-20 h-[85%] p-4 grid overflow-y-scroll">
-          <Outlet />
+      <div className="app-shell">
+        <SideNav />
+        <main className="app-main">
+          <div className="app-content">
+            <Outlet />
+          </div>
         </main>
       </div>
     </Provider>
