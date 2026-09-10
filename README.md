@@ -73,11 +73,38 @@ Production builds generate `bundle-analyzer-report.html` using Rollup Visualizer
 
 ```text
 src/
-├── components/       Shared UI and authentication screens
-├── routes/           Recipe and dashboard route views
-├── store/            Redux store and feature slices
-├── utils/            API requests, hooks, types, and helpers
-├── App.tsx           Public landing page
-├── App.css           Landing-page design system and responsive styles
-└── main.tsx          App providers and route configuration
+├── app/              Application wiring: routes, layouts, and Redux store
+├── features/         Product capabilities, organized by feature
+│   ├── auth/         Authentication API and screens
+│   ├── dashboard/    Daily nutrition dashboard
+│   ├── landing/      Public landing page
+│   ├── meal-planning/ Meal search, selection, persistence, and Redux state
+│   ├── profile/      Profile form and API operations
+│   └── recipes/      Recipe search, details, types, and screens
+├── shared/           Reusable UI and hooks with no feature ownership
+├── styles/           Global product and landing-page styles
+└── main.tsx          Browser and TanStack Query providers
 ```
+
+## Architecture
+
+The client uses a feature-based architecture. A feature owns the code needed
+for one product capability, including its pages, UI components, API functions,
+state, and types. This keeps code that changes together close together.
+
+Dependencies should generally point in this direction:
+
+```text
+main -> app -> features -> shared
+```
+
+- `app` composes features and owns application-wide wiring.
+- A feature may import from `shared` and from its own folders.
+- Features should not reach into another feature's internal components, API,
+  or state. Promote truly reusable code to `shared` or expose an intentional
+  feature entry point if cross-feature collaboration becomes necessary.
+- `shared` must not import from `features` or `app`.
+
+This is not a full Domain-Driven Design architecture. Domain types and rules
+can live inside their owning feature until the business model becomes complex
+enough to warrant framework-independent domain and application layers.
