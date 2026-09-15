@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router";
 import { useState, useEffect } from "react";
-import { InputAdornment, TextField } from "@mui/material";
-import { Search as SearchIcon } from "lucide-react";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { Search as SearchIcon, X } from "lucide-react";
 export default function SearchInput() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState<string>(() => searchParams.get("q") ?? "");
@@ -37,6 +37,18 @@ export default function SearchInput() {
               <SearchIcon color="#69766e" size={18} />
             </InputAdornment>
           ),
+          endAdornment: query ? (
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="Clear search"
+                edge="end"
+                onClick={() => setQuery("")}
+                size="small"
+              >
+                <X size={17} />
+              </IconButton>
+            </InputAdornment>
+          ) : undefined,
         },
       }}
     />

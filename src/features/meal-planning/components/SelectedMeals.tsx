@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { removeMeal, selectMeals } from "../state/mealPlanningSlice";
 import saveMealPlan from "../api/saveMealPlan";
+import RemoteImage from "../../../shared/components/RemoteImage";
 
 export default function SelectedMeals() {
   const dispatch = useDispatch();
@@ -18,17 +19,11 @@ export default function SelectedMeals() {
         <ul className="grid max-h-64 gap-1 overflow-y-auto pr-1">
           {meals.map((item) => (
             <li className="selected-meal" key={item.id}>
-              {item.image ? (
-                <img
-                  alt={item.name}
-                  className="selected-meal__image"
-                  src={item.image}
-                />
-              ) : (
-                <span className="selected-meal__image grid place-items-center">
-                  <Utensils size={17} />
-                </span>
-              )}
+              <RemoteImage
+                alt={item.name}
+                className="selected-meal__image"
+                src={item.image}
+              />
               <div className="selected-meal__copy">
                 <strong>{item.name}</strong>
                 <span>

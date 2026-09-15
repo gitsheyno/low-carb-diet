@@ -6,6 +6,7 @@ import Description from "./Description";
 import Ingredients from "./Ingredients";
 import Spinner from "../../../shared/components/Spinner";
 import Steps from "./Steps";
+import RemoteImage from "../../../shared/components/RemoteImage";
 
 export default function RecipeDetails() {
   const { id, user } = useParams<{ id: string; user: string }>();
@@ -54,7 +55,7 @@ export default function RecipeDetails() {
         All recipes
       </Link>
       <div className="recipe-detail__hero">
-        <img alt={response.name} src={response.image} />
+        <RemoteImage alt={response.name} loading="eager" src={response.image} />
         <div className="recipe-detail__title">
           <p className="mb-3 text-[11px] font-bold uppercase tracking-[.16em] text-[#cce895]">
             Recipe details

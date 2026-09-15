@@ -14,6 +14,7 @@ import { Link, useNavigate } from "react-router";
 import useAuth from "../api/auth";
 import AuthShell from "./AuthShell";
 import Spinner from "../../../shared/components/Spinner";
+import { saveAuthToken } from "../utils/authStorage";
 
 const fieldSx = {
   "& .MuiOutlinedInput-root": { borderRadius: "14px", backgroundColor: "#fff" },
@@ -36,8 +37,10 @@ const SignUpPage: React.FC = () => {
   const signupMutation = useMutation({
     mutationFn: signIn,
     onSuccess: (data) => {
-      localStorage.setItem("token", data.token);
-      navigate(`/dashboard/${data.name}`);
+      saveAuthToken(data.token);
+      navigate(`/dashboard/${encodeURIComponent(data.name)}`, {
+        replace: true,
+      });
     },
     onError: () =>
       setError("We couldn't create your account. Please try again."),

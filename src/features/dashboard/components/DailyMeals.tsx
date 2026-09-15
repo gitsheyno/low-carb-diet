@@ -1,6 +1,7 @@
 import { ArrowUpRight, CalendarDays, Utensils } from "lucide-react";
 import { Link, useParams } from "react-router";
 import type { Meal } from "../api/fetchDailyMeals";
+import RemoteImage from "../../../shared/components/RemoteImage";
 
 export default function DailyMeals({ response }: { response: Meal[] }) {
   const { user } = useParams();
@@ -39,17 +40,11 @@ export default function DailyMeals({ response }: { response: Meal[] }) {
             key={item.id}
           >
             <div className="h-14 w-14 flex-none overflow-hidden rounded-xl bg-[#e3e7df]">
-              {item.image ? (
-                <img
-                  alt={item.name}
-                  className="h-full w-full object-cover"
-                  src={item.image}
-                />
-              ) : (
-                <span className="grid h-full place-items-center text-[#69766e]">
-                  <Utensils size={18} />
-                </span>
-              )}
+              <RemoteImage
+                alt={item.name}
+                className="h-full w-full object-cover"
+                src={item.image}
+              />
             </div>
             <div className="min-w-0 flex-1">
               <Link

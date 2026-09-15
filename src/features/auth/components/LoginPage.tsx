@@ -10,10 +10,11 @@ import {
 } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import React, { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../api/auth";
 import AuthShell from "./AuthShell";
 import Spinner from "../../../shared/components/Spinner";
+import { saveAuthToken } from "../utils/authStorage";
 
 const fieldSx = {
   "& .MuiOutlinedInput-root": { borderRadius: "14px", backgroundColor: "#fff" },
@@ -24,6 +25,7 @@ const LoginPage: React.FC = () => {
   const userRef = useRef<HTMLInputElement>(null);
   const passRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const [inputIsValid, setInputIsValid] = useState({
     usernameIsValid: true,
     passwordIsValid: true,
@@ -33,8 +35,11 @@ const LoginPage: React.FC = () => {
   const loginMutation = useMutation({
     mutationFn: logIn,
     onSuccess: (data) => {
-      localStorage.setItem("token", data.token);
-      navigate(`/dashboard/${data.name}`);
+      saveAuthToken(data.token);
+      const requestedPath = (location.state as { from?: string } | null)?.from;
+      navigate(requestedPath || `/dashboard/${encodeURIComponent(data.name)}`, {
+        replace: true,
+      });
     },
     onError: () => {
       setError("We couldn't sign you in. Check your details and try again.");

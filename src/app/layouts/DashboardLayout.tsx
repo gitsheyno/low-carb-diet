@@ -1,16 +1,15 @@
-import { useEffect } from "react";
 import { Provider } from "react-redux";
-import { Outlet, useNavigate } from "react-router";
+import { Navigate, Outlet, useLocation } from "react-router";
 import SideNav from "../components/SideNav";
 import store from "../store";
+import { getAuthToken } from "../../features/auth/utils/authStorage";
 
 export default function MainDashboard() {
-  const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) navigate("/login");
-  }, [navigate]);
+  if (!getAuthToken()) {
+    return <Navigate replace state={{ from: location.pathname }} to="/login" />;
+  }
 
   return (
     <Provider store={store}>

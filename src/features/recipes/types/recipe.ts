@@ -12,7 +12,7 @@ export type Ingredient = {
 export interface Recipe {
   id: string;
   name: string;
-  image: string;
+  image: string | { url?: string; src?: string; href?: string };
   prepareTime: number;
   cookTime: number;
   tags: string[];

@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link, useParams, useSearchParams } from "react-router";
 import searchRecipes from "../api/searchRecipes";
 import Spinner from "../../../shared/components/Spinner";
+import RemoteImage from "../../../shared/components/RemoteImage";
 
 export default function RecipeResults() {
   const [searchParams] = useSearchParams();
@@ -17,6 +18,25 @@ export default function RecipeResults() {
   });
 
   if (queryData.isFetching) return <Spinner label="Finding good matches" />;
+  if (queryData.isError)
+    return (
+      <div className="empty-state" role="alert">
+        <div>
+          <span className="empty-state__icon">
+            <SearchX size={20} />
+          </span>
+          <h3>Search is unavailable</h3>
+          <p>We couldn’t load recipes. Check your connection and try again.</p>
+          <button
+            className="secondary-action mt-5"
+            onClick={() => queryData.refetch()}
+            type="button"
+          >
+            Try again
+          </button>
+        </div>
+      </div>
+    );
   const response = queryData.data ?? [];
 
   if (!response.length) {
@@ -42,7 +62,7 @@ export default function RecipeResults() {
             to={`/dashboard/${user}/recipe/${item.id}`}
           >
             <div className="product-recipe-card__image">
-              <img alt={item.name} loading="lazy" src={item.image} />
+              <RemoteImage alt={item.name} src={item.image} />
             </div>
             <div className="product-recipe-card__body">
               <div className="flex items-start justify-between gap-3">

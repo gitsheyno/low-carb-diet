@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { NavLink, useNavigate, useParams } from "react-router";
 import AppBrand from "../../shared/components/AppBrand";
+import { clearAuthToken } from "../../features/auth/utils/authStorage";
 
 export default function SideNav() {
   const { user } = useParams();
@@ -40,7 +41,7 @@ export default function SideNav() {
   ];
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    clearAuthToken();
     navigate("/login");
   };
 
