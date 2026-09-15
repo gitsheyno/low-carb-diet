@@ -179,15 +179,15 @@ function LandingPage() {
               </h2>
             </div>
             <p>
-              Tell us what matters. We&apos;ll turn it into an everyday plan
-              that changes when life does.
+              Create your account, complete your required profile, then use your
+              dashboard to plan and save meals around your goals.
             </p>
           </div>
           <div className="steps-grid">
             <article>
               <div className="step-top">
                 <span className="step-number">1</span>
-                <span className="step-label">Discover</span>
+                <span className="step-label">Join</span>
               </div>
               <div className="mini-graphic profile-graphic">
                 <span className="profile-dot" />
@@ -197,16 +197,16 @@ function LandingPage() {
                   <i />
                 </div>
               </div>
-              <h3>Set your direction</h3>
+              <h3>Create your account</h3>
               <p>
-                Share your body, routine, and nutrition goals in a quick guided
-                setup.
+                Sign up or log in. We&apos;ll check whether your nutrition
+                profile is ready.
               </p>
             </article>
             <article>
               <div className="step-top">
                 <span className="step-number">2</span>
-                <span className="step-label">Personalize</span>
+                <span className="step-label">Required setup</span>
               </div>
               <div className="mini-graphic targets-graphic">
                 <span style={{ "--size": "86%" } as React.CSSProperties}>
@@ -219,16 +219,16 @@ function LandingPage() {
                   F
                 </span>
               </div>
-              <h3>Know your numbers</h3>
+              <h3>Complete your profile</h3>
               <p>
-                Get clear daily energy and nutrient targets calculated around
-                your needs.
+                Add your body details, activity level, and goal to unlock your
+                personal targets.
               </p>
             </article>
             <article>
               <div className="step-top">
                 <span className="step-number">3</span>
-                <span className="step-label">Practice</span>
+                <span className="step-label">Review</span>
               </div>
               <div className="mini-graphic day-graphic">
                 <div>
@@ -244,10 +244,26 @@ function LandingPage() {
                   <i />
                 </div>
               </div>
-              <h3>Make it your routine</h3>
+              <h3>See your daily dashboard</h3>
               <p>
-                Plan meals, log what you eat, and adjust with useful—not
-                judgmental—feedback.
+                Review your calories, nutrients, and meals against the targets
+                created from your profile.
+              </p>
+            </article>
+            <article>
+              <div className="step-top">
+                <span className="step-number">4</span>
+                <span className="step-label">Plan</span>
+              </div>
+              <div className="mini-graphic plan-graphic">
+                <span />
+                <span />
+                <i>+</i>
+              </div>
+              <h3>Build and save a meal plan</h3>
+              <p>
+                Search recipes, add the meals you want, and save the finished
+                plan to your day.
               </p>
             </article>
           </div>

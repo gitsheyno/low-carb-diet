@@ -2,7 +2,18 @@ type UserInfo = {
   username: string;
   name: string;
   token: string;
+  profileConfigured: boolean;
 };
+
+async function getProfileConfigured(token: string) {
+  const response = await fetch(
+    "https://low-carb-server.onrender.com/api/dashboard/meals",
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  if (!response.ok) return false;
+  const payload = await response.json();
+  return payload?.data?.status === true;
+}
 
 const signIn = async ({
   username,
@@ -27,7 +38,7 @@ const signIn = async ({
     throw new Error("signin failed");
   }
 
-  return jsonResponse.data;
+  return { ...jsonResponse.data, profileConfigured: false };
 };
 
 const logIn = async ({
@@ -52,7 +63,11 @@ const logIn = async ({
     throw new Error(errorMessage);
   }
 
-  return jsonResponse.data;
+  const user = jsonResponse.data;
+  return {
+    ...user,
+    profileConfigured: await getProfileConfigured(user.token),
+  };
 };
 
 const useAuth = () => {

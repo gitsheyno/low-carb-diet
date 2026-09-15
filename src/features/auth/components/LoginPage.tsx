@@ -14,7 +14,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../api/auth";
 import AuthShell from "./AuthShell";
 import Spinner from "../../../shared/components/Spinner";
-import { saveAuthToken } from "../utils/authStorage";
+import { saveAuthSession } from "../utils/authStorage";
 
 const fieldSx = {
   "& .MuiOutlinedInput-root": { borderRadius: "14px", backgroundColor: "#fff" },
@@ -35,11 +35,15 @@ const LoginPage: React.FC = () => {
   const loginMutation = useMutation({
     mutationFn: logIn,
     onSuccess: (data) => {
-      saveAuthToken(data.token);
+      saveAuthSession(data.token, data.profileConfigured);
       const requestedPath = (location.state as { from?: string } | null)?.from;
-      navigate(requestedPath || `/dashboard/${encodeURIComponent(data.name)}`, {
-        replace: true,
-      });
+      const dashboardPath = `/dashboard/${encodeURIComponent(data.name)}`;
+      navigate(
+        data.profileConfigured
+          ? requestedPath || dashboardPath
+          : `${dashboardPath}/profile`,
+        { replace: true }
+      );
     },
     onError: () => {
       setError("We couldn't sign you in. Check your details and try again.");

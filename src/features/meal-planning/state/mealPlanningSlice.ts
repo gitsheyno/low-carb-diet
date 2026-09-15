@@ -35,10 +35,13 @@ const mealPlanningSlice = createSlice({
     removeMeal: (state, action: PayloadAction<string>) => {
       state.meals = state.meals.filter((meal) => meal.id !== action.payload);
     },
+    resetMeals: (state) => {
+      state.meals = [];
+    },
   },
 });
 
-export const { addMeal, removeMeal } = mealPlanningSlice.actions;
+export const { addMeal, removeMeal, resetMeals } = mealPlanningSlice.actions;
 
 export const selectMeals = (state: { mealPlanning: MealPlanningState }) =>
   state.mealPlanning.meals;

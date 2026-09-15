@@ -14,7 +14,7 @@ import { Link, useNavigate } from "react-router";
 import useAuth from "../api/auth";
 import AuthShell from "./AuthShell";
 import Spinner from "../../../shared/components/Spinner";
-import { saveAuthToken } from "../utils/authStorage";
+import { saveAuthSession } from "../utils/authStorage";
 
 const fieldSx = {
   "& .MuiOutlinedInput-root": { borderRadius: "14px", backgroundColor: "#fff" },
@@ -37,8 +37,8 @@ const SignUpPage: React.FC = () => {
   const signupMutation = useMutation({
     mutationFn: signIn,
     onSuccess: (data) => {
-      saveAuthToken(data.token);
-      navigate(`/dashboard/${encodeURIComponent(data.name)}`, {
+      saveAuthSession(data.token, false);
+      navigate(`/dashboard/${encodeURIComponent(data.name)}/profile`, {
         replace: true,
       });
     },

@@ -10,6 +10,8 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { CheckCircle2, ShieldCheck, UserRound } from "lucide-react";
+import { useNavigate, useParams } from "react-router";
+import { setProfileConfigured } from "../../auth/utils/authStorage";
 
 interface UserProfile {
   gender: string;
@@ -34,6 +36,8 @@ const UserProfileSchema = z.object({
 });
 
 const ProfileForm: React.FC = () => {
+  const navigate = useNavigate();
+  const { user } = useParams();
   const [formData, setFormData] = useState({
     gender: "",
     weight: "",
@@ -107,7 +111,11 @@ const ProfileForm: React.FC = () => {
         userProfile: profile,
         token: localStorage.getItem("token") ?? "",
       }),
-    onSuccess: resetForm,
+    onSuccess: () => {
+      setProfileConfigured(true);
+      resetForm();
+      navigate(`/dashboard/${user ?? "user"}`, { replace: true });
+    },
   });
 
   const activityLevels = [

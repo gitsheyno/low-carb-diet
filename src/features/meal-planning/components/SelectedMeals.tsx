@@ -2,7 +2,11 @@ import Button from "@mui/material/Button";
 import { CheckCircle2, Trash2, Utensils } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
-import { removeMeal, selectMeals } from "../state/mealPlanningSlice";
+import {
+  removeMeal,
+  resetMeals,
+  selectMeals,
+} from "../state/mealPlanningSlice";
 import saveMealPlan from "../api/saveMealPlan";
 import RemoteImage from "../../../shared/components/RemoteImage";
 
@@ -11,6 +15,7 @@ export default function SelectedMeals() {
   const meals = useSelector(selectMeals);
   const saveMutation = useMutation({
     mutationFn: saveMealPlan,
+    onSuccess: () => dispatch(resetMeals()),
   });
 
   return (
