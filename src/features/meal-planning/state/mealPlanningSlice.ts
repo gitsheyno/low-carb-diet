@@ -28,7 +28,9 @@ const mealPlanningSlice = createSlice({
   initialState,
   reducers: {
     addMeal: (state, action: PayloadAction<Meal>) => {
-      state.meals.push(action.payload);
+      if (!state.meals.some((meal) => meal.id === action.payload.id)) {
+        state.meals.push(action.payload);
+      }
     },
     removeMeal: (state, action: PayloadAction<string>) => {
       state.meals = state.meals.filter((meal) => meal.id !== action.payload);

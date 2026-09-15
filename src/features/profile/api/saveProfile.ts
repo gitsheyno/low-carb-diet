@@ -1,5 +1,3 @@
-import { QueryFunction } from "@tanstack/react-query";
-
 interface UserProfile {
   gender: string;
   weight: number;
@@ -9,21 +7,13 @@ interface UserProfile {
   goal: string;
   validated: boolean;
 }
-type User = {
-  username: string;
-  message: boolean;
-};
-
-const saveProfile: QueryFunction<
-  User,
-  ["userProfile", UserProfile, string]
-> = async ({ queryKey }) => {
-  const userProfile = queryKey[1];
-  const token = queryKey[2];
-
-  if (!userProfile.validated) {
-    return {};
-  }
+const saveProfile = async ({
+  userProfile,
+  token,
+}: {
+  userProfile: UserProfile;
+  token: string;
+}) => {
   const res = await fetch(
     `https://low-carb-server.onrender.com/api/dashboard/profile`,
     {
@@ -36,12 +26,11 @@ const saveProfile: QueryFunction<
     }
   );
   if (!res.ok) {
-    throw new Error(`pet search is not ok`);
+    throw new Error("Unable to save profile");
   }
 
   const jsonResponse = await res.json();
-  console.log(jsonResponse);
-  return jsonResponse.data.message;
+  return jsonResponse?.data?.message;
 };
 
 export default saveProfile;

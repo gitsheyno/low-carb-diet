@@ -4,17 +4,12 @@ interface NutritionType {
   carbs: number;
   fat: number;
 }
-interface Limit {
-  name: string;
-  value: number | undefined;
-}
-
 export default function NutritionProgress({
   data,
-  response,
+  goals,
 }: {
   data: NutritionType;
-  response: Limit[];
+  goals: Array<number | undefined>;
 }) {
   const nutrients = [
     { name: "Protein", value: Math.round(data.protein), color: "#2f7d55" },
@@ -26,7 +21,7 @@ export default function NutritionProgress({
   return (
     <div className="grid gap-5">
       {nutrients.map((nutrient, index) => {
-        const max = response[index]?.value || 100;
+        const max = goals[index] || 100;
         const percentage = Math.min(100, (nutrient.value / max) * 100);
         return (
           <div key={nutrient.name}>

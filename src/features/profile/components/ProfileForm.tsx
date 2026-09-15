@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { z } from "zod";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import saveProfile from "../api/saveProfile";
 import {
   Box,
@@ -9,7 +9,7 @@ import {
   Button,
   CircularProgress,
 } from "@mui/material";
-import { ShieldCheck, UserRound } from "lucide-react";
+import { CheckCircle2, ShieldCheck, UserRound } from "lucide-react";
 
 interface UserProfile {
   gender: string;
@@ -34,16 +34,6 @@ const UserProfileSchema = z.object({
 });
 
 const ProfileForm: React.FC = () => {
-  const [userProfile, setUserProfile] = useState<UserProfile>({
-    gender: "",
-    weight: 0,
-    height: 0,
-    age: 0,
-    activityLevel: "",
-    goal: "",
-    validated: false,
-  });
-
   const [formData, setFormData] = useState({
     gender: "",
     weight: "",
@@ -97,8 +87,7 @@ const ProfileForm: React.FC = () => {
     }
 
     const final = { ...data, validated: true } as UserProfile;
-    setUserProfile(final);
-    resetForm();
+    profileMutation.mutate(final);
   };
 
   const resetForm = () => {
@@ -112,14 +101,13 @@ const ProfileForm: React.FC = () => {
     });
   };
 
-  const { isFetching } = useQuery({
-    queryKey: [
-      "userProfile",
-      userProfile,
-      localStorage.getItem("token") as string,
-    ],
-    queryFn: saveProfile,
-    enabled: userProfile.validated,
+  const profileMutation = useMutation({
+    mutationFn: (profile: UserProfile) =>
+      saveProfile({
+        userProfile: profile,
+        token: localStorage.getItem("token") ?? "",
+      }),
+    onSuccess: resetForm,
   });
 
   const activityLevels = [
@@ -136,7 +124,7 @@ const ProfileForm: React.FC = () => {
     { value: "maintain", label: "Maintain Weight" },
   ];
 
-  if (isFetching) {
+  if (profileMutation.isPending) {
     return (
       <Box
         display="flex"
@@ -285,6 +273,22 @@ const ProfileForm: React.FC = () => {
             >
               Save Profile
             </Button>
+            {profileMutation.isSuccess && (
+              <p
+                className="save-message save-message--success profile-form__wide"
+                role="status"
+              >
+                <CheckCircle2 size={16} /> Profile saved successfully
+              </p>
+            )}
+            {profileMutation.isError && (
+              <p
+                className="save-message save-message--error profile-form__wide"
+                role="alert"
+              >
+                We couldn’t save your profile. Please try again.
+              </p>
+            )}
           </div>
         </form>
       </section>

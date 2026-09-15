@@ -15,7 +15,7 @@ interface NutritionType {
 }
 
 export default function DashboardOverview() {
-  const colors = ["#2f7d55", "#e3b957", "#e87b5a", "#dfe5dc"];
+  const colors = ["#2f7d55", "#e3b957", "#e87b5a"];
   const { user } = useParams();
   const query = useQuery({
     queryKey: ["getDailyMeals", localStorage.getItem("token") as string],
@@ -24,12 +24,30 @@ export default function DashboardOverview() {
   const response = query.data;
 
   if (query.isFetching) return <Spinner label="Preparing your day" />;
+  if (query.isError)
+    return (
+      <div className="surface empty-state page-state">
+        <div>
+          <span className="empty-state__icon">
+            <Leaf size={20} />
+          </span>
+          <h3>We couldn’t load your day</h3>
+          <p>Check your connection, then try again.</p>
+          <button
+            className="primary-action mt-5"
+            onClick={() => query.refetch()}
+            type="button"
+          >
+            Try again
+          </button>
+        </div>
+      </div>
+    );
 
   const data = [
     { name: "Protein", value: response?.proteinCal },
     { name: "Carbs", value: response?.carbsCal },
     { name: "Fat", value: response?.fatCal },
-    { name: "Daily target", value: response?.calories },
   ];
 
   const progressBarData = response?.meals.reduce(
@@ -37,7 +55,7 @@ export default function DashboardOverview() {
       calories: total.calories + meal.calories,
       protein: total.protein + meal.protein,
       carbs: total.carbs + meal.carbs,
-      fat: total.fat + meal.protein,
+      fat: total.fat + meal.fat,
     }),
     { calories: 0, protein: 0, carbs: 0, fat: 0 }
   );
@@ -58,15 +76,15 @@ export default function DashboardOverview() {
     },
     {
       label: "Protein target",
-      value: Math.round(response?.proteinCal || 0),
-      unit: "kcal",
+      value: Math.round(response?.proteinGram || 0),
+      unit: "g",
       tone: "#e87b5a",
       icon: Leaf,
     },
     {
       label: "Carb target",
-      value: Math.round(response?.carbsCal || 0),
-      unit: "kcal",
+      value: Math.round(response?.carbsGram || 0),
+      unit: "g",
       tone: "#e3b957",
       icon: Leaf,
     },
@@ -223,7 +241,12 @@ export default function DashboardOverview() {
             {progressBarData ? (
               <NutritionProgress
                 data={progressBarData as NutritionType}
-                response={data}
+                goals={[
+                  response?.proteinGram,
+                  response?.carbsGram,
+                  response?.fatGram,
+                  response?.calories,
+                ]}
               />
             ) : (
               <p className="text-sm text-[#69766e]">

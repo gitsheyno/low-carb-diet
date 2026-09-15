@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { InputAdornment, TextField } from "@mui/material";
 import { Search as SearchIcon } from "lucide-react";
 export default function SearchInput() {
-  const [query, setQuery] = useState<string>("");
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [query, setQuery] = useState<string>(() => searchParams.get("q") ?? "");
 
   const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -12,7 +12,10 @@ export default function SearchInput() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setSearchParams({ q: query });
+      const trimmedQuery = query.trim();
+      setSearchParams(trimmedQuery ? { q: trimmedQuery } : {}, {
+        replace: true,
+      });
     }, 500);
 
     return () => {
@@ -26,6 +29,7 @@ export default function SearchInput() {
       id="recipe-search"
       label="Search meals and recipes"
       onChange={handleQuery}
+      value={query}
       slotProps={{
         input: {
           startAdornment: (

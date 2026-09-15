@@ -8,7 +8,34 @@
   padding: 0;
   box-sizing: border-box;
 }
+html {
+  min-width: 320px;
+  background: #f4f1e9;
+}
 body {
   background-color: #fbfaf6;
   min-height: 100vh;
+  color: #18251e;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  color: #173d2b;
+  background: #cce895;
 }

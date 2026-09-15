@@ -8,8 +8,8 @@ import {
   OutlinedInput,
   TextField,
 } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useRef, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import useAuth from "../api/auth";
 import AuthShell from "./AuthShell";
@@ -24,33 +24,22 @@ const LoginPage: React.FC = () => {
   const userRef = useRef<HTMLInputElement>(null);
   const passRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const [userData, setUserData] = useState({ username: "", password: "" });
   const [inputIsValid, setInputIsValid] = useState({
     usernameIsValid: true,
     passwordIsValid: true,
   });
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
-  const token = localStorage.getItem("token");
-
-  const res = useQuery({
-    queryKey: ["logIn", userData, token as string],
-    queryFn: logIn,
-    enabled: !!userData.username && !!userData.password,
-    retry: false,
-  });
-
-  useEffect(() => {
-    if (res.isError && res.error)
+  const loginMutation = useMutation({
+    mutationFn: logIn,
+    onSuccess: (data) => {
+      localStorage.setItem("token", data.token);
+      navigate(`/dashboard/${data.name}`);
+    },
+    onError: () => {
       setError("We couldn't sign you in. Check your details and try again.");
-  }, [res.isError, res.error]);
-
-  useEffect(() => {
-    if (res.data?.token) {
-      localStorage.setItem("token", res.data.token);
-      navigate(`/dashboard/${res.data.name}`);
-    }
-  }, [res.data, navigate]);
+    },
+  });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -58,18 +47,16 @@ const LoginPage: React.FC = () => {
     const formData = new FormData(event.currentTarget);
     const username = formData.get("username")?.toString() ?? "";
     const password = formData.get("password")?.toString() ?? "";
-    setInputIsValid({
-      usernameIsValid: username.includes("@"),
-      passwordIsValid: password.length > 6,
-    });
-    setUserData({ username, password });
-    if (userRef.current && passRef.current) {
-      userRef.current.value = "";
-      passRef.current.value = "";
+    const usernameIsValid = username.includes("@");
+    const passwordIsValid = password.length > 6;
+    setInputIsValid({ usernameIsValid, passwordIsValid });
+    if (usernameIsValid && passwordIsValid) {
+      loginMutation.mutate({ username, password });
     }
   };
 
-  if (res.isFetching) return <Spinner fullScreen label="Signing you in" />;
+  if (loginMutation.isPending)
+    return <Spinner fullScreen label="Signing you in" />;
 
   return (
     <AuthShell mode="login">

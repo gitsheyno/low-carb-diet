@@ -15,8 +15,11 @@ export default function MainDashboard() {
   return (
     <Provider store={store}>
       <div className="app-shell">
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
         <SideNav />
-        <main className="app-main">
+        <main className="app-main" id="main-content">
           <div className="app-content">
             <Outlet />
           </div>

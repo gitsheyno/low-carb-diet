@@ -1,23 +1,15 @@
 import Button from "@mui/material/Button";
-import { Trash2, Utensils } from "lucide-react";
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { CheckCircle2, Trash2, Utensils } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { removeMeal, selectMeals } from "../state/mealPlanningSlice";
 import saveMealPlan from "../api/saveMealPlan";
 
 export default function SelectedMeals() {
-  const [submit, setSubmit] = useState(false);
   const dispatch = useDispatch();
   const meals = useSelector(selectMeals);
-  useQuery({
-    queryKey: [
-      "handleUserMeals",
-      localStorage.getItem("token") as string,
-      meals,
-      submit,
-    ],
-    queryFn: saveMealPlan,
+  const saveMutation = useMutation({
+    mutationFn: saveMealPlan,
   });
 
   return (
@@ -70,13 +62,28 @@ export default function SelectedMeals() {
         className="auth-submit"
         disabled={!meals.length}
         fullWidth
-        onClick={() => setSubmit(true)}
+        onClick={() =>
+          saveMutation.mutate({
+            token: localStorage.getItem("token") ?? "",
+            meals,
+          })
+        }
         sx={{ marginTop: 2 }}
         type="button"
         variant="contained"
       >
-        Save meal plan
+        {saveMutation.isPending ? "Saving…" : "Save meal plan"}
       </Button>
+      {saveMutation.isSuccess && (
+        <p className="save-message save-message--success" role="status">
+          <CheckCircle2 size={16} /> Meal plan saved
+        </p>
+      )}
+      {saveMutation.isError && (
+        <p className="save-message save-message--error" role="alert">
+          We couldn’t save the plan. Please try again.
+        </p>
+      )}
     </div>
   );
 }

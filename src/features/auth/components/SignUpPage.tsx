@@ -8,8 +8,8 @@ import {
   OutlinedInput,
   TextField,
 } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useRef, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import useAuth from "../api/auth";
 import AuthShell from "./AuthShell";
@@ -26,25 +26,22 @@ const SignUpPage: React.FC = () => {
   const nameRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [userData, setUserData] = useState({
-    username: "",
-    password: "",
-    name: "",
-  });
+  const [error, setError] = useState<string | null>(null);
   const [inputIsValid, setInputIsValid] = useState({
     usernameIsValid: true,
     passwordIsValid: true,
     nameIsValid: true,
   });
 
-  const res = useQuery({ queryKey: ["signIn", userData], queryFn: signIn });
-
-  useEffect(() => {
-    if (res.data?.token) {
-      localStorage.setItem("token", res.data.token);
-      navigate(`/dashboard/${res.data.name}`);
-    }
-  }, [res.data, navigate]);
+  const signupMutation = useMutation({
+    mutationFn: signIn,
+    onSuccess: (data) => {
+      localStorage.setItem("token", data.token);
+      navigate(`/dashboard/${data.name}`);
+    },
+    onError: () =>
+      setError("We couldn't create your account. Please try again."),
+  });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,19 +49,17 @@ const SignUpPage: React.FC = () => {
     const username = formData.get("username")?.toString() ?? "";
     const password = formData.get("password")?.toString() ?? "";
     const name = formData.get("name")?.toString() ?? "";
-    setInputIsValid({
-      usernameIsValid: username.includes("@"),
-      passwordIsValid: password.length > 6,
-      nameIsValid: name.length > 0,
-    });
-    setUserData({ username, password, name });
-    if (userRef.current && passRef.current) {
-      userRef.current.value = "";
-      passRef.current.value = "";
+    setError(null);
+    const usernameIsValid = username.includes("@");
+    const passwordIsValid = password.length > 6;
+    const nameIsValid = name.trim().length > 0;
+    setInputIsValid({ usernameIsValid, passwordIsValid, nameIsValid });
+    if (usernameIsValid && passwordIsValid && nameIsValid) {
+      signupMutation.mutate({ username, password, name: name.trim() });
     }
   };
 
-  if (res.isFetching)
+  if (signupMutation.isPending)
     return <Spinner fullScreen label="Creating your account" />;
 
   return (
@@ -154,6 +149,11 @@ const SignUpPage: React.FC = () => {
             {!inputIsValid.passwordIsValid ? "Use at least 7 characters" : ""}
           </span>
         </FormControl>
+        {error && (
+          <p className="auth-error" role="alert">
+            {error}
+          </p>
+        )}
         <Button
           className="auth-submit"
           fullWidth

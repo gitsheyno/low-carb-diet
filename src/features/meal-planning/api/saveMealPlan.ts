@@ -1,5 +1,3 @@
-import { QueryFunction } from "@tanstack/react-query";
-
 type Res = string | Meal[];
 type Meal = {
   name: string;
@@ -8,17 +6,13 @@ type Meal = {
   protein: number;
 };
 
-const saveMealPlan: QueryFunction<
-  Res,
-  ["handleUserMeals", string, Meal[], boolean]
-> = async ({ queryKey }) => {
-  const token = queryKey[1];
-  const meals = queryKey[2];
-  const submitted = queryKey[3];
-  if (!submitted) {
-    return [];
-  }
-
+const saveMealPlan = async ({
+  token,
+  meals,
+}: {
+  token: string;
+  meals: Meal[];
+}): Promise<Res> => {
   const res = await fetch(
     `https://low-carb-server.onrender.com/api/dashboard/meals`,
     {
@@ -33,6 +27,8 @@ const saveMealPlan: QueryFunction<
 
   const jsonRes = await res.json();
 
-  return jsonRes?.data.createdMeals ?? [];
+  if (!res.ok) throw new Error("Unable to save the meal plan");
+
+  return jsonRes?.data?.createdMeals ?? [];
 };
 export default saveMealPlan;
