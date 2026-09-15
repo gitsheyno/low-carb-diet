@@ -190,6 +190,26 @@ select:focus-visible {
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
 }
 
+.app-nav__notice {
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  margin-left: auto;
+  border: 2px solid var(--app-forest);
+  border-radius: 50%;
+  color: var(--app-forest);
+  background: var(--app-coral);
+  font-size: 0.68rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.app-nav__item:not(.is-active) .app-nav__notice {
+  border-color: var(--app-forest);
+  box-shadow: 0 0 0 2px rgba(232, 123, 90, 0.18);
+}
+
 .app-nav__logout {
   margin-top: auto;
 }
@@ -267,6 +287,47 @@ select:focus-visible {
   font-size: 0.76rem;
   font-weight: 700;
   white-space: nowrap;
+}
+
+.profile-reminder {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 24px;
+  padding: 20px 22px;
+  border: 1px solid rgba(227, 185, 87, 0.5);
+  border-radius: 20px;
+  background: linear-gradient(120deg, #fff8e4, #fffdf7);
+  box-shadow: 0 12px 34px rgba(91, 68, 22, 0.07);
+}
+
+.profile-reminder__icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  color: #76530c;
+  background: #f8dda0;
+}
+
+.profile-reminder .page-eyebrow {
+  margin-bottom: 5px;
+  color: #8a6110;
+}
+
+.profile-reminder h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.profile-reminder p:not(.page-eyebrow) {
+  max-width: 680px;
+  margin: 5px 0 0;
+  color: var(--app-muted);
+  font-size: 0.84rem;
+  line-height: 1.55;
 }
 
 .surface {
@@ -958,6 +1019,8 @@ select:focus-visible {
   .app-nav__logout { min-height: 50px; flex-direction: column; justify-content: center; gap: 3px; margin: 0; padding: 5px; font-size: .58rem; text-align: center; }
   .app-nav__item svg,
   .app-nav__logout svg { width: 19px; height: 19px; }
+  .app-nav__notice { position: absolute; top: 3px; right: calc(50% - 18px); width: 16px; height: 16px; margin: 0; border-width: 1px; font-size: .56rem; }
+  .app-nav__item { position: relative; }
   .app-main { margin-left: 0; padding: 28px clamp(16px, 4vw, 24px) calc(112px + env(safe-area-inset-bottom)); }
   .auth-layout { grid-template-columns: 1fr; }
   .auth-story { display: none; }
@@ -983,6 +1046,8 @@ select:focus-visible {
   .recipe-detail__facts span { padding: 6px 9px; font-size: .67rem; }
   .meal-result, .selected-meal { padding: 10px 8px; }
   .meal-result__image, .selected-meal__image { width: 46px; height: 46px; }
+  .profile-reminder { grid-template-columns: auto 1fr; padding: 18px; }
+  .profile-reminder .primary-action { grid-column: 1 / -1; }
 }
 
 @media (max-width: 390px) {

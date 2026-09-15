@@ -7,11 +7,15 @@ import {
 } from "lucide-react";
 import { NavLink, useNavigate, useParams } from "react-router";
 import AppBrand from "../../shared/components/AppBrand";
-import { clearAuthToken } from "../../features/auth/utils/authStorage";
+import {
+  clearAuthToken,
+  getStoredProfileStatus,
+} from "../../features/auth/utils/authStorage";
 
 export default function SideNav() {
   const { user } = useParams();
   const navigate = useNavigate();
+  const needsProfile = getStoredProfileStatus() === false;
 
   const navItems = [
     {
@@ -65,6 +69,15 @@ export default function SideNav() {
           >
             <Icon aria-hidden="true" size={20} strokeWidth={1.8} />
             <span>{label}</span>
+            {label === "Profile" && needsProfile && (
+              <span
+                aria-label="Profile setup needed"
+                className="app-nav__notice"
+                title="Complete your profile"
+              >
+                !
+              </span>
+            )}
           </NavLink>
         ))}
         <button

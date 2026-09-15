@@ -9,7 +9,7 @@ export default function ProfilePage() {
       <header className="page-header">
         <div>
           <p className="page-eyebrow">
-            {isOnboarding ? "Required setup" : "Profile and targets"}
+            {isOnboarding ? "Recommended setup" : "Profile and targets"}
           </p>
           <h1>
             {isOnboarding
@@ -18,13 +18,13 @@ export default function ProfilePage() {
           </h1>
           <p>
             {isOnboarding
-              ? "Complete these details to calculate your targets and unlock your dashboard."
+              ? "Complete these details whenever you’re ready to calculate your personal targets."
               : "Your details help shape the daily numbers shown across Plateful."}
           </p>
         </div>
         <span className="page-date-chip">
           <Settings2 size={15} />
-          {isOnboarding ? "Step 1 of 1" : "Personal settings"}
+          {isOnboarding ? "Profile reminder" : "Personal settings"}
         </span>
       </header>
       <ProfileForm />

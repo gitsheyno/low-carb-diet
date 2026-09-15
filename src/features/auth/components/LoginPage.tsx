@@ -37,13 +37,9 @@ const LoginPage: React.FC = () => {
     onSuccess: (data) => {
       saveAuthSession(data.token, data.profileConfigured);
       const requestedPath = (location.state as { from?: string } | null)?.from;
-      const dashboardPath = `/dashboard/${encodeURIComponent(data.name)}`;
-      navigate(
-        data.profileConfigured
-          ? requestedPath || dashboardPath
-          : `${dashboardPath}/profile`,
-        { replace: true }
-      );
+      navigate(requestedPath || `/dashboard/${encodeURIComponent(data.name)}`, {
+        replace: true,
+      });
     },
     onError: () => {
       setError("We couldn't sign you in. Check your details and try again.");

@@ -179,8 +179,8 @@ function LandingPage() {
               </h2>
             </div>
             <p>
-              Create your account, complete your required profile, then use your
-              dashboard to plan and save meals around your goals.
+              Create your account, personalize your profile when you&apos;re
+              ready, then use the dashboard to plan and save meals.
             </p>
           </div>
           <div className="steps-grid">
@@ -206,7 +206,7 @@ function LandingPage() {
             <article>
               <div className="step-top">
                 <span className="step-number">2</span>
-                <span className="step-label">Required setup</span>
+                <span className="step-label">Personalize</span>
               </div>
               <div className="mini-graphic targets-graphic">
                 <span style={{ "--size": "86%" } as React.CSSProperties}>
@@ -221,8 +221,8 @@ function LandingPage() {
               </div>
               <h3>Complete your profile</h3>
               <p>
-                Add your body details, activity level, and goal to unlock your
-                personal targets.
+                Add your body details, activity level, and goal so your daily
+                targets reflect you. We&apos;ll remind you if you skip it.
               </p>
             </article>
             <article>

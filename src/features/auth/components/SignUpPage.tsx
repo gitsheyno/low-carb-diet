@@ -38,7 +38,7 @@ const SignUpPage: React.FC = () => {
     mutationFn: signIn,
     onSuccess: (data) => {
       saveAuthSession(data.token, false);
-      navigate(`/dashboard/${encodeURIComponent(data.name)}/profile`, {
+      navigate(`/dashboard/${encodeURIComponent(data.name)}`, {
         replace: true,
       });
     },

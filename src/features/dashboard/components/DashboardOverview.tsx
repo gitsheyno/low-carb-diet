@@ -1,11 +1,20 @@
-import { ArrowRight, CalendarDays, Flame, Leaf, Plus } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarDays,
+  CircleAlert,
+  Flame,
+  Leaf,
+  Plus,
+} from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { Link, useParams } from "react-router";
 import fetchDailyMeals from "../api/fetchDailyMeals";
 import DailyMeals from "./DailyMeals";
 import NutritionProgress from "./NutritionProgress";
 import Spinner from "../../../shared/components/Spinner";
+import { setProfileConfigured } from "../../auth/utils/authStorage";
 
 interface NutritionType {
   calories: number;
@@ -22,6 +31,10 @@ export default function DashboardOverview() {
     queryFn: fetchDailyMeals,
   });
   const response = query.data;
+
+  useEffect(() => {
+    if (response) setProfileConfigured(response.status);
+  }, [response]);
 
   if (query.isFetching) return <Spinner label="Preparing your day" />;
   if (query.isError)
@@ -117,6 +130,29 @@ export default function DashboardOverview() {
           }).format(new Date())}
         </span>
       </header>
+
+      {response?.status === false && (
+        <section
+          className="profile-reminder"
+          aria-labelledby="profile-reminder-title"
+        >
+          <span className="profile-reminder__icon" aria-hidden="true">
+            <CircleAlert size={22} />
+          </span>
+          <div>
+            <p className="page-eyebrow">Your targets need a few details</p>
+            <h2 id="profile-reminder-title">Finish setting up your profile</h2>
+            <p>
+              Add your body details, activity level, and goal so Plateful can
+              calculate meaningful daily targets. You can still explore the app
+              now.
+            </p>
+          </div>
+          <Link className="primary-action" to={`/dashboard/${user}/profile`}>
+            Complete profile <ArrowRight size={16} />
+          </Link>
+        </section>
+      )}
 
       <section
         className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4 mb-6"
