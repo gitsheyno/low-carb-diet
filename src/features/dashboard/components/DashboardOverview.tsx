@@ -14,7 +14,7 @@ import fetchDailyMeals from "../api/fetchDailyMeals";
 import DailyMeals from "./DailyMeals";
 import NutritionProgress from "./NutritionProgress";
 import Spinner from "../../../shared/components/Spinner";
-import { setProfileConfigured } from "../../auth/utils/authStorage";
+import { useAuth } from "../../auth/context/AuthContext";
 
 interface NutritionType {
   calories: number;
@@ -26,15 +26,16 @@ interface NutritionType {
 export default function DashboardOverview() {
   const colors = ["#2f7d55", "#e3b957", "#e87b5a"];
   const { user } = useParams();
+  const { setProfileConfigured } = useAuth();
   const query = useQuery({
-    queryKey: ["getDailyMeals", localStorage.getItem("token") as string],
+    queryKey: ["getDailyMeals"],
     queryFn: fetchDailyMeals,
   });
   const response = query.data;
 
   useEffect(() => {
     if (response) setProfileConfigured(response.status);
-  }, [response]);
+  }, [response, setProfileConfigured]);
 
   if (query.isFetching) return <Spinner label="Preparing your day" />;
   if (query.isError)

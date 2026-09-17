@@ -2,12 +2,16 @@ import { Provider } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router";
 import SideNav from "../components/SideNav";
 import store from "../store";
-import { getAuthToken } from "../../features/auth/utils/authStorage";
+import { useAuth } from "../../features/auth/context/AuthContext";
+import Spinner from "../../shared/components/Spinner";
 
 export default function MainDashboard() {
   const location = useLocation();
-  const token = getAuthToken();
-  if (!token) {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) return <Spinner fullScreen label="Checking your session" />;
+
+  if (!isAuthenticated) {
     return <Navigate replace state={{ from: location.pathname }} to="/login" />;
   }
 

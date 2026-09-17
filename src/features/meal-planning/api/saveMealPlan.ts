@@ -1,3 +1,5 @@
+import { apiFetch } from "../../../shared/api/apiFetch";
+
 type Res = string | Meal[];
 type Meal = {
   name: string;
@@ -6,21 +8,14 @@ type Meal = {
   protein: number;
 };
 
-const saveMealPlan = async ({
-  token,
-  meals,
-}: {
-  token: string;
-  meals: Meal[];
-}): Promise<Res> => {
-  const res = await fetch(
+const saveMealPlan = async (meals: Meal[]): Promise<Res> => {
+  const res = await apiFetch(
     `https://low-carb-server.onrender.com/api/dashboard/meals`,
     {
       method: "POST",
       body: JSON.stringify({ data: meals }),
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
       },
     }
   );

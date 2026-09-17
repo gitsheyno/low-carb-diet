@@ -13,7 +13,7 @@ export default function MealSearchResults() {
   const dispatch = useDispatch();
   const query = searchParams.get("q") as string;
   const queryData = useQuery({
-    queryKey: ["mealPlanner", localStorage.getItem("token") as string, query],
+    queryKey: ["mealPlanner", query],
     queryFn: searchMeals,
   });
   const meals = queryData.data ?? [];

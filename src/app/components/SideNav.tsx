@@ -7,15 +7,13 @@ import {
 } from "lucide-react";
 import { NavLink, useNavigate, useParams } from "react-router";
 import AppBrand from "../../shared/components/AppBrand";
-import {
-  clearAuthToken,
-  getStoredProfileStatus,
-} from "../../features/auth/utils/authStorage";
+import { useAuth } from "../../features/auth/context/AuthContext";
 
 export default function SideNav() {
   const { user } = useParams();
   const navigate = useNavigate();
-  const needsProfile = getStoredProfileStatus() === false;
+  const { logOut, profileConfigured } = useAuth();
+  const needsProfile = profileConfigured === false;
 
   const navItems = [
     {
@@ -44,9 +42,13 @@ export default function SideNav() {
     },
   ];
 
-  const handleLogout = () => {
-    clearAuthToken();
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      navigate("/login", { replace: true });
+    } catch {
+      // Keep the user in place if the server could not clear the HTTP-only cookie.
+    }
   };
 
   return (

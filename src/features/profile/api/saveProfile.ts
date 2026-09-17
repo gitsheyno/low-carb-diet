@@ -1,3 +1,5 @@
+import { apiFetch } from "../../../shared/api/apiFetch";
+
 interface UserProfile {
   gender: string;
   weight: number;
@@ -7,21 +9,14 @@ interface UserProfile {
   goal: string;
   validated: boolean;
 }
-const saveProfile = async ({
-  userProfile,
-  token,
-}: {
-  userProfile: UserProfile;
-  token: string;
-}) => {
-  const res = await fetch(
+const saveProfile = async (userProfile: UserProfile) => {
+  const res = await apiFetch(
     `https://low-carb-server.onrender.com/api/dashboard/profile`,
     {
       method: "PATCH",
       body: JSON.stringify({ userProfile }),
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
       },
     }
   );

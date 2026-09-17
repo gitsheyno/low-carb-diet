@@ -1,23 +1,19 @@
 import { QueryFunction } from "@tanstack/react-query";
 import type { Recipe } from "../types/recipe";
+import { apiFetch } from "../../../shared/api/apiFetch";
 
-const searchRecipes: QueryFunction<
-  Recipe[],
-  ["search", string, token: string]
-> = async ({ queryKey }) => {
+const searchRecipes: QueryFunction<Recipe[], ["search", string]> = async ({
+  queryKey,
+}) => {
   const query = queryKey[1];
-  const token = queryKey[2];
 
   if (!query || query === "") {
     return [];
   }
-  const res = await fetch(
+  const res = await apiFetch(
     `https://low-carb-server.onrender.com/api/recipes/${query}`,
     {
       method: "POST",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
     }
   );
   if (!res.ok) {

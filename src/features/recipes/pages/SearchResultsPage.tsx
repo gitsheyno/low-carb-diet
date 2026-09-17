@@ -5,7 +5,7 @@ export default function SearchResultsPage() {
   const { id } = useParams();
 
   const queryData = useQuery({
-    queryKey: ["search", id as string, localStorage.getItem("token") as string],
+    queryKey: ["search", id as string],
     queryFn: searchRecipes,
   });
   const response = queryData?.data ?? [];

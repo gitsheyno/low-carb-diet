@@ -62,12 +62,7 @@ export default function SelectedMeals() {
         className="auth-submit"
         disabled={!meals.length}
         fullWidth
-        onClick={() =>
-          saveMutation.mutate({
-            token: localStorage.getItem("token") ?? "",
-            meals,
-          })
-        }
+        onClick={() => saveMutation.mutate(meals)}
         sx={{ marginTop: 2 }}
         type="button"
         variant="contained"
