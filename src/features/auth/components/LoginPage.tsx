@@ -11,10 +11,9 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import React, { useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
-import useAuth from "../api/auth";
+import { useAuth } from "../context/AuthContext";
 import AuthShell from "./AuthShell";
 import Spinner from "../../../shared/components/Spinner";
-import { saveAuthSession } from "../utils/authStorage";
 
 const fieldSx = {
   "& .MuiOutlinedInput-root": { borderRadius: "14px", backgroundColor: "#fff" },
@@ -35,7 +34,6 @@ const LoginPage: React.FC = () => {
   const loginMutation = useMutation({
     mutationFn: logIn,
     onSuccess: (data) => {
-      saveAuthSession(data.token, data.profileConfigured);
       const requestedPath = (location.state as { from?: string } | null)?.from;
       navigate(requestedPath || `/dashboard/${encodeURIComponent(data.name)}`, {
         replace: true,

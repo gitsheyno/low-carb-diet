@@ -1,4 +1,5 @@
 import { QueryFunction } from "@tanstack/react-query";
+import { apiFetch } from "../../../shared/api/apiFetch";
 
 export interface Meal {
   belongsToId: string;
@@ -32,20 +33,19 @@ export interface UserMacroData {
 
 const fetchDailyMeals: QueryFunction<
   UserMacroData,
-  ["getDailyMeals", string]
-> = async ({ queryKey }) => {
-  const token = queryKey[1];
-
-  const res = await fetch(
+  ["getDailyMeals"]
+> = async () => {
+  const res = await apiFetch(
     `https://low-carb-server.onrender.com/api/dashboard/meals`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
       },
     }
   );
+
+  if (!res.ok) throw new Error("Unable to load daily meals");
 
   const jsonRes = await res.json();
 

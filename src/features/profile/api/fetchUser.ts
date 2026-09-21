@@ -1,24 +1,22 @@
 import { QueryFunction } from "@tanstack/react-query";
+import { apiFetch } from "../../../shared/api/apiFetch";
 type User = {
   username: string;
   message: boolean;
 };
 
-const fetchUser: QueryFunction<
-  User,
-  ["userInfo", token: string, id: string]
-> = async ({ queryKey }) => {
-  const token = queryKey[1];
-  const id = queryKey[2];
+const fetchUser: QueryFunction<User, ["userInfo", id: string]> = async ({
+  queryKey,
+}) => {
+  const id = queryKey[1];
 
-  const res = await fetch(
+  const res = await apiFetch(
     `https://low-carb-server.onrender.com/api/dashboard/${id}`,
     {
       method: "POST",
       body: JSON.stringify({ username: id }),
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
       },
     }
   );
@@ -27,7 +25,6 @@ const fetchUser: QueryFunction<
   }
 
   const jsonResponse = await res.json();
-  console.log(jsonResponse);
   return jsonResponse;
 };
 

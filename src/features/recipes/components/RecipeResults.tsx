@@ -9,11 +9,7 @@ export default function RecipeResults() {
   const [searchParams] = useSearchParams();
   const { user } = useParams();
   const queryData = useQuery({
-    queryKey: [
-      "search",
-      searchParams.get("q") as string,
-      localStorage.getItem("token") as string,
-    ],
+    queryKey: ["search", searchParams.get("q") as string],
     queryFn: searchRecipes,
   });
 

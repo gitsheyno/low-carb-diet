@@ -1,32 +1,25 @@
-type UserInfo = {
+import { apiFetch } from "../../../shared/api/apiFetch";
+
+const API_URL = "https://low-carb-server.onrender.com";
+
+export type UserInfo = {
   username: string;
   name: string;
-  token: string;
   profileConfigured: boolean;
 };
 
-async function getProfileConfigured(token: string) {
-  const response = await fetch(
-    "https://low-carb-server.onrender.com/api/dashboard/meals",
-    { headers: { Authorization: `Bearer ${token}` } }
-  );
-  if (!response.ok) return false;
-  const payload = await response.json();
-  return payload?.data?.status === true;
-}
+export type AuthCredentials = { username: string; password: string };
+export type SignUpCredentials = AuthCredentials & { name: string };
 
-const signIn = async ({
+export const signUp = async ({
   username,
   password,
   name,
-}: {
-  username: string;
-  password: string;
-  name: string;
-}): Promise<UserInfo> => {
-  const res = await fetch(`https://low-carb-server.onrender.com/signin`, {
+}: SignUpCredentials): Promise<UserInfo> => {
+  const res = await fetch(`${API_URL}/signin`, {
     method: "POST",
     body: JSON.stringify({ username, password, name }),
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -41,16 +34,14 @@ const signIn = async ({
   return { ...jsonResponse.data, profileConfigured: false };
 };
 
-const logIn = async ({
+export const logIn = async ({
   username,
   password,
-}: {
-  username: string;
-  password: string;
-}): Promise<UserInfo> => {
-  const res = await fetch(`https://low-carb-server.onrender.com/login`, {
+}: AuthCredentials): Promise<UserInfo> => {
+  const res = await fetch(`${API_URL}/login`, {
     method: "POST",
     body: JSON.stringify({ username, password }),
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -64,17 +55,39 @@ const logIn = async ({
   }
 
   const user = jsonResponse.data;
-  return {
-    ...user,
-    profileConfigured: await getProfileConfigured(user.token),
-  };
+  let profileConfigured = false;
+  try {
+    const session = await getCurrentSession();
+    profileConfigured = session.profileConfigured;
+  } catch {
+    // Login still succeeded; profile data can be fetched again in the dashboard.
+  }
+  return { ...user, profileConfigured };
 };
 
-const useAuth = () => {
-  return {
-    signIn,
-    logIn,
-  };
-};
+export async function getCurrentSession(): Promise<{
+  user: UserInfo;
+  profileConfigured: boolean;
+}> {
+  const response = await apiFetch(`${API_URL}/api/dashboard/meals`);
+  if (!response.ok) throw new Error("No active session");
 
-export default useAuth;
+  const payload = await response.json();
+  const data = payload?.data ?? {};
+  const profileConfigured = data.status === true;
+  return {
+    user: {
+      username: data.username ?? "",
+      name: data.name ?? "",
+      profileConfigured,
+    },
+    profileConfigured,
+  };
+}
+
+export async function logOut() {
+  const response = await apiFetch(`${API_URL}/logout`, {
+    method: "POST",
+  });
+  if (!response.ok) throw new Error("Unable to log out");
+}

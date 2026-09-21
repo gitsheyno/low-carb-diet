@@ -1,9 +1,10 @@
 import ProfileForm from "../components/ProfileForm";
 import { Settings2 } from "lucide-react";
-import { getStoredProfileStatus } from "../../auth/utils/authStorage";
+import { useAuth } from "../../auth/context/AuthContext";
 
 export default function ProfilePage() {
-  const isOnboarding = getStoredProfileStatus() === false;
+  const { profileConfigured } = useAuth();
+  const isOnboarding = profileConfigured === false;
   return (
     <div>
       <header className="page-header">

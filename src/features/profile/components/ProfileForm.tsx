@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { CheckCircle2, ShieldCheck, UserRound } from "lucide-react";
 import { useNavigate, useParams } from "react-router";
-import { setProfileConfigured } from "../../auth/utils/authStorage";
+import { useAuth } from "../../auth/context/AuthContext";
 
 interface UserProfile {
   gender: string;
@@ -38,6 +38,7 @@ const UserProfileSchema = z.object({
 const ProfileForm: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useParams();
+  const { setProfileConfigured } = useAuth();
   const [formData, setFormData] = useState({
     gender: "",
     weight: "",
@@ -106,11 +107,7 @@ const ProfileForm: React.FC = () => {
   };
 
   const profileMutation = useMutation({
-    mutationFn: (profile: UserProfile) =>
-      saveProfile({
-        userProfile: profile,
-        token: localStorage.getItem("token") ?? "",
-      }),
+    mutationFn: (profile: UserProfile) => saveProfile(profile),
     onSuccess: () => {
       setProfileConfigured(true);
       resetForm();

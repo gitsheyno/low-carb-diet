@@ -11,11 +11,7 @@ import RemoteImage from "../../../shared/components/RemoteImage";
 export default function RecipeDetails() {
   const { id, user } = useParams<{ id: string; user: string }>();
   const queryData = useQuery({
-    queryKey: [
-      "searchSingleRecipe",
-      id as string,
-      localStorage.getItem("token") as string,
-    ],
+    queryKey: ["searchSingleRecipe", id as string],
     queryFn: fetchRecipe,
   });
   const response = queryData.data;

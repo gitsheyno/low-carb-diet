@@ -11,17 +11,16 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
-import useAuth from "../api/auth";
+import { useAuth } from "../context/AuthContext";
 import AuthShell from "./AuthShell";
 import Spinner from "../../../shared/components/Spinner";
-import { saveAuthSession } from "../utils/authStorage";
 
 const fieldSx = {
   "& .MuiOutlinedInput-root": { borderRadius: "14px", backgroundColor: "#fff" },
 };
 
 const SignUpPage: React.FC = () => {
-  const { signIn } = useAuth();
+  const { signUp } = useAuth();
   const userRef = useRef<HTMLInputElement>(null);
   const passRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
@@ -35,9 +34,8 @@ const SignUpPage: React.FC = () => {
   });
 
   const signupMutation = useMutation({
-    mutationFn: signIn,
+    mutationFn: signUp,
     onSuccess: (data) => {
-      saveAuthSession(data.token, false);
       navigate(`/dashboard/${encodeURIComponent(data.name)}`, {
         replace: true,
       });
